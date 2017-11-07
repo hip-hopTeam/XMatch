@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface UserRepository extends PagingAndSortingRepository<User,Long> {
 
-    public User findUserByXuehao(String xuehao);
+    public User findUserByStuNo(String xuehao);
 
 
 }

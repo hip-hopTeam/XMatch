@@ -14,11 +14,38 @@ public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    private String xuehao;
+    private String stuNo;
     private String passwd;
     private String username;
     private int sex;
-    private String xueyuan;
+    private String college;
+    private int bindPhone;//0 未绑定 1 绑定
+    private String phoneNum;//手机号
+    private String email;// 为 null则未绑定
+
+    public int getBindPhone() {
+        return bindPhone;
+    }
+
+    public void setBindPhone(int bindPhone) {
+        this.bindPhone = bindPhone;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Long getUserId() {
         return userId;
@@ -26,14 +53,6 @@ public class User {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public String getXuehao() {
-        return xuehao;
-    }
-
-    public void setXuehao(String xuehao) {
-        this.xuehao = xuehao;
     }
 
     public String getPasswd() {
@@ -60,11 +79,19 @@ public class User {
         this.sex = sex;
     }
 
-    public String getXueyuan() {
-        return xueyuan;
+    public String getStuNo() {
+        return stuNo;
     }
 
-    public void setXueyuan(String xueyuan) {
-        this.xueyuan = xueyuan;
+    public void setStuNo(String stuNo) {
+        this.stuNo = stuNo;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
     }
 }
