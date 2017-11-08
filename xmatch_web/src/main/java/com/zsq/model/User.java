@@ -1,12 +1,11 @@
 package com.zsq.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
+ * @author CoderQiang
  * Created by coderqiang on 2017/11/4.
+ * 用户
  */
 @Entity
 public class User {
@@ -14,14 +13,35 @@ public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    /**
+     * 学号
+     */
+    @Column(unique = true,nullable = false)
     private String stuNo;
+    /**
+     * 教务处密码
+     */
     private String passwd;
+    /**
+     * 姓名
+     */
     private String username;
+    /**
+     * 性别
+     */
     private int sex;
+    /**
+     * 学院
+     */
     private String college;
-    private int bindPhone;//0 未绑定 1 绑定
-    private String phoneNum;//手机号
-    private String email;// 为 null则未绑定
+    /**
+     * 手机号  0 未绑定 1 绑定
+     */
+    private int bindPhone;
+    /**手机号*/
+    private String phoneNum;
+    /**邮箱, 为 null则未绑定*/
+    private String email;
 
     public int getBindPhone() {
         return bindPhone;

@@ -12,12 +12,12 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long activityId;
-
+    //活动名称
     private String activityName;
     //活动内容介绍
     @Column(columnDefinition = "TEXT")
     private String content;
-
+    //活动地点
     private String address;
     /**
      * 负责人手机号
@@ -27,9 +27,32 @@ public class Activity {
      * 创建时间
      */
     private long createTime;
+    //开始时间
     private long startTime;
+    //结束时间
     private long endTime;
+    //活动图片
     private String imageUrl;
+    //申请人数
+    private int applyNum;
+    //签到人数
+    private int signIn;
+
+    public int getApplyNum() {
+        return applyNum;
+    }
+
+    public void setApplyNum(int applyNum) {
+        this.applyNum = applyNum;
+    }
+
+    public int getSignIn() {
+        return signIn;
+    }
+
+    public void setSignIn(int signIn) {
+        this.signIn = signIn;
+    }
 
     public long getCreateTime() {
         return createTime;
