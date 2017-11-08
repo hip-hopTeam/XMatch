@@ -3,7 +3,9 @@ package com.zsq.model;
 import javax.persistence.*;
 
 /**
+ * @author CoderQiang
  * Created by coderqiang on 2017/11/5.
+ * 部门
  */
 @Entity
 public class Department {
@@ -11,16 +13,34 @@ public class Department {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long departmentId;
 
+    /**部门全称*/
     @Column(unique = true)
-    private String depName;//部门全称
+    private String depName;
+    /**部门简介*/
     @Column(columnDefinition = "TEXT")
     private String depSummary;
-    private int memberNum;//成员数量
-    private int activityNum;//活动数量
-    private int childDepNum;//子部门
+    /**成员数量*/
+    private int memberNum;
+    /**活动数量*/
+    private int activityNum;
+    /**子部门*/
+    private int childDepNum;
+    /**部门管理人员Id*/
     private long depManagerId;
-    private long creatTime;//创建时间
-    private String imageUrl;//部门logo
+    /**创建时间*/
+    private long creatTime;
+    /**部门logo*/
+    private String imageUrl;
+    /**紧急联系方式*/
+    private String emergencyPhone;
+
+    public String getEmergencyPhone() {
+        return emergencyPhone;
+    }
+
+    public void setEmergencyPhone(String emergencyPhone) {
+        this.emergencyPhone = emergencyPhone;
+    }
 
     public String getImageUrl() {
         return imageUrl;

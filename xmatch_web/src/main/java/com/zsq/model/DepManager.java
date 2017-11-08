@@ -6,7 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
+ * @author CoderQiang
  * Created by coderqiang on 2017/11/5.
+ * 部门管理员
  */
 @Entity
 public class DepManager {
@@ -19,8 +21,20 @@ public class DepManager {
     private String password;
     private String phoneNum;
     private String email;
-    private String managerName;//管理员姓名
-    private long departmentId;//管理的部门id 为 0 则没有管理部门
+    /**管理员姓名*/
+    private String managerName;
+    /**管理员介绍*/
+    private String managerSummary;
+    /**管理的部门id 为 0 则没有管理部门*/
+    private long departmentId;
+
+    public String getManagerSummary() {
+        return managerSummary;
+    }
+
+    public void setManagerSummary(String managerSummary) {
+        this.managerSummary = managerSummary;
+    }
 
     public String getEmail() {
         return email;
