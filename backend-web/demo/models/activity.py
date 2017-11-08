@@ -15,6 +15,7 @@ class Activity(db.Model):
     end_time = db.Column(db.Integer)
     image_rul = db.Column(db.String(255))
     manager_phone = db.Column(db.String(255))
+    sign_in = db.Column(db.Integer)
 
     resource_fields = {
         'activity_id': fields.Integer,
@@ -25,7 +26,8 @@ class Activity(db.Model):
         'address': fields.String,
         'content': fields.TEXT,
         'image_rul': fields.String,
-        'manager_phone': fields.String
+        'manager_phone': fields.String,
+        'sign_in': fields.Integer
     }
 
     @classmethod
@@ -34,7 +36,8 @@ class Activity(db.Model):
         new_activity = Activity(activity_id=activity_id, create_time=create_time,
                                 start_time=start_time, end_time=end_time, 
                                 activity_name=activity_name, address=address,
-                                content=content, image_rul=image_rul, manager_phone=manager_phone)
+                                content=content, image_rul=image_rul, 
+                                manager_phone=manager_phone, sign_in=sign_in)
         db.session.add(new_activity)
         db.session.commit()
         return 'Successfully', 200
@@ -50,7 +53,7 @@ class Activity(db.Model):
     @classmethod
     def alter(self, activity_id=None, create_time=None, start_time=None,
               end_time=None, activity_name=None, address=None, 
-              content=None, image_rul=None, manager_phone=None):
+              content=None, image_rul=None, manager_phone=None, sign_in=None):
         activity = Activity.query.filter_by(activity_id=activity_id).first()
         if activity is None:
             return 'Activity not found  ', 401
@@ -77,7 +80,10 @@ class Activity(db.Model):
             activity.image_rul = image_rul
 
         if manager_phone is not None:
-            activity.manager_phone = manager_phone         
+            activity.manager_phone = manager_phone
+
+        if sign_in is not None:
+            activity.sign_in = sign_in 
 
         db.session.commit()
 
