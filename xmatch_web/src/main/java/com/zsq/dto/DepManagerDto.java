@@ -1,22 +1,12 @@
-package com.zsq.model;
-
-import javax.persistence.*;
+package com.zsq.dto;
 
 /**
- * @author CoderQiang
- * Created by coderqiang on 2017/11/5.
- * 部门管理员
+ * Created by hp on 2017/11/10.
  */
-@Entity
-public class DepManager {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DepManagerDto {
     private long depManagerId;
 
-    @Column(unique = true,nullable = false)
     private String depManagerAccount;
-
-    private String password;
     private String phoneNum;
     private String email;
     /**管理员姓名*/
@@ -72,14 +62,6 @@ public class DepManager {
 
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public long getDepartmentId() {
