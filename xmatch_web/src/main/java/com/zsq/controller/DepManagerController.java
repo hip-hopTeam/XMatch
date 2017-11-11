@@ -33,6 +33,15 @@ public class DepManagerController {
         return message;
     }
 
+
+    @RequestMapping("/update")
+    public ObjectMessage updateDepManager(@RequestBody DepManager depManager) {
+        ObjectMessage message = new ObjectMessage();
+        message.code = depManagerService.updateDepManager(depManager);
+        message.result = LsyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+    
     @RequestMapping("/get")
     public ObjectMessage getUser(@RequestParam("depManagerId") long depManagerId) {
         ObjectMessage message = new ObjectMessage();
@@ -66,4 +75,3 @@ public class DepManagerController {
         return message;
     }
 }
-

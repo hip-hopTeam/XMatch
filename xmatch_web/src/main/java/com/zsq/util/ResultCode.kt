@@ -11,6 +11,8 @@ class ResultCode {
         val USER_EXIST=11
         val USER_NOT_EXIST=12
 
+
+
         val map = mapOf<Int, String>(
                 SUCCESS to "success",
                 ERROR to "error",

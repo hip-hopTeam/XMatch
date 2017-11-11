@@ -11,5 +11,9 @@ public interface DepManagerService {
 
     public DepManager getDepManager(long depManagerId);
     public int addDepManager(DepManager depManager);
+
+    public int updateDepManager(DepManager depManager);
+
+
     public Map<String,Object> depMangerLogin(String depManagerAccount, String password);
 }
