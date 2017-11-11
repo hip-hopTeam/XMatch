@@ -68,7 +68,7 @@ public class UserController {
         ObjectMessage message = new ObjectMessage();
         Map<String, Object> result = userService.userLogin(stuNo, passwd);
         message.code = (int) result.get("code");
-        message.result = WyyResultCode.Companion.getMap().get(result);
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
         if(message.code == WyyResultCode.Companion.getSUCCESS()) {
             User user = (User) result.get("user");
             UserDto userDto = new UserDto();
