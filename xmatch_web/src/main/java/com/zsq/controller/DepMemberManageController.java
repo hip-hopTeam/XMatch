@@ -1,5 +1,6 @@
 package com.zsq.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.zsq.model.DepMember;
 import com.zsq.service.DepMemberManagerService;
 import com.zsq.util.BaseMessage;
@@ -23,6 +24,31 @@ public class DepMemberManageController {
 
     @Autowired
     DepMemberManagerService depMemberManagerService;
+
+    @RequestMapping("/add")
+    public BaseMessage addDepMember(@RequestBody DepMember depMember) {
+        BaseMessage message = new BaseMessage();
+        message.code = depMemberManagerService.addDepMember(depMember);
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
+    @RequestMapping("/delete")
+    public BaseMessage deleteDepMember(@RequestParam("depId") long depId,
+                                       @RequestParam("userId") long userId) {
+        BaseMessage message = new BaseMessage();
+        message.code = depMemberManagerService.deleteDepMember(depId, userId);
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
+    @RequestMapping("/update")
+    public BaseMessage updateDepMember(@RequestBody DepMember depMember) {
+        BaseMessage message = new BaseMessage();
+        message.code = depMemberManagerService.updateDepMember(depMember);
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
 
     @RequestMapping("/get")
     public ObjectMessage getDepMember(@RequestParam("depId") long depId,

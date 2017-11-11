@@ -9,6 +9,18 @@ import java.util.List;
  */
 public interface DepMemberManagerService {
     /**
+     * 添加部员
+     */
+    public int addDepMember(DepMember depMember);
+    /**
+     * 删除部员
+     */
+    public int deleteDepMember(long depId, long userId);
+    /**
+     * 修改部员
+     */
+    public int updateDepMember(DepMember depMember);
+    /**
      * 根据部门id查找部员
      */
     public List<DepMember> getDepMember(long depId);

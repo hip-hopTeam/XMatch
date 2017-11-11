@@ -40,14 +40,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateUser(User user) {
         User resUser = repository.findOne(user.getUserId());
+        if(resUser==null) {
+            return WyyResultCode.Companion.getUSER_NOT_EXIST();
+        }
         String stuNo = resUser.getStuNo();
         String passwd = resUser.getPasswd();
         BeanUtils.copyProperties(user, resUser);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         resUser.setStuNo(stuNo);
         resUser.setPasswd(passwd);
         return ResultCode.Companion.getSUCCESS();

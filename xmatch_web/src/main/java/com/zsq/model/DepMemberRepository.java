@@ -23,4 +23,6 @@ public interface DepMemberRepository extends PagingAndSortingRepository<DepMembe
     public List<DepMember> findDepMembersByDepIdAndState(long depId, int state);
 
     public DepMember findDepMemberByUserId(long userId);
+
+    public DepMember findDepMemberByUserIdAndDepId(long userId, long depId);
 }
