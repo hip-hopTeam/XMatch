@@ -5,6 +5,8 @@ import com.zsq.model.DepManagerRepository;
 import com.zsq.service.DepManagerService;
 import com.zsq.service.UserService;
 import com.zsq.util.LsyResultCode;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -35,7 +37,24 @@ public class DepManagerServiceImpl implements DepManagerService {
         if(isExitDepManager != null && isExitDepManager.getDepManagerId() >= 0) {
             return LsyResultCode.Companion.getDEPMANAGER_EXIST();
         }
+        depManager.setRole(1);
         repository.save(depManager);
+        return LsyResultCode.Companion.getSUCCESS();
+    }
+
+    @Override
+    public int updateDepManager(DepManager depManager) {
+        DepManager resDepManager = repository.findOne(depManager.getDepManagerId());
+        String depManagerAccount = resDepManager.getDepManagerAccount();
+        String password = resDepManager.getPassword();
+        BeanUtils.copyProperties(depManager,resDepManager);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        resDepManager.setDepManagerAccount(depManagerAccount);
+        resDepManager.setPassword(password);
         return LsyResultCode.Companion.getSUCCESS();
     }
 
