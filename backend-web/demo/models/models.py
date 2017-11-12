@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import BigInteger, Column, Integer, String, Text
+from sqlalchemy import BigInteger, Column, Integer, String, Text, text
 from sqlalchemy.dialects.mysql.types import BIT
 from sqlalchemy.ext.declarative import declarative_base
 from . import db
@@ -101,6 +101,17 @@ class DepManager(Base):
     role = Column(Integer, nullable=False)
 
 
+class DepMember(Base):
+    __tablename__ = 'dep_member'
+
+    dep_member_id = Column(BigInteger, primary_key=True)
+    dep_id = Column(BigInteger, nullable=False)
+    join_time = Column(BigInteger, nullable=False)
+    role = Column(String(255))
+    user_id = Column(BigInteger, nullable=False)
+    state = Column(Integer, nullable=False)
+
+
 class Department(Base):
     __tablename__ = 'department'
 
@@ -114,6 +125,7 @@ class Department(Base):
     image_url = Column(String(255))
     member_num = Column(Integer, nullable=False)
     emergency_phone = Column(String(255))
+    state = Column(Integer, nullable=False, server_default=text("'0'"))
 
 
 class EmailNotice(Base):
