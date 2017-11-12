@@ -1,40 +1,26 @@
 package com.zsq.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
- * @author CoderQiang
- * Created by coderqiang on 2017/11/5.
- * 部门
+ * Created by coderqiang on 2017/11/11.
  */
 @Entity
-public class Department {
+public class DepMember {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long departmentId;
-
-    /**部门全称*/
-    @Column(unique = true)
-    private String depName;
-    /**部门简介*/
-    @Column(columnDefinition = "TEXT")
-    private String depSummary;
-    /**成员数量*/
-    private int memberNum;
-    /**部门状态 1 申请中 2 审核通过 3 审核失败*/
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long depMemberId;
+    private long depId;
+    private long userId;
+    //入部状态 1 申请中 2 部门正式成员 3 退休成员
     private int state;
-    /**活动数量*/
-    private int activityNum;
-    /**子部门*/
-    private int childDepNum;
-    /**部门管理人员Id*/
-    private long depManagerId;
-    /**创建时间*/
-    private long creatTime;
-    /**部门logo*/
-    private String imageUrl;
-    /**紧急联系方式*/
-    private String emergencyPhone;
+    private long joinTime;
+    /**在部门里的角色 */
+    private String role;
 
     public int getState() {
         return state;
@@ -44,83 +30,43 @@ public class Department {
         this.state = state;
     }
 
-    public String getEmergencyPhone() {
-        return emergencyPhone;
+    public long getDepMemberId() {
+        return depMemberId;
     }
 
-    public void setEmergencyPhone(String emergencyPhone) {
-        this.emergencyPhone = emergencyPhone;
+    public void setDepMemberId(long depMemberId) {
+        this.depMemberId = depMemberId;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public long getDepId() {
+        return depId;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setDepId(long depId) {
+        this.depId = depId;
     }
 
-    public int getChildDepNum() {
-        return childDepNum;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setChildDepNum(int childDepNum) {
-        this.childDepNum = childDepNum;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public int getMemberNum() {
-        return memberNum;
+    public long getJoinTime() {
+        return joinTime;
     }
 
-    public void setMemberNum(int memberNum) {
-        this.memberNum = memberNum;
+    public void setJoinTime(long joinTime) {
+        this.joinTime = joinTime;
     }
 
-    public int getActivityNum() {
-        return activityNum;
+    public String getRole() {
+        return role;
     }
 
-    public void setActivityNum(int activityNum) {
-        this.activityNum = activityNum;
-    }
-
-    public long getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(long departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public String getDepName() {
-        return depName;
-    }
-
-    public void setDepName(String depName) {
-        this.depName = depName;
-    }
-
-    public String getDepSummary() {
-        return depSummary;
-    }
-
-    public void setDepSummary(String depSummary) {
-        this.depSummary = depSummary;
-    }
-
-    public long getDepManagerId() {
-        return depManagerId;
-    }
-
-    public void setDepManagerId(long depManagerId) {
-        this.depManagerId = depManagerId;
-    }
-
-    public long getCreatTime() {
-        return creatTime;
-    }
-
-    public void setCreatTime(long creatTime) {
-        this.creatTime = creatTime;
+    public void setRole(String role) {
+        this.role = role;
     }
 }
