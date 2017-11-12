@@ -18,16 +18,10 @@ public class DepMemberManagerServiceImpl implements DepMemberManagerService {
     @Autowired
     DepMemberRepository repository;
     @Autowired
-    DepartmentRepository departmentRepository;
-    @Autowired
     UserRepository userRepository;
 
     @Override
     public int addDepMember(DepMember depMember) {
-        Department isExistDepartment = departmentRepository.findOne(depMember.getDepId());
-        if(isExistDepartment==null) {
-            return WyyResultCode.Companion.getDEP_NOT_EXIST();
-        }
         User isExistUser = userRepository.findOne(depMember.getUserId());
         if(isExistUser==null) {
             return WyyResultCode.Companion.getUSER_NOT_EXIST();

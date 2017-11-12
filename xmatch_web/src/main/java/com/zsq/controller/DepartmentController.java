@@ -9,6 +9,7 @@ import com.zsq.util.WyyResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -41,7 +42,30 @@ public class DepartmentController {
         return message;
     }
 
-   // @RequestMapping("/update")
+    @RequestMapping("/update")
+    public ObjectMessage updateDepartment(@RequestBody Department dep) {
+        ObjectMessage message = new ObjectMessage();
+        int result = departmentService.updateDepartment(dep);
+        message.code = result;
+        message.result = LsyResultCode.Companion.getMap().get(result);
+        return message;
+    }
+
+    @RequestMapping("/get")
+    public ObjectMessage getDepartment(@RequestParam("departmentId") long departmentId) {
+        ObjectMessage message = new ObjectMessage();
+        Department dep = departmentService.getDepartment(departmentId);
+        if(dep == null) {
+            message.code = LsyResultCode.Companion.getDEP_NOT_EXIT();
+            message.result = LsyResultCode.Companion.getMap().get(message.code);
+            return message;
+        }
+        message.code = LsyResultCode.Companion.getSUCCESS();
+        message.result = LsyResultCode.Companion.getMap().get(message.code);
+        message.object =  dep;
+
+        return message;
+    }
 
 
 }
