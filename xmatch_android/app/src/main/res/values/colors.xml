@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#3498DB</color>
+    <!--<color name="colorPrimaryDark">#2980B9</color>-->
+    <color name="colorPrimaryDark">#3498DB</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorBlackLight">#434343</color>
+    <color name="colorBlackLight_2">#838383</color>
+    <color name="colorBackground">#47696c</color>
+    <color name="colorAccent">#9B59B6</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorWhite_light">#f7f7f7</color>
+    <color name="colorGray">#c1c0c0</color>
+    <color name="colorRed">#EA0000</color>
+    <color name="course_color0">#A0e0e0e0</color>
+    <color name="course_color1">#A0e53935</color>
+    <color name="course_color2">#A03949ab</color>
+    <color name="course_color3">#A000695c</color>
+    <color name="course_color4">#A0fb8c00</color>
+    <color name="course_color5">#A0d81b60</color>
+    <color name="course_color6">#A01e88e5</color>
+    <color name="course_color7">#A043a047</color>
+    <color name="course_color8">#A0ffb300</color>
+    <color name="course_color9">#A08e24aa</color>
+    <color name="course_color10">#A000acc1</color>
+    <color name="course_color11">#A07cb342</color>
+    <color name="course_color12">#A06d4c41</color>
+    <color name="course_color13">#A05e35b1</color>
+    <color name="course_color14">#A0c0ca33</color>
+    <color name="course_color15">#A06d4c41</color>
+    <color name="course_color16">#A0311b92</color>
+    <color name="weekend_bg">#000</color>
+
+    <color name="score_bg">#ffffff</color>
+    <color name="score_item_bg">#A01e88e5</color>
+    <color name="score_60">#ffffff</color>
+    <color name="score_70">#745DC5</color>
+    <color name="score_80">#BC3B2A</color>
+    <color name="score_90">#16A086</color>
+    <color name="score_100">#3498DB</color>
+
+    <color name="tab_1_green">#009958</color>
+    <color name="tab_2_blue">#3498DB</color>
+    <color name="tab_3_purple">#7887E8</color>
+    <color name="tab_pink">#ff80ab</color>
+    <color name="journey_green">#2cc7ad</color>
+
+    <color name="transparent">#00ffffff</color>
+
+    <color name="widgetBg">#Afffffff</color>
+    <color name="widgetBg2">#Dfffffff</color>
+
+    <color name="draw_name">#3facda</color>
 </resources>

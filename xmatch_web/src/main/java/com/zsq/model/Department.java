@@ -21,6 +21,8 @@ public class Department {
     private String depSummary;
     /**成员数量*/
     private int memberNum;
+    /**部门状态 1 申请中 2 审核通过 3 审核失败*/
+    private int state;
     /**活动数量*/
     private int activityNum;
     /**子部门*/
@@ -33,6 +35,14 @@ public class Department {
     private String imageUrl;
     /**紧急联系方式*/
     private String emergencyPhone;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public String getEmergencyPhone() {
         return emergencyPhone;

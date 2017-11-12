@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item1"
+            android:checked="true"
+            android:title="部门主页"></item>
+       <item
+            android:id="@+id/item2"
+            android:title="部员管理"></item>
+        <!--<item-->
+        <!--android:id="@+id/item3"-->
+        <!--android:icon="@drawable/ic_math"-->
+        <!--android:title="知数">-->
+        <!--</item>-->
+        <!--<item-->
+        <!--android:id="@+id/item4"-->
+        <!--android:icon="@drawable/ic_others"-->
+        <!--android:title="工具箱"></item>-->
+        <item
+            android:id="@+id/item3"
+
+            android:title="所有部门/社团"></item>
+        <item
+            android:id="@+id/item5"
+
+            android:title="通知中心"></item>
+        <!--<item-->
+            <!--android:id="@+id/item6"-->
+            <!--android:title="空教室"></item>-->
+    </group>
+    <!--<group-->
+    <!--android:checkableBehavior="single">-->
+    <!--<item android:title="生活服务">-->
+    <!--<menu>-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/item6"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_wheretogo"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="校园导航"></item>&ndash;&gt;-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/item6"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_xiaobai"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="小白定位"></item>&ndash;&gt;-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/item7"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_lts"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="路透社"></item>&ndash;&gt;-->
+    <!--</menu>-->
+    <!--</item>-->
+    <!--</group>-->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item8"
+            android:title="设置"></item>
+        <item
+            android:id="@+id/item9"
+            android:title="注销"></item>
+    </group>
+</menu>
