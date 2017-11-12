@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author CoderQiang
  */
 @SpringBootApplication
-@ComponentScan(basePackages ={"com.zsq.controller","com.zsq.service"} )
+@ComponentScan(basePackages ={"com.zsq.controller","com.zsq.service","com.zsq.config"} )
 public class XmatchApplication {
 
 	public static void main(String[] args) {
