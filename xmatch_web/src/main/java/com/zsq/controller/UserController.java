@@ -9,6 +9,7 @@ import com.zsq.util.ResultCode;
 import com.zsq.util.WyyResultCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,9 +46,15 @@ public class UserController {
     }
 
     @RequestMapping("/get")
-    public ObjectMessage getUser(@RequestParam("userId") long userId) {
+    public ObjectMessage getUser(@RequestParam(value = "userId", required = false, defaultValue = "-1") long userId,
+                                 @RequestParam(value = "stuNo", required = false, defaultValue = "-1") String stuNo) {
         ObjectMessage message = new ObjectMessage();
-        User user = userService.getUser(userId);
+        User user;
+        if(userId!=-1) {
+            user = userService.getUser(userId);
+        } else {
+            user = userService.getUserByStuNo(stuNo);
+        }
         if (user == null) {
             message.code = ResultCode.Companion.getUSER_NOT_EXIST();
             message.result = ResultCode.Companion.getMap().get(message.code);

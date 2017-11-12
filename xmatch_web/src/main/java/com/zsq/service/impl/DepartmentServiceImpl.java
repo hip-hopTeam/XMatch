@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author _Lines
  * Created by _Lines on 2017/11/9.
@@ -46,6 +48,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Department getDepartment(long departmentId) {
         Department department = repository.findOne(departmentId);
         return null;
+    }
+
+    @Override
+    public List<Department> getAll() {
+        List<Department> departments = repository.getAll();
+        return departments;
     }
 
     @Override
