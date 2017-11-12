@@ -2,6 +2,8 @@ package com.zsq.service;
 
 import com.zsq.model.User;
 
+import java.util.Map;
+
 /**
  * @author CoderQiang
  * Created by coderqiang on 2017/11/4.
@@ -25,4 +27,9 @@ public interface UserService {
     public User getUser(long userId);
 
     public User getUserByStuNo(String stuNo);
+
+    /**
+     * 登陆
+     */
+    public Map<String, Object> userLogin(String stuNo, String passwd);
 }

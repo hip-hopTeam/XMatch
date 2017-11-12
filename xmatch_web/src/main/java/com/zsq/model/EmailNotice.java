@@ -10,8 +10,7 @@ import javax.persistence.Id;
  */
 @Entity
 public class EmailNotice {
-
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long emailNoticeId;
 

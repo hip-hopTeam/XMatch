@@ -6,9 +6,9 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 /**
- * Created by coderqiang on 2017/11/11.
+ * Created by Administrator on 2017/11/11/011.
  */
-public interface DepMemberRepository extends PagingAndSortingRepository<DepMember, Long> {
+public interface DepMemberRepository extends PagingAndSortingRepository<DepMember,Long> {
 
     /**
      * 根据部门id查找部员
@@ -22,5 +22,7 @@ public interface DepMemberRepository extends PagingAndSortingRepository<DepMembe
     @Query("select d from DepMember d where d.depId=?1 and d.state=?2")
     public List<DepMember> findDepMembersByDepIdAndState(long depId, int state);
 
-}
+    public DepMember findDepMemberByUserId(long userId);
 
+    public DepMember findDepMemberByUserIdAndDepId(long userId, long depId);
+}

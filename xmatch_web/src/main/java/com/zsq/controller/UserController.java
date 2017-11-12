@@ -6,12 +6,15 @@ import com.zsq.service.UserService;
 import com.zsq.util.BaseMessage;
 import com.zsq.util.ObjectMessage;
 import com.zsq.util.ResultCode;
+import com.zsq.util.WyyResultCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * @author CoderQiang
@@ -57,5 +60,21 @@ public class UserController {
         message.object = userDto;
         return message;
 
+    }
+
+    @RequestMapping("/login")
+    public ObjectMessage userLogin(@RequestParam("stuNo") String stuNo,
+                                   @RequestParam("passwd") String passwd) {
+        ObjectMessage message = new ObjectMessage();
+        Map<String, Object> result = userService.userLogin(stuNo, passwd);
+        message.code = (int) result.get("code");
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
+        if(message.code == WyyResultCode.Companion.getSUCCESS()) {
+            User user = (User) result.get("user");
+            UserDto userDto = new UserDto();
+            BeanUtils.copyProperties(user, userDto);
+            message.object = userDto;
+        }
+        return message;
     }
 }
