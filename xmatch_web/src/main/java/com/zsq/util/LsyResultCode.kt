@@ -17,6 +17,10 @@ class LsyResultCode {
         val DEPMANAGER_NOT_EXIST =32
         val DEPMANAGER_PASSWORD_ERROR = 33
 
+        val ACTIVITY_NOT_EXIST = 41
+        val ACTIVITY_APPLY_EXIST = 42
+        val ACTIVITY_SIGNIN_EXIST =43
+
         val map = mapOf<Int, String>(
                 SUCCESS to "success",
                 ERROR to "error",
@@ -28,7 +32,11 @@ class LsyResultCode {
 
                 DEPMANAGER_EXIST to "部门管理员已存在",
                 DEPMANAGER_NOT_EXIST to "部门管理员不存在",
-                DEPMANAGER_PASSWORD_ERROR to "部门管理员登录密码错误"
+                DEPMANAGER_PASSWORD_ERROR to "部门管理员登录密码错误",
+
+                ACTIVITY_NOT_EXIST to "活动不存在",
+                ACTIVITY_APPLY_EXIST to "活动已申请",
+                ACTIVITY_SIGNIN_EXIST to "活动已签到"
         )
     }
 }

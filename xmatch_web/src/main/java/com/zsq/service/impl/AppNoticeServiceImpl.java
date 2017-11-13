@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by ThomasNg on 2017/11/10.
  */
@@ -24,6 +26,9 @@ public  class AppNoticeServiceImpl implements AppNoticeService{
 
     @Override
     public int addAppNotice(AppNotice appNotice) {
+        if (appNotice.getContent() == null || appNotice.getTitle() == null) {
+            return ThoResultCode.Companion.getTITLE_OR_CONTENT_IS_NULL();
+        }
         appNotice.setCreateTime(System.currentTimeMillis());
         repository.save(appNotice);
         return ThoResultCode.Companion.getSUCCESS();
@@ -31,14 +36,45 @@ public  class AppNoticeServiceImpl implements AppNoticeService{
 
     @Override
     public int deleteAppNotice(long appNoticeId) {
+        AppNotice appNotice = repository.findOne(appNoticeId);
+        if (appNotice == null){
+            return ThoResultCode.Companion.getNOTICE_NOT_EXIST();
+        }
         repository.delete(appNoticeId);
         return ThoResultCode.Companion.getSUCCESS();
     }
 
     @Override
-    public AppNotice getAppNotice(long departmentId,int type) {
-        AppNotice appNotice= repository.findAppNoticeByDepartmentIdAndType(departmentId,type);
-        return appNotice;
+    public List<AppNotice> getOneDepAllNotices(long departmentId) {
+        List<AppNotice> oneDepAppNotices = repository.findAppNoticesByDepartmentId(departmentId);
+        return oneDepAppNotices;
+    }
+
+    @Override
+    public  List<AppNotice> getOneDepNoticesByType(long departmentId,int type) {
+        List<AppNotice> oneDepTypeNotices = repository.findAppNoticesByDepartmentIdAndType(departmentId,type);
+        return oneDepTypeNotices;
+    }
+
+    @Override
+    public List<AppNotice> getAllDepNotices() {
+        List<AppNotice> allDepNotices = repository.getAll();
+        return allDepNotices;
+    }
+
+    @Override
+    public int updateAppNotice(AppNotice appNotice) {
+        AppNotice resAppNotice = repository.findOne(appNotice.getAppNoticeId());
+        if (resAppNotice == null) {
+            return ThoResultCode.Companion.getNOTICE_NOT_EXIST();
+        }else {
+            resAppNotice.setContent(appNotice.getContent());
+            resAppNotice.setCreateTime(appNotice.getCreateTime());
+            resAppNotice.setDepartmentId(appNotice.getDepartmentId());
+            resAppNotice.setTitle(appNotice.getTitle());
+            resAppNotice.setType(appNotice.getType());
+            return ThoResultCode.Companion.getSUCCESS();
+        }
     }
 }
 
