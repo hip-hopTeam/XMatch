@@ -15,10 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.fragment.ManagerMainFragment;
 import com.example.coderqiang.xmatch_android.fragment.MemberFragment;
+import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +51,13 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
         setContentView(R.layout.activity_main_manager);
         ButterKnife.bind(this);
         setConfig();
+        initData();
         initView();
+    }
+
+    private void initData() {
+        DefaultConfig.get(getApplicationContext()).setDepartmentId(2);
+        DefaultConfig.get(getApplicationContext()).setDepmanagerId(2);
     }
 
     private void initView() {

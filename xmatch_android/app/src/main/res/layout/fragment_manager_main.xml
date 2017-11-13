@@ -116,7 +116,7 @@
                     android:textSize="18sp"
                     android:text="部门人数"/>
                 <TextView
-                    android:id="@+id/manager_main_dep_num"
+                    android:id="@+id/manager_main_member_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorBlack"
@@ -184,7 +184,6 @@
                 android:layout_height="0dp"
                 android:background="@drawable/corner_bg_white">
                 <LinearLayout
-
                     android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_weight="1"

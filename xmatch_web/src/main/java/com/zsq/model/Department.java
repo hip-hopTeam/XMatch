@@ -42,6 +42,14 @@ public class Department {
      */
     private int applyNum;
 
+    public int getApplyNum() {
+        return applyNum;
+    }
+
+    public void setApplyNum(int applyNum) {
+        this.applyNum = applyNum;
+    }
+
     public int getState() {
         return state;
     }

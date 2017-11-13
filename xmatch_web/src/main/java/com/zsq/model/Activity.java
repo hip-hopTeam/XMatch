@@ -12,6 +12,7 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long activityId;
+    private long depId;
     //活动名称
     private String activityName;
     //活动内容介绍
@@ -37,6 +38,14 @@ public class Activity {
     private int applyNum;
     //签到人数
     private int signIn;
+
+    public long getDepId() {
+        return depId;
+    }
+
+    public void setDepId(long depId) {
+        this.depId = depId;
+    }
 
     public int getApplyNum() {
         return applyNum;

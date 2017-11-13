@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/text_padding">
+    <com.example.coderqiang.xmatch_android.view.CircleImagview
+        android:id="@+id/item_department_avator"
+        android:layout_width="@dimen/avator_size"
+        android:layout_height="@dimen/avator_size"
+        android:src="@drawable/avator"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="@dimen/avator_size"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/item_department_name"
+            android:paddingLeft="@dimen/text_size_large"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/text_padding"
+            android:layout_height="@dimen/avator_size"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorBlack"
+            android:text="校社联"/>
+        <TextView
+            android:id="@+id/item_department_manager"
+            android:paddingLeft="@dimen/text_size_large"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/text_padding"
+            android:layout_height="@dimen/avator_size"
+            android:layout_gravity="center_vertical"
+            android:textSize="13sp"
+            android:textColor="@color/colorBlack"
+            android:text="负责人:叶岗村"/>
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/item_department_message"
+        android:layout_marginRight="@dimen/text_padding_large"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_mail"/>
+    <ImageView
+        android:id="@+id/item_department_phone"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:src="@drawable/ic_phone"/>
+    <ImageView
+        android:id="@+id/item_department_more"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:src="@drawable/ic_more_blue"/>
+</LinearLayout>

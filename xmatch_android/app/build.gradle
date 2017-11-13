@@ -43,6 +43,7 @@ dependencies {
     api 'com.squareup.okhttp3:logging-interceptor:3.5.0'
     api 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
     api 'org.glassfish:javax.annotation:10.0-b28'
+    api 'com.google.code.gson:gson:2.8.2'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.4'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

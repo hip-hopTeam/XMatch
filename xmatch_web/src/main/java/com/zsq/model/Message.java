@@ -1,5 +1,7 @@
 package com.zsq.model;
 
+import com.google.gson.Gson;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,8 +28,6 @@ public class Message {
 
     //需要通知的人员json格式[{"userId":"2","phone":"13110521828"},...]
     private String toUsers;
-
-
     //发送状态 1 已保存 2 已发送
     private int state;
 
