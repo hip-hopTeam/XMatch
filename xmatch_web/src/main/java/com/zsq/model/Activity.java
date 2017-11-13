@@ -12,6 +12,10 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long activityId;
+
+
+    //部门
+    private long depId;
     //活动名称
     private String activityName;
     //活动内容介绍
@@ -125,4 +129,9 @@ public class Activity {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public long getDepId() { return depId; }
+
+    public void setDepId(long depId) { this.depId = depId; }
+
 }
