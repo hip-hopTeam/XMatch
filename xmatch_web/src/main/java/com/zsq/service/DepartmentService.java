@@ -1,8 +1,10 @@
 package com.zsq.service;
 
+import com.zsq.model.ChildDepartment;
 import com.zsq.model.Department;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -30,4 +32,25 @@ public interface DepartmentService {
 
     public Department getDepartmentByDepName(String depName);
 
+    /**
+     * 通过部门id查找子部门
+     * @param depId
+     * @return
+     */
+    public Map<String, Object> getChildDepartmentByDepId(long depId);
+
+    /**
+     * 查找所有子部门
+     */
+    public List<ChildDepartment> getAllChildDep();
+
+    /**
+     * 添加子部门
+     */
+    public int addChildDepartment(ChildDepartment childDepartment);
+
+    /**
+     * 更新子部门
+     */
+    public int updateChildDepartment(ChildDepartment childDepartment);
 }
