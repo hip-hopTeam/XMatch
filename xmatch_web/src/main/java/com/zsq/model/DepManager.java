@@ -109,4 +109,5 @@ public class DepManager {
     public void setDepartmentId(long departmentId) {
         this.departmentId = departmentId;
     }
+
 }
