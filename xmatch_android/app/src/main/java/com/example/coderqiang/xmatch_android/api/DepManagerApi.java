@@ -6,11 +6,14 @@ import android.util.Log;
 import com.example.coderqiang.xmatch_android.api.service.DepManagerService;
 import com.example.coderqiang.xmatch_android.api.service.UserService;
 import com.example.coderqiang.xmatch_android.dto.BaseMessage;
+import com.example.coderqiang.xmatch_android.dto.ChildDepartmentListMessage;
 import com.example.coderqiang.xmatch_android.dto.DepManagerDto;
 import com.example.coderqiang.xmatch_android.dto.DepManagerMessage;
 import com.example.coderqiang.xmatch_android.dto.DepartmentDto;
+import com.example.coderqiang.xmatch_android.dto.DepartmentListMessage;
 import com.example.coderqiang.xmatch_android.dto.MemberDto;
 import com.example.coderqiang.xmatch_android.dto.ObjectMessage;
+import com.example.coderqiang.xmatch_android.model.ChildDepartment;
 import com.example.coderqiang.xmatch_android.model.DepManager;
 import com.example.coderqiang.xmatch_android.model.DepMember;
 import com.example.coderqiang.xmatch_android.model.Department;
@@ -19,7 +22,9 @@ import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -72,7 +77,58 @@ public class DepManagerApi {
         return null;
     }
 
+    public static BaseMessage addChildDepartment(ChildDepartment childDepartment){
+        OkHttpClient client = new OkHttpClient();
+        Request request=new Request.Builder()
+                .url(DefaultConfig.BASE_URL+"/api/department/addChildDep")
+                .addHeader("content-type","application/json;charset:utf-8")
+                .put(RequestBody.create(
+                        MediaType.parse("application/json; charset=utf-8"),
+                        new Gson().toJson(childDepartment)
+                )).build();
+        try {
+            okhttp3.Response response=client.newCall(request).execute();
+            BaseMessage message = new Gson().fromJson(response.body().string(), BaseMessage.class);
+            return message;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    public static List<ChildDepartment> getChildDepartments(long departmentId) {
+        OkHttpClient client = new OkHttpClient();
+        Request request=new Request.Builder()
+                .url(DefaultConfig.BASE_URL+"/api/department/getChildDep?depId="+departmentId)
+                .build();
+        try {
+            Response response=client.newCall(request).execute();
+            if (response.isSuccessful()) {
+               ChildDepartmentListMessage message=new Gson().fromJson(response.body().string(),ChildDepartmentListMessage.class);
+                return message.getObject();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<Department> getAllDepartments(){
+        OkHttpClient client = new OkHttpClient();
+        Request request=new Request.Builder()
+                .url(DefaultConfig.BASE_URL+"/api/department/findAll")
+                .build();
+        try {
+            Response response=client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                DepartmentListMessage departmentListMessage=new Gson().fromJson(response.body().string(),DepartmentListMessage.class);
+                return departmentListMessage.getObject();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static List<MemberDto> getMembersByState(Context context) {
         OkHttpClient client = new OkHttpClient();

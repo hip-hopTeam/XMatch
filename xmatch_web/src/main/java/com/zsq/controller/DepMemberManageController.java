@@ -71,6 +71,7 @@ public class DepMemberManageController {
         depMembers = depMemberManagerService.getDepMember(depId, state);
         message.code = WyyResultCode.Companion.getSUCCESS();
         message.result = WyyResultCode.Companion.getMap().get(message.code);
+        message.object = depMembers;
         return message;
     }
 

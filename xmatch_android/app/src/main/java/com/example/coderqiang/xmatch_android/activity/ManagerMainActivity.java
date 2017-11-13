@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.coderqiang.xmatch_android.R;
+import com.example.coderqiang.xmatch_android.fragment.DepartmentFragment;
 import com.example.coderqiang.xmatch_android.fragment.ManagerMainFragment;
 import com.example.coderqiang.xmatch_android.fragment.MemberFragment;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
@@ -36,6 +37,7 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
 
     private ManagerMainFragment managerMainFragment;
     private MemberFragment memberFragment;
+    private DepartmentFragment departmentFragment;
     private Fragment current;
 
     MenuItem menuItem;
@@ -113,6 +115,13 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
                 }
                 switchFragment(current, memberFragment);
                 break;
+            case R.id.item3:
+                if (departmentFragment == null) {
+                    departmentFragment = new DepartmentFragment();
+                }
+                switchFragment(current, departmentFragment);
+                break;
+
         }
         drawer.closeDrawers();
         return true;

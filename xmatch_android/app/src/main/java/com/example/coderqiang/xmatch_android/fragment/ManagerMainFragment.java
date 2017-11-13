@@ -1,5 +1,6 @@
 package com.example.coderqiang.xmatch_android.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -16,10 +17,14 @@ import android.widget.Toast;
 
 import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.activity.AddDepartmentActivity;
+import com.example.coderqiang.xmatch_android.activity.ChildDepartmentActivity;
 import com.example.coderqiang.xmatch_android.api.DepManagerApi;
 import com.example.coderqiang.xmatch_android.dto.DepManagerDto;
+import com.example.coderqiang.xmatch_android.dto.DepartmentDto;
+import com.example.coderqiang.xmatch_android.model.ChildDepartment;
 import com.example.coderqiang.xmatch_android.model.DepManager;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
+import com.example.coderqiang.xmatch_android.util.DepManagerLab;
 import com.example.coderqiang.xmatch_android.util.SwtichActivityUtil;
 import com.example.coderqiang.xmatch_android.view.CircleImagview;
 
@@ -55,12 +60,14 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
     TextView managerMainMemberNum;
     @BindView(R.id.manager_main_activity_num)
     TextView managerMainActivityNum;
-    @BindView(R.id.manager_main_apply_num)
-    TextView managerMainApplyNum;
+    @BindView(R.id.manager_main_child_num)
+    TextView managerMainChildNum;
     @BindView(R.id.manager_main_bar)
     AppBarLayout managerMainBar;
 
     DrawerLayout drawer;
+
+    DepartmentDto departmentDto = new DepartmentDto();
 
     @Nullable
     @Override
@@ -72,6 +79,14 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
         initData();
         initView();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (DepManagerLab.get(getActivity()).getDepManagerDto() != null) {
+            show(DepManagerLab.get(getActivity()).getDepManagerDto());
+        }
     }
 
     private void initData() {
@@ -95,6 +110,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
             @Override
             public void onNext(Object object) {
                 DepManagerDto depManagerDto = (DepManagerDto) object;
+                DepManagerLab.get(getActivity()).setDepManagerDto(depManagerDto);
                 if (depManagerDto != null) {
                     show(depManagerDto);
                 }else {
@@ -109,10 +125,13 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
         managerMainName.setText(depManagerDto.getManagerName());
         managerMainSummaryTv.setText(depManagerDto.getDepSummary());
         managerMainActivityNum.setText(depManagerDto.getActivityNum()+"");
-        managerMainApplyNum.setText(depManagerDto.getApplyNum()+"");
+        managerMainChildNum.setText(depManagerDto.getChildDepNum()+"");
         managerMainMemberNum.setText(depManagerDto.getMemberNum()+"");
         ((TextView)getActivity().findViewById(R.id.nav_header_name)).setText(depManagerDto.getDepName());
         ((TextView)getActivity().findViewById(R.id.nav_header_role)).setText(depManagerDto.getRole()+"");
+        managerMainMemberNum.setOnClickListener(this);
+        managerMainChildNum.setOnClickListener(this);
+        managerMainActivityNum.setOnClickListener(this);
     }
 
     private void initView() {
@@ -129,6 +148,13 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.manager_add_dep_add:
                 SwtichActivityUtil.toActivity(getActivity(), AddDepartmentActivity.class);
+                break;
+            case R.id.manager_main_child_num:
+                Intent intent = new Intent(getActivity(),ChildDepartmentActivity.class);
+                DepManagerDto depManagerDto=DepManagerLab.get(getActivity()).getDepManagerDto();
+                intent.putExtra(ChildDepartmentActivity.DEP_NAME, depManagerDto.getDepName());
+                intent.putExtra(ChildDepartmentActivity.DEP_ID, depManagerDto.getDepartmentId());
+                startActivity(intent);
                 break;
         }
     }

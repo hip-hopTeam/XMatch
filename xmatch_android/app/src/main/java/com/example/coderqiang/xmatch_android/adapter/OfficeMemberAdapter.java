@@ -61,7 +61,6 @@ public class OfficeMemberAdapter extends RecyclerView.Adapter {
                 return 0;
             }
         });
-
         for(int i=0;i<memberDtos.size();i++) {
             if (memberDtos.get(i).getState() == TYPE_OFFICE) {
                 middle = i;
