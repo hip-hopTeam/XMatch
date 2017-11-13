@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/manager_member_line"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorBlack"
+        android:layout_centerInParent="true"/>
+    <TextView
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:text="正式部员"
+        android:textColor="@color/colorBlack"
+        android:layout_marginLeft="16dp"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>

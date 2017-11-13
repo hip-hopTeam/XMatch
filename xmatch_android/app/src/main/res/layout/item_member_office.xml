@@ -12,16 +12,35 @@
         android:layout_width="@dimen/avator_size"
         android:layout_height="@dimen/avator_size"
         android:src="@drawable/avator"/>
-    <TextView
-        android:paddingLeft="@dimen/text_size_large"
-        android:id="@+id/item_member_office_name"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:gravity="center_vertical"
         android:layout_height="@dimen/avator_size"
-        android:layout_gravity="center_vertical"
-        android:textColor="@color/colorBlack"
-        android:text="郑世强"/>
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/item_member_office_name"
+            android:paddingLeft="@dimen/text_size_large"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/text_padding"
+            android:layout_height="@dimen/avator_size"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorBlack"
+            android:text="郑世强"/>
+        <TextView
+            android:id="@+id/item_member_office_role"
+            android:paddingLeft="@dimen/text_size_large"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/text_padding"
+            android:layout_height="@dimen/avator_size"
+            android:layout_gravity="center_vertical"
+            android:textSize="13sp"
+            android:textColor="@color/colorBlack"
+            android:text="职位:部长"/>
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/item_member_office_message"

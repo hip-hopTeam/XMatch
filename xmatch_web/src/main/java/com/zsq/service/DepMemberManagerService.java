@@ -22,5 +22,13 @@ public interface DepMemberManagerService {
      */
     public int updateDepMember(DepMember depMember);
 
+    /**
+     * 根据部门id和部员状态查找部员
+     */
     public List<MemberDto> getDepMember(long depId, int state);
+    /**
+     * 管理员同意部员加入
+     */
+    public int handleMemberResult(long depMemberId,int state);
+
 }

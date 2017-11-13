@@ -3,10 +3,13 @@ package com.zsq.service.impl;
 import com.zsq.dto.MemberDto;
 import com.zsq.model.*;
 import com.zsq.service.DepMemberManagerService;
+import com.zsq.util.ResultCode;
 import com.zsq.util.WyyResultCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +18,16 @@ import java.util.List;
  * Created by Administrator on 2017/11/11/011.
  */
 @Service
+@EnableTransactionManagement
+@Transactional
 public class DepMemberManagerServiceImpl implements DepMemberManagerService {
 
     @Autowired
     DepMemberRepository repository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    DepartmentRepository departmentRepository;
 
     @Override
     public int addDepMember(DepMember depMember) {
@@ -33,7 +40,13 @@ public class DepMemberManagerServiceImpl implements DepMemberManagerService {
         if(isExistDepMember!=null&&isExistDepMember.getDepId()>=0) {
             return WyyResultCode.Companion.getDEP_MEMBER_EXIST();
         }
+        Department department = departmentRepository.findOne(depMember.getDepId());
+        if (department == null) {
+            return ResultCode.Companion.getDEPARTMENT_NOT_EXIST();
+        }
+
         depMember.setJoinTime(System.currentTimeMillis());
+        depMember.setState(DepMember.STATE_APPLY);
         repository.save(depMember);
         return WyyResultCode.Companion.getSUCCESS();
     }
@@ -76,5 +89,19 @@ public class DepMemberManagerServiceImpl implements DepMemberManagerService {
             memberDtos.add(memberDto);
         }
         return memberDtos;
+    }
+
+    @Override
+    public int handleMemberResult(long depMemberId, int state) {
+        DepMember depMember = repository.findOne(depMemberId);
+        if (depMember == null) {
+            return ResultCode.Companion.getTARGET_NOT_EXIST();
+        }
+        Department department = departmentRepository.findOne(depMember.getDepId());
+        if (state == DepMember.STATE_OFFICE ) {
+            department.setMemberNum(department.getMemberNum() + 1);
+        }
+        depMember.setState(state);
+        return ResultCode.Companion.getSUCCESS();
     }
 }

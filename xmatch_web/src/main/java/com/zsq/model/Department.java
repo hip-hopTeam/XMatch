@@ -37,6 +37,11 @@ public class Department {
     /**紧急联系方式*/
     private String emergencyPhone;
 
+    /**
+     * 申请数量
+     */
+    private int applyNum;
+
     public int getState() {
         return state;
     }
