@@ -43,11 +43,12 @@ public class UserServiceImpl implements UserService {
         if(resUser==null) {
             return WyyResultCode.Companion.getUSER_NOT_EXIST();
         }
-        String stuNo = resUser.getStuNo();
-        String passwd = resUser.getPasswd();
-        BeanUtils.copyProperties(user, resUser);
-        resUser.setStuNo(stuNo);
-        resUser.setPasswd(passwd);
+        resUser.setSex(user.getSex());
+        resUser.setCollege(user.getCollege());
+        resUser.setBindPhone(user.getBindPhone());
+        resUser.setPhoneNum(user.getPhoneNum());
+        resUser.setEmail(user.getEmail());
+        resUser.setAvatorUrl(user.getAvatorUrl());
         return ResultCode.Companion.getSUCCESS();
     }
 

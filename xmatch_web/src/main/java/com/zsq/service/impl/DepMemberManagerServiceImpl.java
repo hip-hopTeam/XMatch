@@ -68,7 +68,8 @@ public class DepMemberManagerServiceImpl implements DepMemberManagerService {
         if(isExistDepMember==null) {
             return WyyResultCode.Companion.getDEP_MEMBER_NOT_EXIST();
         }
-        BeanUtils.copyProperties(depMember, isExistDepMember);
+        isExistDepMember.setState(depMember.getState());
+        isExistDepMember.setRole(depMember.getRole());
         return WyyResultCode.Companion.getSUCCESS();
     }
 
