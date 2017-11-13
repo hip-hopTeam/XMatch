@@ -1,6 +1,9 @@
 package com.zsq.model;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+
+import java.util.List;
 
 /**
  * @author _Lines
@@ -8,4 +11,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  */
 public interface DepartmentRepository extends PagingAndSortingRepository<Department,Long> {
     public Department findDepartmentByDepName(String depName);
+    @Query("select d from Department d")
+    public List<Department> getAll();
 }

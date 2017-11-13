@@ -16,6 +16,7 @@ public class Department {
     /**部门全称*/
     @Column(unique = true)
     private String depName;
+
     /**部门简介*/
     @Column(columnDefinition = "TEXT")
     private String depSummary;

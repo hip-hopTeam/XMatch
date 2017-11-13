@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author _Lines
  * Created by _Lines on 2017/11/9.
@@ -29,6 +31,7 @@ public class DepartmentServiceImpl implements DepartmentService {
             return LsyResultCode.Companion.getDEP_EXIT();
         }
         dep.setCreatTime(System.currentTimeMillis());
+        dep.setState(1);
         repository.save(dep);
         return LsyResultCode.Companion.getSUCCESS();
     }
@@ -36,22 +39,33 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public int updateDepartment(Department dep) {
         Department resDep = repository.findOne(dep.getDepartmentId());
+        if(resDep == null) {
+            return LsyResultCode.Companion.getDEP_NOT_EXIT();
+        }
         String depName = resDep.getDepName();
+        long createTime = resDep.getCreatTime();
         BeanUtils.copyProperties(dep,resDep);
-        //resDep
-        return 0;
+        resDep.setDepName(depName);
+        resDep.setCreatTime(createTime);
+        return LsyResultCode.Companion.getSUCCESS();
     }
 
     @Override
     public Department getDepartment(long departmentId) {
         Department department = repository.findOne(departmentId);
-        return null;
+        return department;
+    }
+
+    @Override
+    public List<Department> getAll() {
+        List<Department> departments = repository.getAll();
+        return departments;
     }
 
     @Override
     public Department getDepartmentByDepName(String depName) {
         Department department = repository.findDepartmentByDepName(depName);
-        return null;
+        return department;
     }
 
 

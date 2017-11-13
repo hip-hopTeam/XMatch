@@ -15,6 +15,8 @@ public class DepManagerDto {
     private String managerSummary;
     /**管理的部门id 为 0 则没有管理部门*/
     private long departmentId;
+    /**角色 1 部门管理员 2 超级管理员*/
+    private int role;
 
     public String getManagerSummary() {
         return managerSummary;
@@ -71,4 +73,8 @@ public class DepManagerDto {
     public void setDepartmentId(long departmentId) {
         this.departmentId = departmentId;
     }
+
+    public int getRole() { return role; }
+
+    public void setRole(int role) { this.role = role; }
 }

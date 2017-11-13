@@ -12,6 +12,7 @@ class LsyResultCode {
         val USER_NOT_EXIST=12
 
         val DEP_EXIT = 21
+        val DEP_NOT_EXIT = 22
         val DEPMANAGER_EXIST = 31
         val DEPMANAGER_NOT_EXIST =32
         val DEPMANAGER_PASSWORD_ERROR = 33
@@ -21,7 +22,9 @@ class LsyResultCode {
                 ERROR to "error",
                 USER_EXIST to  "学号已存在",
                 USER_NOT_EXIST to "用户不存在" ,
+
                 DEP_EXIT to "部门已存在",
+                DEP_NOT_EXIT to "部门不存在",
 
                 DEPMANAGER_EXIST to "部门管理员已存在",
                 DEPMANAGER_NOT_EXIST to "部门管理员不存在",

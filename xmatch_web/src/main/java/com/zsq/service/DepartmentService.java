@@ -2,6 +2,8 @@ package com.zsq.service;
 
 import com.zsq.model.Department;
 
+import java.util.List;
+
 
 /**
  * @author _Lines
@@ -23,6 +25,8 @@ public interface DepartmentService {
     public int updateDepartment(Department dep);
 
     public Department getDepartment(long departmentId);
+
+    public List<Department> getAll();
 
     public Department getDepartmentByDepName(String depName);
 

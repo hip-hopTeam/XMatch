@@ -125,7 +125,7 @@ class Department(Base):
     image_url = Column(String(255))
     member_num = Column(Integer, nullable=False)
     emergency_phone = Column(String(255))
-    state = Column(Integer, nullable=False, server_default=text("'0'"))
+    state = Column(Integer, nullable=False)
 
 
 class EmailNotice(Base):
