@@ -42,11 +42,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         if(resDep == null) {
             return LsyResultCode.Companion.getDEP_NOT_EXIT();
         }
-        String depName = resDep.getDepName();
-        long createTime = resDep.getCreatTime();
-        BeanUtils.copyProperties(dep,resDep);
-        resDep.setDepName(depName);
-        resDep.setCreatTime(createTime);
+        resDep.setDepSummary(dep.getDepSummary());
         return LsyResultCode.Companion.getSUCCESS();
     }
 

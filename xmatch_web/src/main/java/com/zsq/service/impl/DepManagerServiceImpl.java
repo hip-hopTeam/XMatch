@@ -48,11 +48,10 @@ public class DepManagerServiceImpl implements DepManagerService {
         if(resDepManager == null) {
             return LsyResultCode.Companion.getDEPMANAGER_NOT_EXIST();
         }
-        String depManagerAccount = resDepManager.getDepManagerAccount();
-        String password = resDepManager.getPassword();
-        BeanUtils.copyProperties(depManager,resDepManager);
-        resDepManager.setDepManagerAccount(depManagerAccount);
-        resDepManager.setPassword(password);
+        resDepManager.setEmail(depManager.getEmail());
+        resDepManager.setManagerSummary(depManager.getManagerSummary());
+        resDepManager.setManagerName(depManager.getManagerName());
+        resDepManager.setPhoneNum(depManager.getPhoneNum());
         return LsyResultCode.Companion.getSUCCESS();
     }
 
