@@ -11,12 +11,14 @@ import javax.persistence.Id;
 @Entity
 public class DepMember {
 
+    public static final int STATE_APPLY=1,STATE_OFFICE=2,STATE_RETIRE=3,STATE_REFUSE=4;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long depMemberId;
     private long depId;
     private long userId;
-    //入部状态 1 申请中 2 部门正式成员 3 退休成员
+    //入部状态 1 申请中 2 部门正式成员 3 退休成员 4 拒绝加入
     private int state;
     private long joinTime;
     /**在部门里的角色 */
