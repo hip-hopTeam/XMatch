@@ -28,6 +28,16 @@ public class DepManager {
     /**管理的部门id 为 0 则没有管理部门*/
     private long departmentId;
 
+    private String avatorUrl;
+
+    public String getAvatorUrl() {
+        return avatorUrl;
+    }
+
+    public void setAvatorUrl(String avatorUrl) {
+        this.avatorUrl = avatorUrl;
+    }
+
     public int getRole() {
         return role;
     }

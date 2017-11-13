@@ -18,6 +18,7 @@ import android.view.WindowManager;
 
 import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.fragment.ManagerMainFragment;
+import com.example.coderqiang.xmatch_android.fragment.MemberFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,7 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
     private FragmentManager fragmentManager;
 
     private ManagerMainFragment managerMainFragment;
+    private MemberFragment memberFragment;
     private Fragment current;
 
     MenuItem menuItem;
@@ -98,6 +100,11 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
                 switchFragment(current, managerMainFragment);
                 break;
             case R.id.item2:
+                if (memberFragment == null) {
+                    memberFragment = new MemberFragment();
+                }
+                switchFragment(current, memberFragment);
+                break;
         }
         drawer.closeDrawers();
         return true;

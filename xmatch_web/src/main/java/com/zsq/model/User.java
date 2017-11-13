@@ -38,10 +38,23 @@ public class User {
      * 手机号  0 未绑定 1 绑定
      */
     private int bindPhone;
+
     /**手机号*/
     private String phoneNum;
+
     /**邮箱, 为 null则未绑定*/
     private String email;
+
+    /**用户头像*/
+    private String avatorUrl;
+
+    public String getAvatorUrl() {
+        return avatorUrl;
+    }
+
+    public void setAvatorUrl(String avatorUrl) {
+        this.avatorUrl = avatorUrl;
+    }
 
     public int getBindPhone() {
         return bindPhone;

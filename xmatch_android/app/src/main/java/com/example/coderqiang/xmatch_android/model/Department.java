@@ -29,11 +29,14 @@ public class Department {
     /**紧急联系方式*/
     private String emergencyPhone;
 
+    /**部门状态 1 申请中 2 审核通过 3 审核失败*/
+    private int state;
 
-    @Generated(hash = 14612787)
+
+    @Generated(hash = 1029054340)
     public Department(Long departmentId, String depName, String depSummary,
             int memberNum, int activityNum, int childDepNum, long depManagerId,
-            long creatTime, String imageUrl, String emergencyPhone) {
+            long creatTime, String imageUrl, String emergencyPhone, int state) {
         this.departmentId = departmentId;
         this.depName = depName;
         this.depSummary = depSummary;
@@ -44,6 +47,15 @@ public class Department {
         this.creatTime = creatTime;
         this.imageUrl = imageUrl;
         this.emergencyPhone = emergencyPhone;
+        this.state = state;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     @Generated(hash = 355406289)
