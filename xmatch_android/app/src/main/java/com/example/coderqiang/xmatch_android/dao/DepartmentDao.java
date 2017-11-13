@@ -34,6 +34,7 @@ public class DepartmentDao extends AbstractDao<Department, Long> {
         public final static Property CreatTime = new Property(7, long.class, "creatTime", false, "CREAT_TIME");
         public final static Property ImageUrl = new Property(8, String.class, "imageUrl", false, "IMAGE_URL");
         public final static Property EmergencyPhone = new Property(9, String.class, "emergencyPhone", false, "EMERGENCY_PHONE");
+        public final static Property State = new Property(10, int.class, "state", false, "STATE");
     }
 
 
@@ -58,7 +59,8 @@ public class DepartmentDao extends AbstractDao<Department, Long> {
                 "\"DEP_MANAGER_ID\" INTEGER NOT NULL ," + // 6: depManagerId
                 "\"CREAT_TIME\" INTEGER NOT NULL ," + // 7: creatTime
                 "\"IMAGE_URL\" TEXT," + // 8: imageUrl
-                "\"EMERGENCY_PHONE\" TEXT);"); // 9: emergencyPhone
+                "\"EMERGENCY_PHONE\" TEXT," + // 9: emergencyPhone
+                "\"STATE\" INTEGER NOT NULL );"); // 10: state
     }
 
     /** Drops the underlying database table. */
@@ -100,6 +102,7 @@ public class DepartmentDao extends AbstractDao<Department, Long> {
         if (emergencyPhone != null) {
             stmt.bindString(10, emergencyPhone);
         }
+        stmt.bindLong(11, entity.getState());
     }
 
     @Override
@@ -135,6 +138,7 @@ public class DepartmentDao extends AbstractDao<Department, Long> {
         if (emergencyPhone != null) {
             stmt.bindString(10, emergencyPhone);
         }
+        stmt.bindLong(11, entity.getState());
     }
 
     @Override
@@ -154,7 +158,8 @@ public class DepartmentDao extends AbstractDao<Department, Long> {
             cursor.getLong(offset + 6), // depManagerId
             cursor.getLong(offset + 7), // creatTime
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // imageUrl
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // emergencyPhone
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // emergencyPhone
+            cursor.getInt(offset + 10) // state
         );
         return entity;
     }
@@ -171,6 +176,7 @@ public class DepartmentDao extends AbstractDao<Department, Long> {
         entity.setCreatTime(cursor.getLong(offset + 7));
         entity.setImageUrl(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setEmergencyPhone(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setState(cursor.getInt(offset + 10));
      }
     
     @Override
