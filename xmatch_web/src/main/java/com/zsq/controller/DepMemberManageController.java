@@ -2,8 +2,11 @@ package com.zsq.controller;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
 import com.zsq.dto.MemberDto;
+import com.zsq.model.ChildDepartment;
 import com.zsq.model.DepMember;
+import com.zsq.model.Department;
 import com.zsq.service.DepMemberManagerService;
+import com.zsq.service.DepartmentService;
 import com.zsq.util.BaseMessage;
 import com.zsq.util.ObjectMessage;
 import com.zsq.util.WyyResultCode;
@@ -25,6 +28,9 @@ public class DepMemberManageController {
 
     @Autowired
     DepMemberManagerService depMemberManagerService;
+
+    @Autowired
+    DepartmentService departmentService;
 
     @RequestMapping("/add")
     public BaseMessage addDepMember(@RequestBody DepMember depMember) {
@@ -55,16 +61,16 @@ public class DepMemberManageController {
     public ObjectMessage getDepMember(@RequestParam("depId") long depId,
                                       @RequestParam(value = "state", required = false, defaultValue = "0") int state) {
         ObjectMessage message = new ObjectMessage();
-        List<MemberDto> depMembers;
-        depMembers = depMemberManagerService.getDepMember(depId, state);
-        if(depMembers.size()<=0) {
+        Department department = departmentService.getDepartment(depId);
+        if(department==null) {
             message.code = WyyResultCode.Companion.getDEP_NOT_EXIST();
             message.result = WyyResultCode.Companion.getMap().get(message.code);
             return message;
         }
+        List<MemberDto> depMembers;
+        depMembers = depMemberManagerService.getDepMember(depId, state);
         message.code = WyyResultCode.Companion.getSUCCESS();
         message.result = WyyResultCode.Companion.getMap().get(message.code);
-        message.object = depMembers;
         return message;
     }
 
