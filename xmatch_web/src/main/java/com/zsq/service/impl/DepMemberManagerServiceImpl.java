@@ -1,5 +1,6 @@
 package com.zsq.service.impl;
 
+import com.zsq.dto.MemberDto;
 import com.zsq.model.*;
 import com.zsq.service.DepMemberManagerService;
 import com.zsq.util.WyyResultCode;
@@ -7,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,26 +59,22 @@ public class DepMemberManagerServiceImpl implements DepMemberManagerService {
         return WyyResultCode.Companion.getSUCCESS();
     }
 
-    /**
-     * 根据部门id查找部员
-     *
-     * @param depId
-     */
     @Override
-    public List<DepMember> getDepMember(long depId) {
-        List<DepMember> depMembers = repository.findDepMembersByDepId(depId);
-        return depMembers;
-    }
-
-    /**
-     * 根据部门id和部员状态查找部员
-     *
-     * @param depId
-     * @param state
-     */
-    @Override
-    public List<DepMember> getDepMember(long depId, int state) {
-        List<DepMember> depMembers = repository.findDepMembersByDepIdAndState(depId, state);
-        return depMembers;
+    public List<MemberDto> getDepMember(long depId, int state) {
+        List<MemberDto> memberDtos=new ArrayList<>();
+        List<DepMember> depMembers;
+        if(state==0) {
+            depMembers= repository.findDepMembersByDepId(depId);
+        } else {
+            depMembers=repository.findDepMembersByDepIdAndState(depId,state);
+        }
+        for (DepMember depMember:depMembers){
+            MemberDto memberDto=new MemberDto();
+            BeanUtils.copyProperties(depMember,memberDto);
+            User user=userRepository.findOne(depMember.getUserId());
+            BeanUtils.copyProperties(user,memberDto);
+            memberDtos.add(memberDto);
+        }
+        return memberDtos;
     }
 }

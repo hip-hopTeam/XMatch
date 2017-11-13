@@ -1,5 +1,6 @@
 package com.zsq.service;
 
+import com.zsq.dto.MemberDto;
 import com.zsq.model.DepMember;
 
 import java.util.List;
@@ -20,13 +21,6 @@ public interface DepMemberManagerService {
      * 修改部员
      */
     public int updateDepMember(DepMember depMember);
-    /**
-     * 根据部门id查找部员
-     */
-    public List<DepMember> getDepMember(long depId);
 
-    /**
-     * 根据部门id和部员状态查找部员
-     */
-    public List<DepMember> getDepMember(long depId, int state);
+    public List<MemberDto> getDepMember(long depId, int state);
 }
