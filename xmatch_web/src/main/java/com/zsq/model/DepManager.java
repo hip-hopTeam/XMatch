@@ -28,7 +28,23 @@ public class DepManager {
     /**管理的部门id 为 0 则没有管理部门*/
     private long departmentId;
 
+    private String avatorUrl;
 
+    public String getAvatorUrl() {
+        return avatorUrl;
+    }
+
+    public void setAvatorUrl(String avatorUrl) {
+        this.avatorUrl = avatorUrl;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
 
     public String getManagerSummary() {
         return managerSummary;
@@ -93,8 +109,4 @@ public class DepManager {
     public void setDepartmentId(long departmentId) {
         this.departmentId = departmentId;
     }
-
-    public int getRole() { return role; }
-
-    public void setRole(int role) { this.role = role; }
 }
