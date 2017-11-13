@@ -40,6 +40,11 @@ public interface DepartmentService {
     public Map<String, Object> getChildDepartmentByDepId(long depId);
 
     /**
+     * 查找所有子部门
+     */
+    public List<ChildDepartment> getAllChildDep();
+
+    /**
      * 添加子部门
      */
     public int addChildDepartment(ChildDepartment childDepartment);

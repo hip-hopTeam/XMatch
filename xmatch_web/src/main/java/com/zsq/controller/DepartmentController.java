@@ -70,15 +70,22 @@ public class DepartmentController {
     }
 
     @RequestMapping("/getChildDep")
-    public ObjectMessage getChildDep(@RequestParam("depId") long depId) {
+    public ObjectMessage getChildDep(@RequestParam(value = "depId", required = false, defaultValue = "-1") long depId) {
         ObjectMessage message = new ObjectMessage();
-        Map<String, Object> result = departmentService.getChildDepartmentByDepId(depId);
-        message.code = (int)result.get("code");
-        message.result = WyyResultCode.Companion.getMap().get(message.code);
-        if(message.code==WyyResultCode.Companion.getSUCCESS()) {
-            message.object = (List<ChildDepartment>)result.get("childDepartments");
+        if(depId<0) {
+            message.code = WyyResultCode.Companion.getSUCCESS();
+            message.result = WyyResultCode.Companion.getMap().get(message.code);
+            message.object = departmentService.getAllChildDep();
+            return message;
+        } else {
+            Map<String, Object> result = departmentService.getChildDepartmentByDepId(depId);
+            message.code = (int) result.get("code");
+            message.result = WyyResultCode.Companion.getMap().get(message.code);
+            if (message.code == WyyResultCode.Companion.getSUCCESS()) {
+                message.object = (List<ChildDepartment>) result.get("childDepartments");
+            }
+            return message;
         }
-        return message;
     }
 
     @RequestMapping("/addChildDep")

@@ -12,4 +12,6 @@ public interface ChildDepartmentRepository extends PagingAndSortingRepository<Ch
     public List<ChildDepartment> getByDepartmentId(long depId);
     public ChildDepartment getByDepartmentIdAndName(long depId, String name);
     public ChildDepartment getByChildDepartmentId(long childDepId);
+    @Query("select d from ChildDepartment d")
+    public List<ChildDepartment> getAll();
 }

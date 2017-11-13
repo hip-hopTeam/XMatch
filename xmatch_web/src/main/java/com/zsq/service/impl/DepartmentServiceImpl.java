@@ -83,6 +83,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<ChildDepartment> getAllChildDep() {
+        return childDepartmentRepository.getAll();
+    }
+
+    @Override
     public int addChildDepartment(ChildDepartment childDepartment) {
         Department department = repository.findOne(childDepartment.getDepartmentId());
         if(department==null) {
