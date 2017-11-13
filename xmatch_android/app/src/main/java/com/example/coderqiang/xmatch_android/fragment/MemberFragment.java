@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.adapter.OfficeMemberAdapter;
+import com.example.coderqiang.xmatch_android.api.DepManagerApi;
 import com.example.coderqiang.xmatch_android.dto.MemberDto;
 import com.example.coderqiang.xmatch_android.model.User;
 
@@ -29,12 +31,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by coderqiang on 2017/11/12.
  */
 
 public class MemberFragment extends Fragment {
+    private static final String TAG = "MemberFragment ";
 
     @BindView(R.id.manager_member_menu)
     ImageView managerMemberMenu;
@@ -62,34 +70,70 @@ public class MemberFragment extends Fragment {
     }
 
     private void initData() {
-        for (int i = 0; i < 4; i++) {
-            MemberDto memberDto = new MemberDto();
-            memberDto.setEmail("976928202@qq.com");
-            memberDto.setPhoneNum("13110521828");
-            memberDto.setUsername("郑世强");
-            memberDto.setRole("普通成员");
-            memberDto.setState(MemberDto.STATE_APPLY);
-            memberDtos.add(memberDto);
-        }
-        for (int i = 0; i < 8; i++) {
-            MemberDto memberDto = new MemberDto();
-            memberDto.setEmail("976928202@qq.com");
-            memberDto.setPhoneNum("13110521828");
-            memberDto.setUsername("叶岗村");
-            memberDto.setRole("普通成员");
-            memberDto.setState(MemberDto.STATE_OFFICE);
-            memberDtos.add(memberDto);
-        }
-        //按状态排序
-        Collections.sort(memberDtos, new Comparator<MemberDto>() {
+        Observable.create(new Observable.OnSubscribe<List<MemberDto>>() {
             @Override
-            public int compare(MemberDto memberDto, MemberDto t1) {
-                if (memberDto.getState() > t1.getState()) {
-                    return 1;
-                } else if (memberDto.getState()<t1.getState()){
-                    return -1;
+            public void call(Subscriber<? super List<MemberDto>> subscriber) {
+                List<MemberDto> memberDtos=DepManagerApi.getMembersByState(getActivity());
+                if (memberDtos == null) {
+                    subscriber.onCompleted();
+                }else {
+                    subscriber.onNext(memberDtos);
                 }
-                return 0;
+
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<MemberDto>>() {
+            @Override
+            public void onCompleted() {
+                Log.i(TAG, "onCompleted: memeberDto==null");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(List<MemberDto> memberDtos) {
+                List<MemberDto> dtos = new ArrayList<>();
+                for (MemberDto memberDto : memberDtos) {
+                    if (memberDto.getState()==MemberDto.STATE_APPLY||memberDto.getState()==MemberDto.STATE_OFFICE){
+                        dtos.add(memberDto);
+                    }
+                }
+                MemberFragment.this.memberDtos = dtos;
+                managerMemberOfficeRecycler.setAdapter(new OfficeMemberAdapter(dtos,MemberFragment.this));
+            }
+        });
+    }
+
+    public void refreshData() {
+        System.out.println("refresh");
+        Observable.create(new Observable.OnSubscribe<List<MemberDto>>() {
+            @Override
+            public void call(Subscriber<? super List<MemberDto>> subscriber) {
+                List<MemberDto> memberDtos=DepManagerApi.getMembersByState(getActivity());
+                if (memberDtos == null) {
+                    subscriber.onCompleted();
+                }else {
+                    subscriber.onNext(memberDtos);
+                }
+
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<MemberDto>>() {
+            @Override
+            public void onCompleted() {
+                Log.i(TAG, "onCompleted: memeberDto==null");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(List<MemberDto> memberDtos) {
+                MemberFragment.this.memberDtos=memberDtos;
+                managerMemberOfficeRecycler.setAdapter(new OfficeMemberAdapter(memberDtos,MemberFragment.this));
             }
         });
     }
@@ -97,7 +141,6 @@ public class MemberFragment extends Fragment {
     private void initView() {
         drawer = getActivity().findViewById(R.id.drawer_layout);
         managerMemberOfficeRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        managerMemberOfficeRecycler.setAdapter(new OfficeMemberAdapter(memberDtos,getActivity()));
     }
 
     @Override

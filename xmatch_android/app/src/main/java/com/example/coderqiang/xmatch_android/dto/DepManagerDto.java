@@ -1,8 +1,9 @@
-package com.zsq.dto;
+package com.example.coderqiang.xmatch_android.dto;
 
 /**
- * Created by hp on 2017/11/10.
+ * Created by coderqiang on 2017/11/13.
  */
+
 public class DepManagerDto {
     private long depManagerId;
 
@@ -37,12 +38,76 @@ public class DepManagerDto {
     /**紧急联系方式*/
     private String emergencyPhone;
 
+    public long getDepManagerId() {
+        return depManagerId;
+    }
+
+    public void setDepManagerId(long depManagerId) {
+        this.depManagerId = depManagerId;
+    }
+
+    public String getDepManagerAccount() {
+        return depManagerAccount;
+    }
+
+    public void setDepManagerAccount(String depManagerAccount) {
+        this.depManagerAccount = depManagerAccount;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public int getApplyNum() {
         return applyNum;
     }
 
     public void setApplyNum(int applyNum) {
         this.applyNum = applyNum;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
+    }
+
+    public String getManagerSummary() {
+        return managerSummary;
+    }
+
+    public void setManagerSummary(String managerSummary) {
+        this.managerSummary = managerSummary;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(long departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getDepName() {
@@ -116,64 +181,4 @@ public class DepManagerDto {
     public void setEmergencyPhone(String emergencyPhone) {
         this.emergencyPhone = emergencyPhone;
     }
-
-    public String getManagerSummary() {
-        return managerSummary;
-    }
-
-    public void setManagerSummary(String managerSummary) {
-        this.managerSummary = managerSummary;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getManagerName() {
-        return managerName;
-    }
-
-    public void setManagerName(String managerName) {
-        this.managerName = managerName;
-    }
-
-    public long getDepManagerId() {
-        return depManagerId;
-    }
-
-    public void setDepManagerId(long depManagerId) {
-        this.depManagerId = depManagerId;
-    }
-
-    public String getDepManagerAccount() {
-        return depManagerAccount;
-    }
-
-    public void setDepManagerAccount(String depManagerAccount) {
-        this.depManagerAccount = depManagerAccount;
-    }
-
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
-    }
-
-    public long getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(long departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public int getRole() { return role; }
-
-    public void setRole(int role) { this.role = role; }
 }

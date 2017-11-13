@@ -2,6 +2,7 @@ package com.zsq.controller;
 
 import com.zsq.dto.DepManagerDto;
 import com.zsq.model.DepManager;
+import com.zsq.model.Department;
 import com.zsq.service.*;
 import com.zsq.util.BaseMessage;
 import com.zsq.util.LsyResultCode;
@@ -24,6 +25,8 @@ import java.util.Map;
 public class DepManagerController {
     @Autowired
     DepManagerService depManagerService;
+    @Autowired
+    DepartmentService departmentService;
 
     @RequestMapping("/add")
     public BaseMessage addDepManager(@RequestBody DepManager depManager) {
@@ -53,6 +56,10 @@ public class DepManagerController {
         }
         DepManagerDto depManagerDto = new DepManagerDto();
         BeanUtils.copyProperties(depManager, depManagerDto);
+        if (depManager.getDepartmentId() != 0) {
+            Department department = departmentService.getDepartment(depManager.getDepartmentId());
+            BeanUtils.copyProperties(department, depManagerDto);
+        }
         message.code = LsyResultCode.Companion.getSUCCESS();
         message.result = LsyResultCode.Companion.getMap().get(message.code);
         message.object = depManagerDto;

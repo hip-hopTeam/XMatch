@@ -4,18 +4,18 @@ package com.example.coderqiang.xmatch_android.dto;
  * Created by coderqiang on 2017/11/13.
  */
 
-public class MemberDto {
+public class DepartmentDto {
 
-    public static final int STATE_APPLY=1,STATE_OFFICE=2,STATE_RETIRE=3,STATE_REFUSE=4;
     private long depMemberId;
     private long depId;
     private long userId;
-    //入部状态 1 申请中 2 部门正式成员 3 退休成员 4 拒绝加入
+    //入部状态 1 申请中 2 部门正式成员 3 退休成员
     private int state;
     private long joinTime;
     /**在部门里的角色 */
     private String role;
 
+    //用户相关
     private String username;
     /**
      * 性别
@@ -33,12 +33,6 @@ public class MemberDto {
     private String phoneNum;
     /**邮箱, 为 null则未绑定*/
     private String email;
-
-    private boolean isLogin;
-
-
-    /**用户头像*/
-    private String avatorUrl;
 
     public long getDepMemberId() {
         return depMemberId;
@@ -134,21 +128,5 @@ public class MemberDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isLogin() {
-        return isLogin;
-    }
-
-    public void setLogin(boolean login) {
-        isLogin = login;
-    }
-
-    public String getAvatorUrl() {
-        return avatorUrl;
-    }
-
-    public void setAvatorUrl(String avatorUrl) {
-        this.avatorUrl = avatorUrl;
     }
 }

@@ -15,10 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.example.coderqiang.xmatch_android.R;
+import com.example.coderqiang.xmatch_android.fragment.DepartmentFragment;
 import com.example.coderqiang.xmatch_android.fragment.ManagerMainFragment;
 import com.example.coderqiang.xmatch_android.fragment.MemberFragment;
+import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +37,7 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
 
     private ManagerMainFragment managerMainFragment;
     private MemberFragment memberFragment;
+    private DepartmentFragment departmentFragment;
     private Fragment current;
 
     MenuItem menuItem;
@@ -49,7 +53,13 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
         setContentView(R.layout.activity_main_manager);
         ButterKnife.bind(this);
         setConfig();
+        initData();
         initView();
+    }
+
+    private void initData() {
+        DefaultConfig.get(getApplicationContext()).setDepartmentId(2);
+        DefaultConfig.get(getApplicationContext()).setDepmanagerId(2);
     }
 
     private void initView() {
@@ -105,6 +115,13 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
                 }
                 switchFragment(current, memberFragment);
                 break;
+            case R.id.item3:
+                if (departmentFragment == null) {
+                    departmentFragment = new DepartmentFragment();
+                }
+                switchFragment(current, departmentFragment);
+                break;
+
         }
         drawer.closeDrawers();
         return true;

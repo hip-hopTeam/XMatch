@@ -1,30 +1,46 @@
 package com.example.coderqiang.xmatch_android.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.activity.AddDepartmentActivity;
+import com.example.coderqiang.xmatch_android.activity.ChildDepartmentActivity;
+import com.example.coderqiang.xmatch_android.api.DepManagerApi;
+import com.example.coderqiang.xmatch_android.dto.DepManagerDto;
+import com.example.coderqiang.xmatch_android.dto.DepartmentDto;
+import com.example.coderqiang.xmatch_android.model.ChildDepartment;
+import com.example.coderqiang.xmatch_android.model.DepManager;
+import com.example.coderqiang.xmatch_android.util.DefaultConfig;
+import com.example.coderqiang.xmatch_android.util.DepManagerLab;
 import com.example.coderqiang.xmatch_android.util.SwtichActivityUtil;
 import com.example.coderqiang.xmatch_android.view.CircleImagview;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by coderqiang on 2017/11/11.
  */
 
 public class ManagerMainFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG="ManagerMainFragment";
 
     @BindView(R.id.manager_main_menu)
     ImageView menuBtn;
@@ -40,16 +56,18 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
     ImageView managerMainSettingBtn;
     @BindView(R.id.manager_main_summary_tv)
     TextView managerMainSummaryTv;
-    @BindView(R.id.manager_main_dep_num)
-    TextView managerMainDepNum;
+    @BindView(R.id.manager_main_member_num)
+    TextView managerMainMemberNum;
     @BindView(R.id.manager_main_activity_num)
     TextView managerMainActivityNum;
-    @BindView(R.id.manager_main_apply_num)
-    TextView managerMainApplyNum;
+    @BindView(R.id.manager_main_child_num)
+    TextView managerMainChildNum;
     @BindView(R.id.manager_main_bar)
     AppBarLayout managerMainBar;
 
     DrawerLayout drawer;
+
+    DepartmentDto departmentDto = new DepartmentDto();
 
     @Nullable
     @Override
@@ -58,8 +76,62 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
         ButterKnife.bind(this, view);
         menuBtn = view.findViewById(R.id.manager_main_menu);
         addBtn = view.findViewById(R.id.manager_add_dep_add);
+        initData();
         initView();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (DepManagerLab.get(getActivity()).getDepManagerDto() != null) {
+            show(DepManagerLab.get(getActivity()).getDepManagerDto());
+        }
+    }
+
+    private void initData() {
+        Observable.create(new Observable.OnSubscribe<Object>() {
+            @Override
+            public void call(Subscriber<? super Object> subscriber) {
+                DepManagerDto depManager = DepManagerApi.getDepmanager(DefaultConfig.get(getActivity()).getDepmanagerId());
+                subscriber.onNext(depManager);
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+                Log.i(TAG, "onCompleted: memeberDto==null");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(Object object) {
+                DepManagerDto depManagerDto = (DepManagerDto) object;
+                DepManagerLab.get(getActivity()).setDepManagerDto(depManagerDto);
+                if (depManagerDto != null) {
+                    show(depManagerDto);
+                }else {
+                    Toast.makeText(getContext(), "获取数据失败", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+    }
+
+    private void show(DepManagerDto depManagerDto) {
+        managerMainName.setText(depManagerDto.getManagerName());
+        managerMainSummaryTv.setText(depManagerDto.getDepSummary());
+        managerMainActivityNum.setText(depManagerDto.getActivityNum()+"");
+        managerMainChildNum.setText(depManagerDto.getChildDepNum()+"");
+        managerMainMemberNum.setText(depManagerDto.getMemberNum()+"");
+        ((TextView)getActivity().findViewById(R.id.nav_header_name)).setText(depManagerDto.getDepName());
+        ((TextView)getActivity().findViewById(R.id.nav_header_role)).setText(depManagerDto.getRole()+"");
+        managerMainMemberNum.setOnClickListener(this);
+        managerMainChildNum.setOnClickListener(this);
+        managerMainActivityNum.setOnClickListener(this);
     }
 
     private void initView() {
@@ -76,6 +148,13 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.manager_add_dep_add:
                 SwtichActivityUtil.toActivity(getActivity(), AddDepartmentActivity.class);
+                break;
+            case R.id.manager_main_child_num:
+                Intent intent = new Intent(getActivity(),ChildDepartmentActivity.class);
+                DepManagerDto depManagerDto=DepManagerLab.get(getActivity()).getDepManagerDto();
+                intent.putExtra(ChildDepartmentActivity.DEP_NAME, depManagerDto.getDepName());
+                intent.putExtra(ChildDepartmentActivity.DEP_ID, depManagerDto.getDepartmentId());
+                startActivity(intent);
                 break;
         }
     }
