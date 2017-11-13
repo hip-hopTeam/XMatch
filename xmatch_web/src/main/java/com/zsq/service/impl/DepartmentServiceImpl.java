@@ -1,17 +1,18 @@
 package com.zsq.service.impl;
 
-import com.zsq.model.Department;
-import com.zsq.model.DepartmentRepository;
-import com.zsq.model.UserRepository;
+import com.zsq.model.*;
 import com.zsq.service.DepartmentService;
 import com.zsq.util.LsyResultCode;
+import com.zsq.util.WyyResultCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author _Lines
@@ -23,6 +24,9 @@ import java.util.List;
 public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     DepartmentRepository repository;
+
+    @Autowired
+    ChildDepartmentRepository childDepartmentRepository;
 
     @Override
     public int addDepartment(Department dep) {
@@ -62,6 +66,51 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Department getDepartmentByDepName(String depName) {
         Department department = repository.findDepartmentByDepName(depName);
         return department;
+    }
+
+    @Override
+    public Map<String, Object> getChildDepartmentByDepId(long depId) {
+        Map<String, Object> result = new HashMap<>();
+        Department department = repository.findOne(depId);
+        if(department==null) {
+            result.put("code", WyyResultCode.Companion.getDEP_NOT_EXIST());
+            return result;
+        }
+        List<ChildDepartment> childDepartments = childDepartmentRepository.getByDepartmentId(depId);
+        result.put("code", WyyResultCode.Companion.getSUCCESS());
+        result.put("childDepartments", childDepartments);
+        return result;
+    }
+
+    @Override
+    public int addChildDepartment(ChildDepartment childDepartment) {
+        Department department = repository.findOne(childDepartment.getDepartmentId());
+        if(department==null) {
+            return WyyResultCode.Companion.getDEP_NOT_EXIST();
+        }
+        ChildDepartment isExistChildDep = childDepartmentRepository.getByDepartmentIdAndName(childDepartment.getDepartmentId(),
+                childDepartment.getName());
+        if(isExistChildDep!=null&&isExistChildDep.getChildDepartmentId()>=0) {
+            return WyyResultCode.Companion.getCHILD_DEP_EXIST();
+        }
+        childDepartmentRepository.save(childDepartment);
+        department.setChildDepNum(department.getChildDepNum()+1);
+        return WyyResultCode.Companion.getSUCCESS();
+    }
+
+    @Override
+    public int updateChildDepartment(ChildDepartment childDepartment) {
+        Department department = repository.findOne(childDepartment.getDepartmentId());
+        if(department==null) {
+            return WyyResultCode.Companion.getDEP_NOT_EXIST();
+        }
+        ChildDepartment isExistChildDep = childDepartmentRepository.getByChildDepartmentId(childDepartment.getChildDepartmentId());
+        if(isExistChildDep==null) {
+            return WyyResultCode.Companion.getCHILD_DEP_NOT_EXIST();
+        }
+        isExistChildDep.setEmail(childDepartment.getEmail());
+        isExistChildDep.setPhone(childDepartment.getPhone());
+        return WyyResultCode.Companion.getSUCCESS();
     }
 
 

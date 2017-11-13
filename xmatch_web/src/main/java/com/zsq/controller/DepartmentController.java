@@ -1,5 +1,6 @@
 package com.zsq.controller;
 
+import com.zsq.model.ChildDepartment;
 import com.zsq.model.Department;
 import com.zsq.service.DepartmentService;
 import com.zsq.util.BaseMessage;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author _Lines
@@ -67,5 +69,32 @@ public class DepartmentController {
         return message;
     }
 
+    @RequestMapping("/getChildDep")
+    public ObjectMessage getChildDep(@RequestParam("depId") long depId) {
+        ObjectMessage message = new ObjectMessage();
+        Map<String, Object> result = departmentService.getChildDepartmentByDepId(depId);
+        message.code = (int)result.get("code");
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
+        if(message.code==WyyResultCode.Companion.getSUCCESS()) {
+            message.object = (List<ChildDepartment>)result.get("childDepartments");
+        }
+        return message;
+    }
+
+    @RequestMapping("/addChildDep")
+    public BaseMessage addChildDep(@RequestBody ChildDepartment childDepartment) {
+        BaseMessage message = new BaseMessage();
+        message.code = departmentService.addChildDepartment(childDepartment);
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
+    @RequestMapping("/updateChildDep")
+    public BaseMessage updateChildDep(@RequestBody ChildDepartment childDepartment) {
+        BaseMessage message = new BaseMessage();
+        message.code = departmentService.updateChildDepartment(childDepartment);
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
 
 }

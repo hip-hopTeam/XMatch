@@ -13,6 +13,8 @@ class WyyResultCode {
         val DEP_NOT_EXIST=14
         val DEP_MEMBER_EXIST=15
         val DEP_MEMBER_NOT_EXIST=16
+        val CHILD_DEP_EXIST=17
+        val CHILD_DEP_NOT_EXIST=18
 
         val map = mapOf<Int, String>(
                 SUCCESS to "success",
@@ -22,7 +24,9 @@ class WyyResultCode {
                 USER_PASSWORD_ERROR to "密码错误",
                 DEP_NOT_EXIST to "部门不存在",
                 DEP_MEMBER_EXIST to "部员已存在",
-                DEP_MEMBER_NOT_EXIST to "部员不存在"
+                DEP_MEMBER_NOT_EXIST to "部员不存在",
+                CHILD_DEP_EXIST to "子部门已存在",
+                CHILD_DEP_NOT_EXIST to "子部门不存在"
         )
     }
 }
