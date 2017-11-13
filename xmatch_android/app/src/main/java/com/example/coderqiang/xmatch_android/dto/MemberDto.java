@@ -1,29 +1,20 @@
-package com.example.coderqiang.xmatch_android.model;
-
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Generated;
+package com.example.coderqiang.xmatch_android.dto;
 
 /**
- * Created by coderqiang on 2017/11/9.
+ * Created by coderqiang on 2017/11/13.
  */
 
-@Entity
-public class User {
-    @Id
-    private Long userId;
+public class MemberDto {
 
-    /**
-     * 学号
-     */
-    private String stuNo;
-    /**
-     * 教务处密码
-     */
-    private String passwd;
-    /**
-     * 姓名
-     */
+    public static final int STATE_APPLY=1,STATE_OFFICE=2,STATE_RETIRE=3,STATE_REFUSE=4;
+
+    private long userId;
+    //入部状态 1 申请中 2 部门正式成员 3 退休成员 4 拒绝加入
+    private int state;
+    private long joinTime;
+    /**在部门里的角色 */
+    private String role;
+
     private String username;
     /**
      * 性别
@@ -48,51 +39,36 @@ public class User {
     /**用户头像*/
     private String avatorUrl;
 
-
-    @Generated(hash = 346311499)
-    public User(Long userId, String stuNo, String passwd, String username, int sex,
-            String college, int bindPhone, String phoneNum, String email,
-            boolean isLogin, String avatorUrl) {
-        this.userId = userId;
-        this.stuNo = stuNo;
-        this.passwd = passwd;
-        this.username = username;
-        this.sex = sex;
-        this.college = college;
-        this.bindPhone = bindPhone;
-        this.phoneNum = phoneNum;
-        this.email = email;
-        this.isLogin = isLogin;
-        this.avatorUrl = avatorUrl;
-    }
-
-    @Generated(hash = 586692638)
-    public User() {
-    }
-    
-
-    public Long getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
-    public String getStuNo() {
-        return stuNo;
+    public int getState() {
+        return state;
     }
 
-    public void setStuNo(String stuNo) {
-        this.stuNo = stuNo;
+    public void setState(int state) {
+        this.state = state;
     }
 
-    public String getPasswd() {
-        return passwd;
+    public long getJoinTime() {
+        return joinTime;
     }
 
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
+    public void setJoinTime(long joinTime) {
+        this.joinTime = joinTime;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getUsername() {
@@ -149,14 +125,6 @@ public class User {
 
     public void setLogin(boolean login) {
         isLogin = login;
-    }
-
-    public boolean getIsLogin() {
-        return this.isLogin;
-    }
-
-    public void setIsLogin(boolean isLogin) {
-        this.isLogin = isLogin;
     }
 
     public String getAvatorUrl() {
