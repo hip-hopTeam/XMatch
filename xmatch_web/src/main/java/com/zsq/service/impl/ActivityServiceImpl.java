@@ -6,6 +6,7 @@ import com.zsq.model.Department;
 import com.zsq.model.DepartmentRepository;
 import com.zsq.service.ActivityService;
 import com.zsq.util.LsyResultCode;
+import com.zsq.util.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -49,6 +50,12 @@ public class ActivityServiceImpl implements ActivityService{
         resActivity.setEndTime(activity.getEndTime());
         resActivity.setManagerPhone(activity.getManagerPhone());
         return LsyResultCode.Companion.getSUCCESS();
+    }
+
+    @Override
+    public int deleteActivity(long activityId) {
+        repository.delete(activityId);
+        return ResultCode.Companion.getSUCCESS();
     }
 
     @Override

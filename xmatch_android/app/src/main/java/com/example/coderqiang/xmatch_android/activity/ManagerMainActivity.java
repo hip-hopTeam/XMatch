@@ -67,6 +67,7 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
 
     private int menuSelect = 0;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +140,12 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
                     departmentFragment = new DepartmentFragment();
                 }
                 switchFragment(current, departmentFragment);
+                break;
+            case R.id.item4:
+                if (activityFragment == null) {
+                    activityFragment = new ActivityFragment();
+                }
+                switchFragment(current, activityFragment);
                 break;
 
         }

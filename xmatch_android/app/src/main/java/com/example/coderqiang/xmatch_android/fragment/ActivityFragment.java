@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,10 @@ public class ActivityFragment extends Fragment {
     AppBarLayout managerActivityBar;
     Unbinder unbinder;
 
+    ActivityAdapter activityAdapter;
+
+    DrawerLayout drawer;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,7 +70,7 @@ public class ActivityFragment extends Fragment {
         initData();
     }
 
-    private void initData() {
+    public void initData() {
         Observable.create(new Observable.OnSubscribe<Object>() {
             @Override
             public void call(Subscriber<? super Object> subscriber) {
@@ -85,13 +91,22 @@ public class ActivityFragment extends Fragment {
             @Override
             public void onNext(Object object) {
                 List<Activity> activities=(List<Activity>)object;
-                managerActivityRecycler.setAdapter(new ActivityAdapter(activities,ActivityFragment.this));
+                System.out.println("size:"+activities.size());
+                activityAdapter=new ActivityAdapter(activities,ActivityFragment.this);
+                managerActivityRecycler.setAdapter(activityAdapter);
             }
         });
     }
 
     private void initView() {
+        drawer = getActivity().findViewById(R.id.drawer_layout);
         managerActivityRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        managerActivityMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(Gravity.LEFT);
+            }
+        });
     }
 
     @Override

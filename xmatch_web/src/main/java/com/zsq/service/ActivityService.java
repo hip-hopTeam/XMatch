@@ -17,6 +17,8 @@ public interface ActivityService {
 
     public int updateActivity(Activity activity);
 
+    public int deleteActivity(long activityId);
+
     public List<Activity> getActivity(long activityId,long departmentId, int type);
 
     public List<Activity> getAllActivity();

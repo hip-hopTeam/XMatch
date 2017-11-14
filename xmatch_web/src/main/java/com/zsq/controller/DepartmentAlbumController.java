@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by coderqiang on 2017/11/14.
@@ -32,12 +33,13 @@ public class DepartmentAlbumController {
     DepartmentAlbumService departmentAlbumService;
     
     @RequestMapping("/add")
-    public BaseMessage addAlbum(@RequestBody DepartmentAlbum departmentAlbum) {
-        BaseMessage message = new BaseMessage();
+    public ObjectMessage addAlbum(@RequestBody DepartmentAlbum departmentAlbum) {
+        ObjectMessage message = new ObjectMessage();
         try {
-            int code=departmentAlbumService.addAlbum(departmentAlbum);
-            message.code = code;
+            Map<String,Object> result=departmentAlbumService.addAlbum(departmentAlbum);
+            message.code = (int) result.get("code");
             message.result = ResultCode.Companion.getMap().get(message.code);
+            message.object=result.get("result");
         } catch (Exception e) {
             e.printStackTrace();
             message.code = ResultCode.Companion.getERROR();

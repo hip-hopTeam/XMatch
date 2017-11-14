@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.coderqiang.xmatch_android.api.service.ActivitySevice;
 import com.example.coderqiang.xmatch_android.api.service.DepManagerService;
+import com.example.coderqiang.xmatch_android.dto.BaseMessage;
 import com.example.coderqiang.xmatch_android.dto.MemberDto;
 import com.example.coderqiang.xmatch_android.dto.ObjectMessage;
 import com.example.coderqiang.xmatch_android.model.Activity;
@@ -35,11 +36,48 @@ public class ActivityApi {
         Call<ObjectMessage<List<Activity>>> call = service.getAllActivities();
         try {
             ObjectMessage<List<Activity>> message = call.execute().body();
+            System.out.println("code:"+message.getObject().size());
             return message.getObject();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static Activity getActivityDetail(Context context,long activityId) {
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DefaultConfig.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ActivitySevice service = retrofit.create(ActivitySevice.class);
+        Call<ObjectMessage<List<Activity>>> call = service.getActivity(activityId,-1,-1);
+        try {
+            ObjectMessage<List<Activity>> message = call.execute().body();
+            return message.getObject().get(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static int deleteActivity(Context context,long activityId) {
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DefaultConfig.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ActivitySevice service = retrofit.create(ActivitySevice.class);
+        Call<BaseMessage> call = service.deleteActivity(activityId);
+        try {
+            BaseMessage message = call.execute().body();
+            return message.code;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 

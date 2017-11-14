@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by coderqiang on 2017/11/14.
@@ -23,11 +25,13 @@ public class DepartmentAlbumServiceImpl implements DepartmentAlbumService {
     private DepartmentAlbumRepository departmentAlbumRepository;
 
 
-
     @Override
-    public int addAlbum(DepartmentAlbum departmentAlbum) {
+    public Map<String, Object> addAlbum(DepartmentAlbum departmentAlbum) {
+        Map<String, Object> result = new HashMap<>();
         departmentAlbumRepository.save(departmentAlbum);
-        return ResultCode.Companion.getSUCCESS();
+        result.put("code",ResultCode.Companion.getSUCCESS());
+        result.put("result", departmentAlbum);
+        return result;
     }
 
     @Override

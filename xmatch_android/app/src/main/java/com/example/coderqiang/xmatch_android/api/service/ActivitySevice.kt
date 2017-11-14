@@ -1,5 +1,6 @@
 package com.example.coderqiang.xmatch_android.api.service
 
+import com.example.coderqiang.xmatch_android.dto.BaseMessage
 import com.example.coderqiang.xmatch_android.dto.MemberDto
 import com.example.coderqiang.xmatch_android.dto.ObjectMessage
 import com.example.coderqiang.xmatch_android.model.Activity
@@ -15,6 +16,14 @@ interface ActivitySevice{
 
     @GET("api/activity/getAll")
     fun getAllActivities(): Call<ObjectMessage<List<Activity>>>
+
+    @GET("api/activity/get")
+    fun getActivity(@Query("activityId")activityId:Long,
+                    @Query("departmentId")departmentId:Long,
+                    @Query("type")type:Long): Call<ObjectMessage<List<Activity>>>
+
+    @GET("api/activity/delete")
+    fun deleteActivity(@Query("activityId")activityId:Long): Call<BaseMessage>
 
 }
 
