@@ -1,11 +1,9 @@
-from flask_restful import Resource, marshal_with, fields, reqparse, abort, request
-from . import api
+from flask_restful import Resource, marshal_with, fields, reqparse, request
+from . import format_response_with, success, failure, api, desc, db
 from models.models import Department, ChildDepartment
-from sqlalchemy import desc
 
-UNDER_AUDIT = 1
-APPROVED_AUDIT = 2
-REJECTED_AUDIT = 3
+
+
 
 department_fields = {
     'department_id': fields.Integer,
@@ -21,6 +19,12 @@ department_fields = {
     'state': fields.Integer,
 }
 
+global_fields = {
+    "code": fields.Integer,
+    "result": fields.String,
+    "object": fields.List(fields.Raw),
+}
+
 child_department_fields = {
     'child_department_id': fields.Integer,
     'department_id': fields.Integer,
@@ -30,66 +34,62 @@ child_department_fields = {
 }
 
 class DepartmentDetails(Resource):
-    @marshal_with(department_fields)
-    def get(self, department_id=None):
-        department = Department.query.filter_by(department_id=department_id).first()
-        if department == None:
-            abort(404)
-        return department
-
-class DepartmentResource(Resource):
-    @marshal_with(department_fields)
-    def get(self):
-        page = request.args.get("page")
-        if page == None:
-            page = 1
-        page = int(page)
-        if page <= 0:
-            abort(404)
-        pagination = Department.query.filter_by(state=APPROVED_AUDIT).order_by(Department.department_id).paginate(page, per_page=10, error_out=True)
-        return pagination.items
-
-class ChildDepartmentResource(Resource):
-    @marshal_with(child_department_fields)
+    @format_response_with(department_fields)
     def get(self, department_id=None):
         if department_id == None:
-            abort(404)
-        child_department = ChildDepartment.query.filter_by(department_id=department_id).all()
-        return child_department
+            return failure(-1,'department_id is required')
+        department = Department.query.filter_by(department_id=department_id,state=Department.audit_approved).first()
+        if department == None:
+            return failure(-1,'the department does not exist')
+        return success(department)
+
+class DepartmentResource(Resource):
+    @format_response_with(department_fields)
+    def get(self):
+        try:
+            page = int(request.args.get("page") or 1)
+        except ValueError:
+            page = 1
+        if page <= 0:
+            failure(-1,'page number should be at least 1')
+        pagination = Department.query.filter_by(state=Department.audit_approved).order_by(Department.department_id).paginate(page, per_page=10, error_out=True)
+        return success(pagination.items)
+
+class ChildDepartmentResource(Resource):
+    @format_response_with(child_department_fields)
+    def get(self, department_id=None):
+        if department_id == None:
+            failure(-1,'department_id is required')
+        child_department = ChildDepartment.query.filter_by(department_id=department_id,state=Department.audit_approved).all()
+        return success(child_department)
 
 class AuditDepartment(Resource):
-
-    @marshal_with(department_fields)
+    @format_response_with(department_fields)
     def get(self):
-        page = request.args.get("page")
-        if page == None:
+        try:
+            page = int(request.args.get("page") or 1)
+        except ValueError:
             page = 1
-        page = int(page)
         if page <= 0:
-            abort(404)
-        pagination = Department.query.filter_by(state=UNDER_AUDIT).order_by(Department.department_id).paginate(page, per_page=10, error_out=True)
-        return pagination.items
+            return failure(-1,'page number should be at least 1')
+        pagination = Department.query.filter_by(state=Department.audit_processing).order_by(Department.department_id).paginate(page, per_page=10, error_out=True)
+        return success(pagination.items)
 
-    @marshal_with(department_fields)
+    @format_response_with(department_fields)
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('department_id',type=int)
-        parser.add_argument('state',type=int)
-        args = parser.parse_args() 
-        #return args
-        if args.department_id == None:
-            abort(404)
-        if args.state == APPROVED_AUDIT or args.state == REJECTED_AUDIT:
-            department = Department.query.filter_by(department_id=args.department_id, state=UNDER_AUDIT).first()
-            if department == None:
-                abort(404)
-            department.state = args.state
-            db.session.add(department)
-            db.session.commit()
-        else : 
-            abort(404)
+        parser.add_argument('department_id', type=int, required=True)
+        parser.add_argument('state',choices=(str(Department.audit_approved), str(Department.audit_rejected)), required=True)
+        args = parser.parse_args()
+        department = Department.query.filter_by(department_id=args.department_id, state=Department.audit_processing).first()
+        if department is None:
+            return failure(-1,'there is no such department')
+        department.state = int(args.state)
+        db.session.add(department)
+        db.session.commit()
+        return success(department)
 
-api.add_resource(DepartmentResource, '/department')
-api.add_resource(DepartmentDetails, '/department/<int:department_id>')
-api.add_resource(ChildDepartmentResource, '/department/<int:department_id>/child')
-api.add_resource(AuditDepartment, '/department/audit')
+api.add_resource(DepartmentResource, '/department',methods=['GET'])
+api.add_resource(DepartmentDetails, '/department/<int:department_id>',methods=['GET'])
+api.add_resource(ChildDepartmentResource, '/department/<int:department_id>/child',methods=['GET'])
+api.add_resource(AuditDepartment, '/department/audit',methods=['GET','POST'])
