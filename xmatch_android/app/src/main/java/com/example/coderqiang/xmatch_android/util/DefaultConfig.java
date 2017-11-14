@@ -7,13 +7,16 @@ import android.content.Context;
  */
 
 public class DefaultConfig {
-    public static final String BASE_URL = "http://172.25.69.24:7979";
+    public static final String BASE_URL = "http://10.0.2.2:7979";
 
     public  static DefaultConfig defaultConfig;
 
     private Context context;
 
     private String stuNo;
+
+    private int depmanagerId;
+//    private int departmentId;
 
 
     public synchronized static DefaultConfig get(Context context) {
@@ -34,4 +37,20 @@ public class DefaultConfig {
     public void setStuNo(String stuNo) {
         this.stuNo = stuNo;
     }
+
+    public int getDepmanagerId() {
+        return depmanagerId;
+    }
+
+    public void setDepmanagerId(int depmanagerId) {
+        this.depmanagerId = depmanagerId;
+    }
+//
+//    public int getDepartmentId() {
+//        return departmentId;
+//    }
+//
+//    public void setDepartmentId(int departmentId) {
+//        this.departmentId = departmentId;
+//    }
 }

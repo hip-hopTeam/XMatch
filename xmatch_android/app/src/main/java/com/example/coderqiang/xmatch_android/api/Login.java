@@ -34,7 +34,7 @@ public class Login {
         Call<ObjectMessage<User>> call= userService.userLogin(user.getStuNo(), user.getPasswd());
         try {
             ObjectMessage<User> message = call.execute().body();
-            return message.getCode();
+            return message.code;
         } catch (IOException e) {
             e.printStackTrace();
         }

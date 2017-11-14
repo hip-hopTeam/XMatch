@@ -1,7 +1,6 @@
-from flask_restful import Resource, marshal_with, fields, reqparse, abort, request
-from . import api
+from flask_restful import Resource, marshal_with, fields, reqparse, request
+from . import format_response_with, success, failure, api, desc, db
 from models.models import Activity
-from sqlalchemy import desc
 
 activity_fields = {
     'activity_id': fields.Integer,
@@ -18,21 +17,26 @@ activity_fields = {
 }
 
 class ActivityDetails(Resource):
-    @marshal_with(activity_fields)
+    @format_response_with(activity_fields)
     def get(self, activity_id=None):
+        if activity_id == None:
+            failure(-1,'activity_id is required')
         activity = Activity.query.filter_by(activity_id=activity_id).first()
         if activity == None:
-            abort(404)
-        return activity
+            failure(-1,'there is no such activity')
+        return success(activity)
 
 class ActivityResource(Resource):
-    @marshal_with(activity_fields)
+    @format_response_with(activity_fields)
     def get(self):
-        page = int(request.args.get("page"))
+        try:
+            page = int(request.args.get("page") or 1)
+        except ValueError:
+            page = 1
         if page <= 0:
-            abort(404)
+            return failure(-1,'page number should be at least 1')
         pagination = Activity.query.order_by(Activity.create_time.desc()).paginate(page, per_page=10, error_out=True)
-        return pagination
+        return success(pagination)
 
-api.add_resource(ActivityResource, '/activity')
-api.add_resource(ActivityDetails, '/activity/<int:activity_id>')
+api.add_resource(ActivityResource, '/activity', methods=['GET'])
+api.add_resource(ActivityDetails, '/activity/<int:activity_id>', methods=['POST'])

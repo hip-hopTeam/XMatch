@@ -44,7 +44,6 @@ public class DepMemberManagerServiceImpl implements DepMemberManagerService {
         if (department == null) {
             return ResultCode.Companion.getDEPARTMENT_NOT_EXIST();
         }
-
         depMember.setJoinTime(System.currentTimeMillis());
         depMember.setState(DepMember.STATE_APPLY);
         repository.save(depMember);
@@ -100,6 +99,7 @@ public class DepMemberManagerServiceImpl implements DepMemberManagerService {
         }
         Department department = departmentRepository.findOne(depMember.getDepId());
         if (state == DepMember.STATE_OFFICE ) {
+            System.out.println("addMember");
             department.setMemberNum(department.getMemberNum() + 1);
         }
         depMember.setState(state);

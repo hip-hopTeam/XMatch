@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/item_child_department_name"
+            android:paddingLeft="@dimen/text_size_large"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="@dimen/avator_size"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_size_normal"
+            android:text="实践部"/>
+        <TextView
+            android:id="@+id/item_child_department_email"
+            android:paddingLeft="@dimen/text_size_large"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="@dimen/avator_size"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorPrimary"
+            android:text="邮箱: 976928202@qq.com"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/item_child_department_message"
+        android:layout_marginRight="@dimen/text_padding_large"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_mail"/>
+    <ImageView
+        android:id="@+id/item_child_department_phone"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:src="@drawable/ic_phone"/>
+</LinearLayout>

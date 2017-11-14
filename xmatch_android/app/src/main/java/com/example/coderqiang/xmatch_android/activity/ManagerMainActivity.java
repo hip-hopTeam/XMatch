@@ -2,8 +2,14 @@ package com.example.coderqiang.xmatch_android.activity;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -15,13 +21,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.coderqiang.xmatch_android.R;
+import com.example.coderqiang.xmatch_android.fragment.ActivityFragment;
+import com.example.coderqiang.xmatch_android.fragment.DepartmentFragment;
 import com.example.coderqiang.xmatch_android.fragment.ManagerMainFragment;
 import com.example.coderqiang.xmatch_android.fragment.MemberFragment;
+import com.example.coderqiang.xmatch_android.util.DefaultConfig;
+import com.example.coderqiang.xmatch_android.util.PhotoClipperUtil;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.coderqiang.xmatch_android.fragment.ManagerMainFragment.SELECT_CLIPPER_PIC;
+import static com.example.coderqiang.xmatch_android.fragment.ManagerMainFragment.SELECT_PIC;
+import static com.example.coderqiang.xmatch_android.fragment.ManagerMainFragment.getImageCachePath;
 
 /**
  * Created by coderqiang on 2017/11/11.
@@ -30,11 +52,13 @@ import butterknife.ButterKnife;
 public class ManagerMainActivity extends FragmentActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "ManagerMainActivity";
 
-    private FragmentManager fragmentManager;
+    public static final String IMAGE_FILE_NAME="test.png";
 
-    private ManagerMainFragment managerMainFragment;
-    private MemberFragment memberFragment;
-    private Fragment current;
+    public ManagerMainFragment managerMainFragment;
+    public MemberFragment memberFragment;
+    public DepartmentFragment departmentFragment;
+    public ActivityFragment activityFragment;
+    public Fragment current;
 
     MenuItem menuItem;
     NavigationView navigationView;
@@ -49,7 +73,13 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
         setContentView(R.layout.activity_main_manager);
         ButterKnife.bind(this);
         setConfig();
+        initData();
         initView();
+    }
+
+
+    private void initData() {
+        DefaultConfig.get(getApplicationContext()).setDepmanagerId(6);
     }
 
     private void initView() {
@@ -75,10 +105,9 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(getResources().getColor(R.color.colorWhite));
         }
-
     }
 
-    private void switchFragment(Fragment from, Fragment to){
+    public void switchFragment(Fragment from, Fragment to){
         if(current !=to){
             if(!to.isAdded()){
                 getSupportFragmentManager().beginTransaction().add(R.id.main_container,to).hide(from).show(to).commit();
@@ -105,8 +134,20 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
                 }
                 switchFragment(current, memberFragment);
                 break;
+            case R.id.item3:
+                if (departmentFragment == null) {
+                    departmentFragment = new DepartmentFragment();
+                }
+                switchFragment(current, departmentFragment);
+                break;
+
         }
         drawer.closeDrawers();
         return true;
     }
+
+
+
+
 }
+

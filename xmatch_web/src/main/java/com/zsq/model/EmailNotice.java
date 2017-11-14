@@ -20,6 +20,8 @@ public class EmailNotice {
     //要发送的email地址 json格式[{"userId":"2","emailUrl":"976928202@qq.com"},...]
     private String toEmailUrl;
 
+
+
     public long getEmailNoticeId() {
         return emailNoticeId;
     }

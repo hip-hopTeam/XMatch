@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="152dp"
+    android:layout_margin="8dp"
+    android:background="@color/colorWhite">
+    <LinearLayout
+        android:id="@+id/item_manager_activity_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/item_manager_activity_image"
+            android:layout_width="118dp"
+            android:layout_marginRight="8dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/fzu"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/item_manager_activity_title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorBlack"
+                android:singleLine="true"
+                android:text="校社联送旧晚会"/>
+            <TextView
+                android:id="@+id/item_manager_activity_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:text="是集美貌与智慧于一身的历史最悠久最酷炫最强大的学生组织。始于情怀，精于技术，重于传承">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/item_manager_activity_date"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="1月12日 17:20"/>
+                <TextView
+                    android:id="@+id/item_manager_activity_address"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:textSize="11sp"
+                    android:textColor="@color/score_100"
+                    android:text="风雨操场"/>
+                <TextView
+                    android:id="@+id/item_manager_activity_delete"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_normal"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorRed"
+                    android:text="删除"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

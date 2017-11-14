@@ -9,10 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.coderqiang.xmatch_android.R;
+import com.example.coderqiang.xmatch_android.api.DepManagerApi;
 import com.example.coderqiang.xmatch_android.dto.MemberDto;
+import com.example.coderqiang.xmatch_android.fragment.MemberFragment;
+import com.example.coderqiang.xmatch_android.model.DepMember;
 import com.example.coderqiang.xmatch_android.model.User;
+import com.example.coderqiang.xmatch_android.util.DefaultConfig;
+import com.example.coderqiang.xmatch_android.util.DepManagerLab;
 import com.example.coderqiang.xmatch_android.view.CircleImagview;
 
 import org.w3c.dom.Text;
@@ -23,6 +29,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by coderqiang on 2017/11/12.
@@ -34,28 +44,44 @@ public class OfficeMemberAdapter extends RecyclerView.Adapter {
     private static final int TYPE_APPLY=1,TYPE_OFFICE=2,TYPE_MIDDLE=3;
 
     List<MemberDto> memberDtos;
-    Context context;
+    MemberFragment context;
     int middle=0;
 
-    public OfficeMemberAdapter(List<MemberDto> memberDtos, Context context) {
+    public OfficeMemberAdapter(List<MemberDto> memberDtos, MemberFragment memberFragment) {
         this.memberDtos = memberDtos;
-        this.context = context;
+        this.context = memberFragment;
+
+        Log.i(TAG, "OfficeMemberAdapter: size:"+memberDtos.size());
+        Collections.sort(memberDtos, new Comparator<MemberDto>() {
+            @Override
+            public int compare(MemberDto memberDto, MemberDto t1) {
+                if (memberDto.getState() > t1.getState()) {
+                    return 1;
+                } else if (memberDto.getState() < t1.getState()) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
         for(int i=0;i<memberDtos.size();i++) {
             if (memberDtos.get(i).getState() == TYPE_OFFICE) {
                 middle = i;
                 break;
             }
         }
+
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_MIDDLE) {
-            return new MiddleViewHolder(LayoutInflater.from(context).inflate(R.layout.item_member_middle, parent, false));
+            return new MiddleViewHolder(LayoutInflater.from(context.getActivity()).inflate(R.layout.item_member_middle, parent, false));
         }else if (viewType == TYPE_APPLY) {
-            return new ApplyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_member_apply, parent, false));
-        } else {
-            return new OfficeViewHolder(LayoutInflater.from(context).inflate(R.layout.item_member_office, parent, false));
+            return new ApplyViewHolder(LayoutInflater.from(context.getActivity()).inflate(R.layout.item_member_apply, parent, false));
+        } else if (viewType==TYPE_OFFICE){
+            return new OfficeViewHolder(LayoutInflater.from(context.getActivity()).inflate(R.layout.item_member_office, parent, false));
+        }else {
+            return null;
         }
 
     }
@@ -65,11 +91,37 @@ public class OfficeMemberAdapter extends RecyclerView.Adapter {
         if (getItemViewType(position) == TYPE_MIDDLE) {
             return;
         } else if (getItemViewType(position) ==TYPE_APPLY) {
-            MemberDto memberDto = memberDtos.get(position);
+            final MemberDto memberDto = memberDtos.get(position);
             ApplyViewHolder applyViewHolder = (ApplyViewHolder) holder;
             //职位:部长     手机:13110521828
             applyViewHolder.itemMemberApplyName.setText(memberDto.getUsername());
             applyViewHolder.role.setText("职位: "+memberDto.getRole());
+            applyViewHolder.itemMemberApplyAgree.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DepMember depMember = new DepMember();
+                    depMember.setDepId(memberDto.getDepId());
+                    depMember.setDepMemberId(memberDto.getDepMemberId());
+                    depMember.setJoinTime(memberDto.getJoinTime());
+                    depMember.setRole(memberDto.getRole());
+                    depMember.setState(DepMember.STATE_OFFICE);
+                    depMember.setUserId(memberDto.getUserId());
+                    updateMember(depMember);
+                }
+            });
+            applyViewHolder.itemMemberApplyDisagree.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DepMember depMember = new DepMember();
+                    depMember.setDepId(memberDto.getDepId());
+                    depMember.setDepMemberId(memberDto.getDepMemberId());
+                    depMember.setJoinTime(memberDto.getJoinTime());
+                    depMember.setRole(memberDto.getRole());
+                    depMember.setState(DepMember.STATE_REFUSE);
+                    depMember.setUserId(memberDto.getUserId());
+                    updateMember(depMember);
+                }
+            });
         } else if (getItemViewType(position) == TYPE_OFFICE) {
             MemberDto memberDto = memberDtos.get(position -1);
             OfficeViewHolder officeViewHolder = (OfficeViewHolder) holder;
@@ -78,6 +130,35 @@ public class OfficeMemberAdapter extends RecyclerView.Adapter {
         }
         Log.i(TAG, "onBindViewHolder: " + position);
 
+    }
+
+    private void updateMember(final DepMember member){
+        Observable.create(new Observable.OnSubscribe<Object>() {
+            @Override
+            public void call(Subscriber<? super Object> subscriber) {
+                String result= DepManagerApi.updateMemberState(member, context.getActivity());
+                subscriber.onNext(result);
+
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+                Log.i(TAG, "onCompleted: memeberDto==null");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(Object object) {
+                String result = (String) object;
+                Toast.makeText(context.getActivity(), result, Toast.LENGTH_LONG).show();
+                context.refreshData();
+                DepManagerLab.get(context.getActivity()).getDepManagerDto().setMemberNum(DepManagerLab.get(context.getActivity()).getDepManagerDto().getMemberNum()+1);
+            }
+        });
     }
 
     @Override

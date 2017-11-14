@@ -22,6 +22,11 @@
             android:id="@+id/item3"
 
             android:title="所有部门/社团"></item>
+
+        <item
+            android:id="@+id/item4"
+            android:title="活动中心"></item>
+
         <item
             android:id="@+id/item5"
 

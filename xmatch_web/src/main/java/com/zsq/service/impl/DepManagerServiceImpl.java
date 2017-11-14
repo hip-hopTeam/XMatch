@@ -2,6 +2,8 @@ package com.zsq.service.impl;
 
 import com.zsq.model.DepManager;
 import com.zsq.model.DepManagerRepository;
+import com.zsq.model.Department;
+import com.zsq.model.DepartmentRepository;
 import com.zsq.service.DepManagerService;
 import com.zsq.util.LsyResultCode;
 
@@ -23,6 +25,8 @@ import java.util.Map;
 public class DepManagerServiceImpl implements DepManagerService {
     @Autowired
     DepManagerRepository repository;
+    @Autowired
+    DepartmentRepository departmentRepository;
 
     @Override
     public DepManager getDepManager(long depManagerId) {
@@ -36,9 +40,22 @@ public class DepManagerServiceImpl implements DepManagerService {
         if(isExitDepManager != null && isExitDepManager.getDepManagerId() >= 0) {
             return LsyResultCode.Companion.getDEPMANAGER_EXIST();
         }
-        depManager.setDepManagerId(0);
         depManager.setRole(1);
         repository.save(depManager);
+        return LsyResultCode.Companion.getSUCCESS();
+    }
+
+    @Override
+    public int addDepManagerAvator(long depManagerId, String url) {
+        DepManager depManager = repository.findOne(depManagerId);
+        if (depManager == null) {
+            return LsyResultCode.Companion.getDEPMANAGER_NOT_EXIST();
+        }
+        depManager.setAvatorUrl(url);
+        Department department = departmentRepository.findOne(depManager.getDepartmentId());
+        if (department != null) {
+            department.setImageUrl(url);
+        }
         return LsyResultCode.Companion.getSUCCESS();
     }
 
