@@ -2,6 +2,8 @@ package com.zsq.service.impl;
 
 import com.zsq.model.Activity;
 import com.zsq.model.ActivityRepository;
+import com.zsq.model.Department;
+import com.zsq.model.DepartmentRepository;
 import com.zsq.service.ActivityService;
 import com.zsq.util.LsyResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import java.util.List;
 public class ActivityServiceImpl implements ActivityService{
     @Autowired
     ActivityRepository repository;
+    @Autowired
+    DepartmentRepository depRepository;
 
     @Override
     public int addActivity(Activity activity) {
@@ -28,6 +32,8 @@ public class ActivityServiceImpl implements ActivityService{
         activity.setSignIn(0);
         activity.setApplyNum(0);
         repository.save(activity);
+        Department dep = depRepository.findOne(activity.getDepId());
+        dep.setActivityNum(dep.getActivityNum()+1);
         return LsyResultCode.Companion.getSUCCESS();
     }
 

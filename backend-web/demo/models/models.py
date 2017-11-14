@@ -114,7 +114,11 @@ class DepMember(Base):
 
 class Department(Base):
     __tablename__ = 'department'
-
+    # audit state macros
+    audit_processing = 1
+    audit_approved = 2
+    audit_rejected = 3
+    
     department_id = Column(BigInteger, primary_key=True)
     activity_num = Column(Integer, nullable=False)
     child_dep_num = Column(Integer, nullable=False)

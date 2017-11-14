@@ -44,7 +44,6 @@ public class DepMemberManagerServiceImpl implements DepMemberManagerService {
         if (department == null) {
             return ResultCode.Companion.getDEPARTMENT_NOT_EXIST();
         }
-
         depMember.setJoinTime(System.currentTimeMillis());
         depMember.setState(DepMember.STATE_APPLY);
         repository.save(depMember);
