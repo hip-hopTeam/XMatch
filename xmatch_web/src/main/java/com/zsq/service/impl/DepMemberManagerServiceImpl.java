@@ -99,6 +99,7 @@ public class DepMemberManagerServiceImpl implements DepMemberManagerService {
         }
         Department department = departmentRepository.findOne(depMember.getDepId());
         if (state == DepMember.STATE_OFFICE ) {
+            System.out.println("addMember");
             department.setMemberNum(department.getMemberNum() + 1);
         }
         depMember.setState(state);

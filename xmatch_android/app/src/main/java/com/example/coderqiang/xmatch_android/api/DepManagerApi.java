@@ -19,14 +19,19 @@ import com.example.coderqiang.xmatch_android.model.DepMember;
 import com.example.coderqiang.xmatch_android.model.Department;
 import com.example.coderqiang.xmatch_android.model.User;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
+import com.example.coderqiang.xmatch_android.util.DepManagerLab;
+import com.example.coderqiang.xmatch_android.util.ResultCode;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -138,7 +143,8 @@ public class DepManagerApi {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         DepManagerService service = retrofit.create(DepManagerService.class);
-        Call<ObjectMessage<List<MemberDto>>> call= service.getMemberByState(DefaultConfig.get(context).getDepartmentId());
+        System.out.println("depId:"+DepManagerLab.get(context).getDepManagerDto().getDepartmentId());
+        Call<ObjectMessage<List<MemberDto>>> call= service.getMemberByState(DepManagerLab.get(context).getDepManagerDto().getDepartmentId());
         try {
             ObjectMessage<List<MemberDto>> message = call.execute().body();
             return message.getObject();
@@ -150,13 +156,13 @@ public class DepManagerApi {
 
     public static String updateMemberState(DepMember member,Context context) {
         OkHttpClient client = new OkHttpClient();
-        Request request=new Request.Builder()
-                .url(DefaultConfig.BASE_URL+"/api/depMemberManage/update")
-                .addHeader("content-type","application/json;charset:utf-8")
-                .put(RequestBody.create(
-                        MediaType.parse("application/json; charset=utf-8"),
-                        new Gson().toJson(member)
-                )).build();
+        Request request = new Request.Builder()
+                .url(DefaultConfig.BASE_URL + "/api/depMemberManage/handle")
+                .addHeader("content-type", "application/json;charset:utf-8")
+                .post(new FormBody.Builder()
+                        .add("depMemberId", member.getDepMemberId() + "")
+                        .add("state", member.getState() + "").build())
+                .build();
         Log.i(TAG, "updateMemberState: "+new Gson().toJson(member));
         try {
             okhttp3.Response response=client.newCall(request).execute();
@@ -167,5 +173,32 @@ public class DepManagerApi {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static int imageUpLoad(File file,long depManagerId) {
+        MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+        OkHttpClient client = new OkHttpClient();
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        builder.addFormDataPart("avator",depManagerId+".png", RequestBody.create(MEDIA_TYPE_PNG, file));
+        builder.addFormDataPart("depManagerId", depManagerId+"");
+        final MultipartBody requestBody = builder.build();
+        //构建请求
+        final Request request = new Request.Builder()
+                .url(DefaultConfig.BASE_URL+"/api/depManager/avator/add")//地址
+                .post(requestBody)//添加请求体
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            System.out.println(response.code());
+            if (response.isSuccessful()) {
+                String result=response.body().string();
+                BaseMessage message = new Gson().fromJson(result, BaseMessage.class);
+                System.out.println(result);
+                return message.code;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResultCode.Companion.getERROR();
     }
 }

@@ -17,6 +17,7 @@
                 android:layout_marginLeft="@dimen/text_padding_large"
                 android:src="@drawable/ic_menu"/>
             <TextView
+                android:id="@+id/manager_main_dep_name"
                 android:text="部门主页"
                 android:gravity="center"
                 android:textColor="@color/colorBlack"

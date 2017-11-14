@@ -53,4 +53,10 @@ public interface DepartmentService {
      * 更新子部门
      */
     public int updateChildDepartment(ChildDepartment childDepartment);
+
+
+    /**
+     * 删除子部门
+     */
+    public int deleteChildDepartment(long childDepartmentId);
 }

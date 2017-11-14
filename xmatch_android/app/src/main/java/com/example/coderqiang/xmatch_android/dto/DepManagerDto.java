@@ -17,6 +17,10 @@ public class DepManagerDto {
     private String managerSummary;
     /**角色 1 部门管理员 2 超级管理员*/
     private int role;
+    /** 头像*/
+    private String avatorUrl;
+
+
     //部门相关
     private long departmentId;
     /**部门全称*/
@@ -37,6 +41,14 @@ public class DepManagerDto {
     private String imageUrl;
     /**紧急联系方式*/
     private String emergencyPhone;
+
+    public String getAvatorUrl() {
+        return avatorUrl;
+    }
+
+    public void setAvatorUrl(String avatorUrl) {
+        this.avatorUrl = avatorUrl;
+    }
 
     public long getDepManagerId() {
         return depManagerId;
