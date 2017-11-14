@@ -16,7 +16,7 @@ public class DefaultConfig {
     private String stuNo;
 
     private int depmanagerId;
-    private int departmentId;
+//    private int departmentId;
 
 
     public synchronized static DefaultConfig get(Context context) {
@@ -45,12 +45,12 @@ public class DefaultConfig {
     public void setDepmanagerId(int depmanagerId) {
         this.depmanagerId = depmanagerId;
     }
-
-    public int getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(int departmentId) {
-        this.departmentId = departmentId;
-    }
+//
+//    public int getDepartmentId() {
+//        return departmentId;
+//    }
+//
+//    public void setDepartmentId(int departmentId) {
+//        this.departmentId = departmentId;
+//    }
 }

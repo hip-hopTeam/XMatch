@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.activity.ChildDepartmentActivity;
 import com.example.coderqiang.xmatch_android.fragment.DepartmentFragment;
 import com.example.coderqiang.xmatch_android.model.Department;
+import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 import com.example.coderqiang.xmatch_android.util.SwtichActivityUtil;
 import com.example.coderqiang.xmatch_android.view.CircleImagview;
 
@@ -58,6 +61,9 @@ public class DepartmentAdapter extends RecyclerView.Adapter {
                 context.getActivity().startActivity(intent);
             }
         });
+        Glide.with(context).load(DefaultConfig.BASE_URL+department.getImageUrl())
+                .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).error(R.drawable.avator)
+                .into(departmentHolder.itemDepartmentAvator);
 
     }
 

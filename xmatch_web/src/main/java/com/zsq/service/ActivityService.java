@@ -19,5 +19,9 @@ public interface ActivityService {
 
     public List<Activity> getActivity(long activityId,long departmentId, int type);
 
+    public List<Activity> getAllActivity();
+
+
+    public int addActivityImage(long activity,String url);
 
 }

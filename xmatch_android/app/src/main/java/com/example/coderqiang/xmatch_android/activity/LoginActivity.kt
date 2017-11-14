@@ -310,8 +310,7 @@ class LoginActivity : AppCompatActivity() {
                             editor!!.clear()
                         }
                         editor!!.apply()
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        intent.putExtra("id", id_2)
+                        val intent = Intent(this@LoginActivity, ManagerMainActivity::class.java)
                         startActivity(intent)
                         finish()
                         return

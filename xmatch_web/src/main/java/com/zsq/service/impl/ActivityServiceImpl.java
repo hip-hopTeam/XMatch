@@ -70,4 +70,17 @@ public class ActivityServiceImpl implements ActivityService{
         }
         return activities;
     }
+
+    @Override
+    public List<Activity> getAllActivity() {
+        List<Activity> activities = repository.findAll();
+        return activities;
+    }
+
+    @Override
+    public int addActivityImage(long activityId, String url) {
+        Activity activity = repository.findOne(activityId);
+        activity.setImageUrl(url);
+        return LsyResultCode.Companion.getSUCCESS();
+    }
 }

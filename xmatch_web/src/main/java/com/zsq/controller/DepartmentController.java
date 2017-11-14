@@ -33,7 +33,7 @@ public class DepartmentController {
         message.result = LsyResultCode.Companion.getMap().get(message.code);
         return message;
     }
-
+    
     @RequestMapping("/findAll")
     public ObjectMessage findAll() {
         ObjectMessage message = new ObjectMessage();
@@ -100,6 +100,14 @@ public class DepartmentController {
     public BaseMessage updateChildDep(@RequestBody ChildDepartment childDepartment) {
         BaseMessage message = new BaseMessage();
         message.code = departmentService.updateChildDepartment(childDepartment);
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
+    @RequestMapping("/deleteChildDep")
+    public BaseMessage deleteChildDep(@RequestParam("childDepartmentId") long childDepartmentId) {
+        BaseMessage message = new BaseMessage();
+        message.code = departmentService.deleteChildDepartment(childDepartmentId);
         message.result = WyyResultCode.Companion.getMap().get(message.code);
         return message;
     }

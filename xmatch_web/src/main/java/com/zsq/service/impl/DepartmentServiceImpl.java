@@ -28,6 +28,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     ChildDepartmentRepository childDepartmentRepository;
 
+    @Autowired
+    DepManagerRepository depManagerRepository;
+
     @Override
     public int addDepartment(Department dep) {
         Department isExitDepartment = repository.findDepartmentByDepName(dep.getDepName());
@@ -37,6 +40,8 @@ public class DepartmentServiceImpl implements DepartmentService {
         dep.setCreatTime(System.currentTimeMillis());
         dep.setState(1);
         repository.save(dep);
+        DepManager depManager = depManagerRepository.findOne(dep.getDepManagerId());
+        depManager.setDepartmentId(dep.getDepartmentId());
         return LsyResultCode.Companion.getSUCCESS();
     }
 
@@ -115,6 +120,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         isExistChildDep.setEmail(childDepartment.getEmail());
         isExistChildDep.setPhone(childDepartment.getPhone());
+        return WyyResultCode.Companion.getSUCCESS();
+    }
+
+    @Override
+    public int deleteChildDepartment(long childDepartmentId) {
+        childDepartmentRepository.delete(childDepartmentId);
         return WyyResultCode.Companion.getSUCCESS();
     }
 

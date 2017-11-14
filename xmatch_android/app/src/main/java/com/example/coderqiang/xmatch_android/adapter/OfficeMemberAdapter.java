@@ -17,6 +17,8 @@ import com.example.coderqiang.xmatch_android.dto.MemberDto;
 import com.example.coderqiang.xmatch_android.fragment.MemberFragment;
 import com.example.coderqiang.xmatch_android.model.DepMember;
 import com.example.coderqiang.xmatch_android.model.User;
+import com.example.coderqiang.xmatch_android.util.DefaultConfig;
+import com.example.coderqiang.xmatch_android.util.DepManagerLab;
 import com.example.coderqiang.xmatch_android.view.CircleImagview;
 
 import org.w3c.dom.Text;
@@ -154,6 +156,7 @@ public class OfficeMemberAdapter extends RecyclerView.Adapter {
                 String result = (String) object;
                 Toast.makeText(context.getActivity(), result, Toast.LENGTH_LONG).show();
                 context.refreshData();
+                DepManagerLab.get(context.getActivity()).getDepManagerDto().setMemberNum(DepManagerLab.get(context.getActivity()).getDepManagerDto().getMemberNum()+1);
             }
         });
     }

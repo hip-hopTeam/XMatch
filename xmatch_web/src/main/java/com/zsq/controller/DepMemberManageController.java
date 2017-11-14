@@ -75,4 +75,14 @@ public class DepMemberManageController {
         return message;
     }
 
+    @RequestMapping("/handle")
+    public BaseMessage handleResult(@RequestParam("depMemberId") long depMemberId,
+                                      @RequestParam( "state") int state) {
+        BaseMessage message = new BaseMessage();
+        int result = depMemberManagerService.handleMemberResult(depMemberId, state);
+        message.code = result;
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
 }
