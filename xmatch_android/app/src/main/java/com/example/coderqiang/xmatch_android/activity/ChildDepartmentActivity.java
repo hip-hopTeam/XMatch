@@ -66,7 +66,7 @@ public class ChildDepartmentActivity extends Activity implements View.OnClickLis
         initView();
     }
 
-    private void initData() {
+    public void initData() {
         Observable.create(new Observable.OnSubscribe<Object>() {
             @Override
             public void call(Subscriber<? super Object> subscriber) {
@@ -120,6 +120,9 @@ public class ChildDepartmentActivity extends Activity implements View.OnClickLis
         }
 
     }
+
+
+
 
     @Override
     public void onClick(View view) {

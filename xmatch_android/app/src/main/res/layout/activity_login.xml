@@ -69,7 +69,7 @@
                             android:id="@+id/account"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/account"
+                            android:hint="账号"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
                             android:singleLine="true" />

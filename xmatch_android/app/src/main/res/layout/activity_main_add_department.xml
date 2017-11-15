@@ -118,23 +118,23 @@
                 android:singleLine="true"/>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/manager_add_dep_image"
-            android:layout_width="@dimen/icon_size_super"
-            android:layout_height="@dimen/icon_size_super"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/text_padding_large"
-            android:src="@drawable/icon_add"/>
-        <TextView
-            android:id="@+id/manager_add_dep_image_tv"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/icon_size_super"
-            android:gravity="center_horizontal"
-            android:textSize="@dimen/text_size_normal"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/colorBlack"
-            android:text="添加部门主页背景"
-            android:layout_marginTop="@dimen/text_padding_large" />
+        <!--<ImageView-->
+            <!--android:id="@+id/manager_add_dep_image"-->
+            <!--android:layout_width="@dimen/icon_size_super"-->
+            <!--android:layout_height="@dimen/icon_size_super"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="@dimen/text_padding_large"-->
+            <!--android:src="@drawable/icon_add"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/manager_add_dep_image_tv"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/icon_size_super"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:textSize="@dimen/text_size_normal"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:textColor="@color/colorBlack"-->
+            <!--android:text="添加部门主页背景"-->
+            <!--android:layout_marginTop="@dimen/text_padding_large" />-->
     </LinearLayout>
 
     <RelativeLayout

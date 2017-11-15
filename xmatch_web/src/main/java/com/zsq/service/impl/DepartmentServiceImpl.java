@@ -125,6 +125,14 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public int deleteChildDepartment(long childDepartmentId) {
+        ChildDepartment childDepartment = childDepartmentRepository.findOne(childDepartmentId);
+        if (childDepartment == null) {
+            return WyyResultCode.Companion.getCHILD_DEP_NOT_EXIST();
+        }
+        Department department = repository.findOne(childDepartment.getDepartmentId());
+        if(department!=null) {
+            department.setChildDepNum(department.getChildDepNum()-1);
+        }
         childDepartmentRepository.delete(childDepartmentId);
         return WyyResultCode.Companion.getSUCCESS();
     }

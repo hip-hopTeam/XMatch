@@ -18,6 +18,7 @@ import com.example.coderqiang.xmatch_android.activity.ChildDepartmentActivity;
 import com.example.coderqiang.xmatch_android.fragment.DepartmentFragment;
 import com.example.coderqiang.xmatch_android.model.Department;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
+import com.example.coderqiang.xmatch_android.util.PhoneUtil;
 import com.example.coderqiang.xmatch_android.util.SwtichActivityUtil;
 import com.example.coderqiang.xmatch_android.view.CircleImagview;
 
@@ -59,6 +60,21 @@ public class DepartmentAdapter extends RecyclerView.Adapter {
                 intent.putExtra("departmentId", department.getDepartmentId());
                 intent.putExtra("departmentName", department.getDepName());
                 context.getActivity().startActivity(intent);
+            }
+        });
+
+        departmentHolder.itemDepartmentPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PhoneUtil.call(context.getActivity(),department.getEmergencyPhone());
+            }
+        });
+
+        departmentHolder.itemDepartmentMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone="13062240578";
+                PhoneUtil.sendEmail(context.getActivity(),phone,"test");
             }
         });
         Glide.with(context).load(DefaultConfig.BASE_URL+department.getImageUrl())

@@ -47,6 +47,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DepManagerApi {
     private static final String TAG="DepManagerApi";
 
+    public static ObjectMessage<DepManagerDto> loginManager(Context context,String account,String password) {
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DefaultConfig.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        DepManagerService service = retrofit.create(DepManagerService.class);
+        Call<ObjectMessage<DepManagerDto>> call= service.depmanagerLogin(account,password);
+        try {
+            ObjectMessage<DepManagerDto> message = call.execute().body();
+            return message;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public static DepManagerDto getDepmanager(long depManagerId) {
         OkHttpClient client = new OkHttpClient();
         Request request=new Request.Builder()
@@ -76,6 +95,25 @@ public class DepManagerApi {
                 ObjectMessage<Department> objectMessage=new Gson().fromJson(response.body().string(),ObjectMessage.class);
                 return objectMessage.getObject();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static BaseMessage addDepartment(Department department){
+        OkHttpClient client = new OkHttpClient();
+        Request request=new Request.Builder()
+                .url(DefaultConfig.BASE_URL+"/api/department/add")
+                .addHeader("content-type","application/json;charset:utf-8")
+                .put(RequestBody.create(
+                        MediaType.parse("application/json; charset=utf-8"),
+                        new Gson().toJson(department)
+                )).build();
+        try {
+            okhttp3.Response response=client.newCall(request).execute();
+            BaseMessage message = new Gson().fromJson(response.body().string(), BaseMessage.class);
+            return message;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -200,5 +238,23 @@ public class DepManagerApi {
             e.printStackTrace();
         }
         return ResultCode.Companion.getERROR();
+    }
+
+    public static int deleteChildDepartment(Context context,long childDepId) {
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DefaultConfig.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        DepManagerService service = retrofit.create(DepManagerService.class);
+        Call<BaseMessage> call= service.deleteChildDepartment(childDepId);
+        try {
+            BaseMessage message = call.execute().body();
+            return message.code;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

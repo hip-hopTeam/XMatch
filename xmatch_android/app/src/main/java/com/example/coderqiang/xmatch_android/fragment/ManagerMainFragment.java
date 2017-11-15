@@ -97,7 +97,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
     @BindView(R.id.manager_main_bar)
     AppBarLayout managerMainBar;
 
-
+    boolean isFirst=true;
 
     DrawerLayout drawer;
 
@@ -117,7 +117,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-        if (DepManagerLab.get(getActivity()).getDepManagerDto() != null) {
+        if (!isFirst&&DepManagerLab.get(getActivity()).getDepManagerDto() != null) {
             show(DepManagerLab.get(getActivity()).getDepManagerDto());
         }
     }
@@ -155,6 +155,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 DepManagerLab.get(getActivity().getApplicationContext()).setDepManagerDto(depManagerDto);
                 System.out.println("depId"+DepManagerLab.get(getActivity().getApplicationContext()).getDepManagerDto().getDepartmentId());
                 if (depManagerDto != null) {
+                    isFirst = false;
                     show(depManagerDto);
                 }else {
                     Toast.makeText(getContext(), "获取数据失败", Toast.LENGTH_LONG).show();
@@ -171,8 +172,8 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
         managerMainChildNum.setText(depManagerDto.getChildDepNum()+"");
         managerMainMemberNum.setText(depManagerDto.getMemberNum()+"");
         managerMainDepName.setText(depManagerDto.getDepName()+"");
-        ((TextView)getActivity().findViewById(R.id.nav_header_name)).setText(depManagerDto.getDepName());
-        ((TextView)getActivity().findViewById(R.id.nav_header_role)).setText(depManagerDto.getRole()+"");
+        ((TextView)(getActivity().findViewById(R.id.nav_header_name))).setText(depManagerDto.getDepName()+"");
+        ((TextView)(getActivity().findViewById(R.id.nav_header_role))).setText(depManagerDto.getRole()+"");
 
         managerMainMemberNum.setOnClickListener(this);
         managerMainChildNum.setOnClickListener(this);
@@ -183,9 +184,8 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 .into(managerMainAvator);
         Glide.with(this).load(DefaultConfig.BASE_URL+depManagerDto.getImageUrl())
                 .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).error(R.drawable.avator)
-                .into( ((CircleImagview)getActivity().findViewById(R.id.nav_header_dep_avator)));
+                .into( ((CircleImagview)((ManagerMainActivity)getActivity()).navigationView.findViewById(R.id.nav_header_dep_avator)));
         System.out.println(depManagerDto.getAvatorUrl());
-
     }
 
     private void initView() {
@@ -196,6 +196,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
+        ManagerMainActivity managerMainActivity = (ManagerMainActivity) getActivity();
         switch (view.getId()) {
             case R.id.manager_main_menu:
                 drawer.openDrawer(Gravity.LEFT);
@@ -217,12 +218,18 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 startActivityForResult(imageIntent, SELECT_PIC);
                 break;
             case R.id.manager_main_member_num:
-                ManagerMainActivity managerMainActivity = (ManagerMainActivity) getActivity();
                 if (managerMainActivity.memberFragment == null) {
                     managerMainActivity.memberFragment = new MemberFragment();
                 }
                 managerMainActivity.switchFragment(managerMainActivity.current, managerMainActivity.memberFragment);
                 break;
+            case R.id.manager_main_activity_num:
+                if (managerMainActivity.activityFragment == null) {
+                    managerMainActivity.activityFragment = new ActivityFragment();
+                }
+                managerMainActivity.switchFragment(managerMainActivity.current,managerMainActivity.activityFragment);
+                break;
+
         }
     }
 

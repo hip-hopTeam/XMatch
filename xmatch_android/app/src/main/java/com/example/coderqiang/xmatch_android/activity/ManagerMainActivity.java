@@ -61,7 +61,7 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
     public Fragment current;
 
     MenuItem menuItem;
-    NavigationView navigationView;
+    public NavigationView navigationView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
 
@@ -80,7 +80,7 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
 
 
     private void initData() {
-        DefaultConfig.get(getApplicationContext()).setDepmanagerId(6);
+//        DefaultConfig.get(getApplicationContext()).setDepmanagerId(6);
     }
 
     private void initView() {
@@ -147,7 +147,11 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
                 }
                 switchFragment(current, activityFragment);
                 break;
-
+            case R.id.item9:
+                Intent intent=new Intent(this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
         }
         drawer.closeDrawers();
         return true;

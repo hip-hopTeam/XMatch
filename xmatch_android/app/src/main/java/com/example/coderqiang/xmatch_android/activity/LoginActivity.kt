@@ -37,8 +37,11 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 import android.Manifest.permission.READ_CONTACTS
+import com.example.coderqiang.xmatch_android.api.DepManagerApi
 import com.example.coderqiang.xmatch_android.api.Login
 import com.example.coderqiang.xmatch_android.dao.DBManager
+import com.example.coderqiang.xmatch_android.model.DepManager
+import com.example.coderqiang.xmatch_android.util.DepManagerLab
 
 /**
  * Created by coderqiang on 2017/11/9.
@@ -197,7 +200,7 @@ class LoginActivity : AppCompatActivity() {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true)
-            login(account, password)
+            loginDepManager(account, password)
         }
     }
 
@@ -258,7 +261,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun login(muser: String, passwd: String) {
+    private fun loginUser(muser: String, passwd: String) {
         Observable.create(Observable.OnSubscribe<Int> { subscriber ->
             val user = User()
             user.passwd = passwd
@@ -318,6 +321,71 @@ class LoginActivity : AppCompatActivity() {
                     else -> Log.i(TAG, "未知错误")
                 }
                 Toast.makeText(applicationContext, loginResponse!!, Toast.LENGTH_SHORT).show()
+                mPasswordView!!.error = ResultCode.map[loginResponse]
+                mPasswordView!!.requestFocus()
+                showProgress(false)
+            }
+        })
+    }
+
+    private fun loginDepManager(managerAccount: String, passwd: String) {
+        Observable.create(Observable.OnSubscribe<Int> { subscriber ->
+            val depManager = DepManager()
+            depManager.password= passwd
+            depManager.depManagerAccount = managerAccount
+            try {
+                var loginResponse = DepManagerApi.loginManager(applicationContext,depManager.depManagerAccount,depManager.password);
+                if (loginResponse.code==ResultCode.SUCCESS){
+                    DepManagerLab.get(applicationContext).depManagerDto=loginResponse.`object`;
+                    DefaultConfig.get(applicationContext).depmanagerId= loginResponse.`object`.depManagerId.toInt();
+                    println("depId"+loginResponse.`object`.departmentId)
+                    if (loginResponse.`object`.departmentId == 0L) {
+                        subscriber.onNext(1000)
+                        return@OnSubscribe
+                    }
+                }
+                subscriber.onNext(loginResponse.code)
+            } catch (e: Exception) {
+                subscriber.onError(e)
+            }
+
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<Int> {
+            override fun onCompleted() {
+
+            }
+
+            override fun onError(e: Throwable) {
+                e.printStackTrace()
+                Toast.makeText(applicationContext, "登录失败,请检查网络连接", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNext(loginResponse: Int?) {
+                when (loginResponse) {
+                    1 -> {
+                        editor = pref!!.edit()
+                        if (mRem_passwords!!.isChecked) {
+                            editor!!.putBoolean("remember_password", true)
+                            editor!!.putString("account",managerAccount )
+                            editor!!.putString("password", passwd)
+                        } else {
+                            editor!!.clear()
+                        }
+                        editor!!.apply()
+
+                        val intent = Intent(this@LoginActivity, ManagerMainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        return
+                    }
+                    1000->{
+                        val intent = Intent(this@LoginActivity, AddDepartmentActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        return
+                    }
+                    else -> Log.i(TAG, ResultCode.map[loginResponse])
+                }
+                Toast.makeText(applicationContext, ResultCode.map[loginResponse], Toast.LENGTH_SHORT).show()
                 mPasswordView!!.error = ResultCode.map[loginResponse]
                 mPasswordView!!.requestFocus()
                 showProgress(false)
