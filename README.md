@@ -1,4 +1,4 @@
-# XMatch: 部门管理助手
+# XMatch: 部门管理助手 [![Build Status](https://travis-ci.org/hip-hopTeam/XMatch.svg?branch=master)](https://travis-ci.org/hip-hopTeam/XMatch)
 
 ## 介绍: 
 
