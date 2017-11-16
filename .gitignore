@@ -1,3 +1,11 @@
 # Ignore Python files
 *.pyc
 
+# Ignore text cache files
+*.DS_Store  
+Thumbs.db  
+*.sw?
+.#*
+*#
+*~
+*.sublime-*
