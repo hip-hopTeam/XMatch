@@ -18,7 +18,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +34,6 @@ import com.example.coderqiang.xmatch_android.activity.ChildDepartmentActivity;
 import com.example.coderqiang.xmatch_android.activity.ManagerMainActivity;
 import com.example.coderqiang.xmatch_android.api.DepManagerApi;
 import com.example.coderqiang.xmatch_android.dto.DepManagerDto;
-import com.example.coderqiang.xmatch_android.dto.DepartmentDto;
-import com.example.coderqiang.xmatch_android.model.ChildDepartment;
-import com.example.coderqiang.xmatch_android.model.DepManager;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
 import com.example.coderqiang.xmatch_android.util.PhotoClipperUtil;
@@ -47,13 +48,7 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -67,14 +62,14 @@ import static com.example.coderqiang.xmatch_android.activity.ManagerMainActivity
  */
 
 public class ManagerMainFragment extends Fragment implements View.OnClickListener {
-    private static final String TAG="ManagerMainFragment";
-    public static final int SELECT_PIC=2;
-    public static final int SELECT_CLIPPER_PIC=1;
+    private static final String TAG = "ManagerMainFragment";
+    public static final int SELECT_PIC = 2;
+    public static final int SELECT_CLIPPER_PIC = 1;
 
     @BindView(R.id.manager_main_menu)
     ImageView menuBtn;
-    @BindView(R.id.manager_add_dep_add)
-    ImageView addBtn;
+    @BindView(R.id.manager_add_dep_refresh)
+    ImageView refreshBtn;
 
 
     @BindView(R.id.manager_main_dep_name)
@@ -97,9 +92,17 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
     @BindView(R.id.manager_main_bar)
     AppBarLayout managerMainBar;
 
-    boolean isFirst=true;
+    boolean isFirst = true;
 
     DrawerLayout drawer;
+    @BindView(R.id.manager_main_notice)
+    LinearLayout managerMainNotice;
+    @BindView(R.id.manager_main_paiban)
+    LinearLayout managerMainPaiban;
+    @BindView(R.id.manager_main_activity)
+    LinearLayout managerMainActivity;
+    @BindView(R.id.manager_main_album)
+    LinearLayout managerMainAlbum;
 
 
     @Nullable
@@ -108,7 +111,6 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_manager_main, container, false);
         ButterKnife.bind(this, view);
         menuBtn = view.findViewById(R.id.manager_main_menu);
-        addBtn = view.findViewById(R.id.manager_add_dep_add);
         initData();
         initView();
         return view;
@@ -117,7 +119,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-        if (!isFirst&&DepManagerLab.get(getActivity()).getDepManagerDto() != null) {
+        if (!isFirst && DepManagerLab.get(getActivity()).getDepManagerDto() != null) {
             show(DepManagerLab.get(getActivity()).getDepManagerDto());
         }
     }
@@ -153,11 +155,11 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
             public void onNext(Object object) {
                 DepManagerDto depManagerDto = (DepManagerDto) object;
                 DepManagerLab.get(getActivity().getApplicationContext()).setDepManagerDto(depManagerDto);
-                System.out.println("depId"+DepManagerLab.get(getActivity().getApplicationContext()).getDepManagerDto().getDepartmentId());
+                System.out.println("depId" + DepManagerLab.get(getActivity().getApplicationContext()).getDepManagerDto().getDepartmentId());
                 if (depManagerDto != null) {
                     isFirst = false;
                     show(depManagerDto);
-                }else {
+                } else {
                     Toast.makeText(getContext(), "获取数据失败", Toast.LENGTH_LONG).show();
                 }
 
@@ -168,45 +170,50 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
     private void show(DepManagerDto depManagerDto) {
         managerMainName.setText(depManagerDto.getManagerName());
         managerMainSummaryTv.setText(depManagerDto.getDepSummary());
-        managerMainActivityNum.setText(depManagerDto.getActivityNum()+"");
-        managerMainChildNum.setText(depManagerDto.getChildDepNum()+"");
-        managerMainMemberNum.setText(depManagerDto.getMemberNum()+"");
-        managerMainDepName.setText(depManagerDto.getDepName()+"");
-        ((TextView)(getActivity().findViewById(R.id.nav_header_name))).setText(depManagerDto.getDepName()+"");
-        ((TextView)(getActivity().findViewById(R.id.nav_header_role))).setText(depManagerDto.getRole()+"");
+        managerMainActivityNum.setText(depManagerDto.getActivityNum() + "");
+        managerMainChildNum.setText(depManagerDto.getChildDepNum() + "");
+        managerMainMemberNum.setText(depManagerDto.getMemberNum() + "");
+        managerMainDepName.setText(depManagerDto.getDepName() + "");
+        ((TextView) (getActivity().findViewById(R.id.nav_header_name))).setText(depManagerDto.getDepName() + "");
+        ((TextView) (getActivity().findViewById(R.id.nav_header_role))).setText(depManagerDto.getRole() + "");
 
         managerMainMemberNum.setOnClickListener(this);
         managerMainChildNum.setOnClickListener(this);
         managerMainActivityNum.setOnClickListener(this);
         managerMainAvator.setOnClickListener(this);
-        Glide.with(this).load(DefaultConfig.BASE_URL+depManagerDto.getAvatorUrl())
+        Glide.with(this).load(DefaultConfig.BASE_URL + depManagerDto.getAvatorUrl())
                 .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).error(R.drawable.avator)
                 .into(managerMainAvator);
-        Glide.with(this).load(DefaultConfig.BASE_URL+depManagerDto.getImageUrl())
+        Glide.with(this).load(DefaultConfig.BASE_URL + depManagerDto.getImageUrl())
                 .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).error(R.drawable.avator)
-                .into( ((CircleImagview)((ManagerMainActivity)getActivity()).navigationView.findViewById(R.id.nav_header_dep_avator)));
+                .into(((CircleImagview) ((ManagerMainActivity) getActivity()).navigationView.findViewById(R.id.nav_header_dep_avator)));
         System.out.println(depManagerDto.getAvatorUrl());
     }
 
     private void initView() {
         drawer = getActivity().findViewById(R.id.drawer_layout);
         menuBtn.setOnClickListener(this);
-        addBtn.setOnClickListener(this);
+        refreshBtn.setOnClickListener(this);
+
     }
 
-    @Override
+    @OnClick({R.id.manager_main_notice, R.id.manager_main_paiban, R.id.manager_main_activity, R.id.manager_main_album})
     public void onClick(View view) {
         ManagerMainActivity managerMainActivity = (ManagerMainActivity) getActivity();
         switch (view.getId()) {
             case R.id.manager_main_menu:
                 drawer.openDrawer(Gravity.LEFT);
                 break;
-            case R.id.manager_add_dep_add:
-                SwtichActivityUtil.toActivity(getActivity(), AddDepartmentActivity.class);
+            case R.id.manager_add_dep_refresh:
+                RotateAnimation rotateAnimation=new RotateAnimation(0,-360,refreshBtn.getPivotX(), refreshBtn.getPivotY());
+                rotateAnimation.setDuration(1500l);
+                rotateAnimation.setInterpolator(new DecelerateInterpolator());
+                refreshBtn.startAnimation(rotateAnimation);
+                initData();
                 break;
             case R.id.manager_main_child_num:
-                Intent intent = new Intent(getActivity(),ChildDepartmentActivity.class);
-                DepManagerDto depManagerDto=DepManagerLab.get(getActivity()).getDepManagerDto();
+                Intent intent = new Intent(getActivity(), ChildDepartmentActivity.class);
+                DepManagerDto depManagerDto = DepManagerLab.get(getActivity()).getDepManagerDto();
                 intent.putExtra(ChildDepartmentActivity.DEP_NAME, depManagerDto.getDepName());
                 intent.putExtra(ChildDepartmentActivity.DEP_ID, depManagerDto.getDepartmentId());
                 startActivity(intent);
@@ -227,7 +234,25 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 if (managerMainActivity.activityFragment == null) {
                     managerMainActivity.activityFragment = new ActivityFragment();
                 }
-                managerMainActivity.switchFragment(managerMainActivity.current,managerMainActivity.activityFragment);
+                managerMainActivity.switchFragment(managerMainActivity.current, managerMainActivity.activityFragment);
+                break;
+            case R.id.manager_main_notice:
+                if (managerMainActivity.memberFragment == null) {
+                    managerMainActivity.memberFragment = new MemberFragment();
+                }
+                managerMainActivity.switchFragment(managerMainActivity.current, managerMainActivity.memberFragment);
+                break;
+            case R.id.manager_main_paiban:
+                Toast.makeText(getActivity(), "此功能即将来袭", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.manager_main_activity:
+                if (managerMainActivity.activityFragment == null) {
+                    managerMainActivity.activityFragment = new ActivityFragment();
+                }
+                managerMainActivity.switchFragment(managerMainActivity.current, managerMainActivity.activityFragment);
+                break;
+            case R.id.manager_main_album:
+                Toast.makeText(getActivity(), "此功能即将来袭", Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -237,12 +262,10 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
     {
         String sdRoot = Environment.getExternalStorageDirectory().getAbsolutePath();
         String result = sdRoot +
-                "/" + "xmatch" ;
-        if (new File(result).exists() && new File(result).isDirectory())
-        {
+                "/" + "xmatch";
+        if (new File(result).exists() && new File(result).isDirectory()) {
             return result;
-        }
-        else {
+        } else {
             return sdRoot;
         }
     }
@@ -274,7 +297,6 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
     }
 
 
-
     private void clipperBigPic(Context context, Uri uri) {
         if (null == uri) {
             return;
@@ -301,7 +323,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
         //输出图片格式
         intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
         //裁剪图片保存位置
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriForFile(getActivity(),getTempFile()));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriForFile(getActivity(), getTempFile()));
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         startActivityForResult(intent, SELECT_CLIPPER_PIC);
     }
@@ -312,8 +334,8 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
         }
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            System.out.println("package:"+getActivity().getPackageName());
-            uri = FileProvider.getUriForFile(context.getApplicationContext(), getActivity().getPackageName()+".fileprovider", file);
+            System.out.println("package:" + getActivity().getPackageName());
+            uri = FileProvider.getUriForFile(context.getApplicationContext(), getActivity().getPackageName() + ".fileprovider", file);
         } else {
             uri = Uri.fromFile(file);
         }
@@ -322,6 +344,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
 
     /**
      * 临时图片保存路径
+     *
      * @return
      */
     private File getTempFile() {
@@ -349,7 +372,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
 
                     @Override
                     public void call(Subscriber<? super Object> subscriber) {
-                        int code=DepManagerApi.imageUpLoad(file,DepManagerLab.get(getActivity()).getDepManagerDto().getDepManagerId());
+                        int code = DepManagerApi.imageUpLoad(file, DepManagerLab.get(getActivity()).getDepManagerDto().getDepManagerId());
                         subscriber.onNext(code);
                     }
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Object>() {
@@ -366,11 +389,11 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
 
                     @Override
                     public void onNext(Object o) {
-                        int result= (int) o;
+                        int result = (int) o;
                         if (result == ResultCode.Companion.getSUCCESS()) {
                             initData();
                             Toast.makeText(getContext(), "上传成功", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             Toast.makeText(getContext(), "上传失败", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -383,7 +406,5 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
 
         }
     }
-
-
 
 }

@@ -1,6 +1,8 @@
 package com.zsq.service;
 
 import com.zsq.model.Activity;
+import com.zsq.util.BaseMessage;
+import com.zsq.util.ObjectMessage;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ public interface ActivityService {
      * @param activity
      * @return
      */
-    public int addActivity(Activity activity);
+    public ObjectMessage addActivity(Activity activity);
 
     public int updateActivity(Activity activity);
 

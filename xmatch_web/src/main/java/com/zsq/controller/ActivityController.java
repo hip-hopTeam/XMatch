@@ -32,9 +32,9 @@ public class ActivityController {
     ActivityService activityservice;
 
     @RequestMapping("/add")
-    public BaseMessage addActivity(@RequestBody Activity activity) {
-        BaseMessage message = new BaseMessage();
-        message.code = activityservice.addActivity(activity);
+    public ObjectMessage addActivity(@RequestBody Activity activity) {
+        ObjectMessage message = new ObjectMessage();
+        message = activityservice.addActivity(activity);
         message.result = LsyResultCode.Companion.getMap().get(message.code);
         return message;
     }

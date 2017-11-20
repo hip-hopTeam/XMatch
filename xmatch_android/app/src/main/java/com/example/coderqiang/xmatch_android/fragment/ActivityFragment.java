@@ -1,5 +1,6 @@
 package com.example.coderqiang.xmatch_android.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.coderqiang.xmatch_android.R;
+import com.example.coderqiang.xmatch_android.activity.AddActivityActivity;
 import com.example.coderqiang.xmatch_android.adapter.ActivityAdapter;
 import com.example.coderqiang.xmatch_android.adapter.DepartmentAdapter;
 import com.example.coderqiang.xmatch_android.api.ActivityApi;
@@ -100,6 +102,13 @@ public class ActivityFragment extends Fragment {
 
     private void initView() {
         drawer = getActivity().findViewById(R.id.drawer_layout);
+        managerActivityAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), AddActivityActivity.class);
+                startActivity(intent);
+            }
+        });
         managerActivityRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         managerActivityMenu.setOnClickListener(new View.OnClickListener() {
             @Override

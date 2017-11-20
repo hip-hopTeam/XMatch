@@ -41,6 +41,26 @@ public class Activity {
     private int applyNum;
     //签到人数
     private int signIn;
+    //综测
+    private float measure;
+
+    private String depName;
+
+    public float getMeasure() {
+        return measure;
+    }
+
+    public void setMeasure(float measure) {
+        this.measure = measure;
+    }
+
+    public String getDepName() {
+        return depName;
+    }
+
+    public void setDepName(String depName) {
+        this.depName = depName;
+    }
 
     public int getApplyNum() {
         return applyNum;

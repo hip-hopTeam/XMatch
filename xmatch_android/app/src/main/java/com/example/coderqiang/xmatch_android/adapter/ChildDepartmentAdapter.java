@@ -20,6 +20,7 @@ import com.example.coderqiang.xmatch_android.fragment.ActivityFragment;
 import com.example.coderqiang.xmatch_android.model.Activity;
 import com.example.coderqiang.xmatch_android.model.ChildDepartment;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
+import com.example.coderqiang.xmatch_android.util.PhoneUtil;
 
 import java.util.List;
 
@@ -55,6 +56,18 @@ public class ChildDepartmentAdapter extends RecyclerView.Adapter {
         final ChildDepartment childDepartment = childDepartments.get(position);
         childDepartmentHolder.itemChildDepartmentEmail.setText("邮箱:    " + childDepartment.getEmail());
         childDepartmentHolder.itemChildDepartmentName.setText(childDepartment.getName());
+        childDepartmentHolder.itemChildDepartmentPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PhoneUtil.call(context,childDepartment.getPhone());
+            }
+        });
+        childDepartmentHolder.itemChildDepartmentMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PhoneUtil.sendEmail(context,childDepartment.getPhone()," ");
+            }
+        });
         if (childDepartment.getDepartmentId() == DepManagerLab.get(context).getDepManagerDto().getDepartmentId()) {
             childDepartmentHolder.itemChildDepartmentLayout.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

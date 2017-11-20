@@ -26,10 +26,9 @@
         <activity android:name=".activity.AddChildDepartmentActivtiy"/>
         <activity android:name=".activity.ActivityActivity"/>
         <activity android:name=".activity.ManagerMainActivity">
-
         </activity>
         <activity android:name=".activity.AddDepartmentActivity"/>
-
+        <activity android:name=".activity.AddActivityActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

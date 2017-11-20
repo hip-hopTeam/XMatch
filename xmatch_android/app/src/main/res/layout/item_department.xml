@@ -9,6 +9,7 @@
         android:id="@+id/item_department_avator"
         android:layout_width="@dimen/avator_size"
         android:layout_height="@dimen/avator_size"
+        android:scaleType="centerCrop"
         android:src="@drawable/avator"/>
     <LinearLayout
         android:layout_width="0dp"

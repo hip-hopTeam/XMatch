@@ -73,8 +73,7 @@ public class DepartmentAdapter extends RecyclerView.Adapter {
         departmentHolder.itemDepartmentMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String phone="13062240578";
-                PhoneUtil.sendEmail(context.getActivity(),phone,"test");
+                PhoneUtil.sendEmail(context.getActivity(),department.getEmergencyPhone(),"test");
             }
         });
         Glide.with(context).load(DefaultConfig.BASE_URL+department.getImageUrl())

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/manager_add_activity_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.design.widget.AppBarLayout
+        android:paddingTop="21dp"
+        android:id="@+id/manager_add_activity_bar"
+        android:background="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="71dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/manager_back"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/text_padding_large"
+                android:src="@drawable/ic_back_1"/>
+            <TextView
+                android:text="添加活动"
+                android:gravity="center"
+                android:textColor="@color/colorBlack"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" >
+            </TextView>
+            <ImageView
+                android:id="@+id/manager_main_search"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="8dp" />
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/text_padding"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/text_padding"
+        android:paddingRight="@dimen/text_padding"
+        android:layout_below="@id/manager_add_activity_bar">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="活动名称:"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_normal" />
+
+            <EditText
+                android:id="@+id/manager_add_activity_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_padding"
+                android:background="@drawable/corner_bg_white"
+                android:padding="4dp"
+                android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/text_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textColor="@color/colorBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="地点:"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_normal" />
+            <EditText
+                android:id="@+id/manager_add_activity_address"
+                android:layout_marginLeft="@dimen/text_padding"
+                android:padding="4dp"
+                android:background="@drawable/corner_bg_white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_padding"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="活动简介:"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_normal" />
+
+            <EditText
+                android:id="@+id/manager_add_activity_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/corner_bg_white"
+                android:gravity="top"
+                android:minHeight="128dp"
+                android:padding="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="联系方式:"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_normal" />
+
+            <EditText
+                android:id="@+id/manager_add_activity_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_padding"
+                android:background="@drawable/corner_bg_white"
+                android:padding="4dp"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="综测:"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_normal" />
+
+            <EditText
+                android:id="@+id/manager_add_activity_measure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_padding"
+                android:background="@drawable/corner_bg_white"
+                android:padding="4dp"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="开始时间:"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_normal" />
+
+            <TextView
+                android:id="@+id/manager_add_activity_startTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_padding"
+                android:background="@drawable/corner_bg_white"
+                android:padding="4dp"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="结束时间:"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_normal" />
+
+            <TextView
+                android:id="@+id/manager_add_activity_endTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_padding"
+                android:background="@drawable/corner_bg_white"
+                android:padding="4dp"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <!--<ImageView-->
+        <!--android:id="@+id/manager_add_activity_image"-->
+        <!--android:layout_width="@dimen/icon_size_super"-->
+        <!--android:layout_height="@dimen/icon_size_super"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginTop="@dimen/text_padding_large"-->
+        <!--android:src="@drawable/icon_add"/>-->
+        <!--<TextView-->
+        <!--android:id="@+id/manager_add_activity_image_tv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/icon_size_super"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:textSize="@dimen/text_size_normal"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:textColor="@color/colorBlack"-->
+        <!--android:text="添加部门主页背景"-->
+        <!--android:layout_marginTop="@dimen/text_padding_large" />-->
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/manager_add_activity_save"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="发布"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_large"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+</RelativeLayout>

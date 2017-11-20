@@ -5,7 +5,9 @@ import com.zsq.model.ActivityRepository;
 import com.zsq.model.Department;
 import com.zsq.model.DepartmentRepository;
 import com.zsq.service.ActivityService;
+import com.zsq.util.BaseMessage;
 import com.zsq.util.LsyResultCode;
+import com.zsq.util.ObjectMessage;
 import com.zsq.util.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,14 +30,17 @@ public class ActivityServiceImpl implements ActivityService{
     DepartmentRepository depRepository;
 
     @Override
-    public int addActivity(Activity activity) {
+    public ObjectMessage addActivity(Activity activity) {
         activity.setCreateTime(System.currentTimeMillis());
         activity.setSignIn(0);
         activity.setApplyNum(0);
         repository.save(activity);
         Department dep = depRepository.findOne(activity.getDepId());
         dep.setActivityNum(dep.getActivityNum()+1);
-        return LsyResultCode.Companion.getSUCCESS();
+        ObjectMessage message = new ObjectMessage();
+        message.code=LsyResultCode.Companion.getSUCCESS();
+        message.object=activity.getActivityId();
+        return message;
     }
 
     @Override
@@ -55,6 +60,8 @@ public class ActivityServiceImpl implements ActivityService{
     @Override
     public int deleteActivity(long activityId) {
         repository.delete(activityId);
+        Department department = depRepository.findOne(activityId);
+        department.setActivityNum(department.getActivityNum()-1);
         return ResultCode.Companion.getSUCCESS();
     }
 

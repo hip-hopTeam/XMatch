@@ -19,6 +19,7 @@ import com.example.coderqiang.xmatch_android.api.ActivityApi;
 import com.example.coderqiang.xmatch_android.fragment.ActivityFragment;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -56,6 +57,8 @@ public class ActivityActivity extends Activity {
     TextView activityDetailManager;
     @BindView(R.id.add_dep_name_tv)
     LinearLayout addDepNameTv;
+    @BindView(R.id.activity_detail_measure)
+    TextView activityDetailMeasure;
 
     long activityId=0;
 
@@ -122,8 +125,11 @@ public class ActivityActivity extends Activity {
     private void showData(com.example.coderqiang.xmatch_android.model.Activity activity) {
         activityDetailAddress.setText(activity.getAddress()+"");
         activityDetailContent.setText(activity.getContent()+"");
-        activityDetailTime.setText(activity.getStartTime() + " - " + activity.getEndTime());
+        SimpleDateFormat dateFormat=new SimpleDateFormat("MM月dd日 HH:mm");
+        activityDetailTime.setText(dateFormat.format(activity.getStartTime())+ " - " + dateFormat.format(activity.getEndTime()));
         activityDetailTitle.setText(activity.getActivityName());
+        activityDetailMeasure.setText(activity.getMeasure()+"");
+        activityDetailManager.setText(activity.getDepName()+"");
         Glide.with(this).load(DefaultConfig.BASE_URL+activity.getImageUrl())
                 .asBitmap().error(R.drawable.avator)
                 .into(activityDetailImage);

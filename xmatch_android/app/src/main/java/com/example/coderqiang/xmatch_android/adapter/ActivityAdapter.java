@@ -107,6 +107,7 @@ public class ActivityAdapter extends RecyclerView.Adapter {
                             if (result == ResultCode.Companion.getSUCCESS()) {
                                 Toast.makeText(activityFragment.getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
                                 activityFragment.initData();
+                                DepManagerLab.get(activityFragment.getContext()).getDepManagerDto().setActivityNum(DepManagerLab.get(activityFragment.getContext()).getDepManagerDto().getActivityNum()-1);
                             }else {
                                 Toast.makeText(activityFragment.getActivity(), "删除失败", Toast.LENGTH_SHORT).show();
                             }

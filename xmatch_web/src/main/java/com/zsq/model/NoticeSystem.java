@@ -16,9 +16,21 @@ public class NoticeSystem {
     @Column(unique = true,nullable = false)
     private long appNoticeId;
 
-    private long[] userId;
+    private long userId;
 
     private int statusOfNotice;//已读为0，未读为1
+
+    public void setNoticeSystemId(Long noticeSystemId) {
+        this.noticeSystemId = noticeSystemId;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
     public int getStatusOfNotice() {
         return statusOfNotice;
@@ -40,11 +52,4 @@ public class NoticeSystem {
         this.appNoticeId = appNoticeId;
     }
 
-    public long[] getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long[] userId) {
-        this.userId = userId;
-    }
 }
