@@ -1,7 +1,9 @@
 package com.example.coderqiang.xmatch_android.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -10,7 +12,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -29,6 +33,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.coderqiang.xmatch_android.R;
+import com.example.coderqiang.xmatch_android.activity.ActivityListActivity;
 import com.example.coderqiang.xmatch_android.activity.AddDepartmentActivity;
 import com.example.coderqiang.xmatch_android.activity.ChildDepartmentActivity;
 import com.example.coderqiang.xmatch_android.activity.ManagerMainActivity;
@@ -74,7 +79,6 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
 
     @BindView(R.id.manager_main_dep_name)
     TextView managerMainDepName;
-
     @BindView(R.id.manager_main_avator)
     CircleImagview managerMainAvator;
     @BindView(R.id.manager_main_name)
@@ -194,7 +198,6 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
         drawer = getActivity().findViewById(R.id.drawer_layout);
         menuBtn.setOnClickListener(this);
         refreshBtn.setOnClickListener(this);
-
     }
 
     @OnClick({R.id.manager_main_notice, R.id.manager_main_paiban, R.id.manager_main_activity, R.id.manager_main_album})
@@ -219,6 +222,17 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.manager_main_avator:
+                if (ContextCompat.checkSelfPermission(this.getActivity(),
+                        Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS)
+                        != PackageManager.PERMISSION_GRANTED||ContextCompat.checkSelfPermission(this.getActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED){
+                    System.out.println("权限没给1");
+                        //进行权限请求
+                    ActivityCompat.requestPermissions(this.getActivity(),
+                                new String[]{Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                2);
+                }
                 Intent imageIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 imageIntent.addCategory(Intent.CATEGORY_OPENABLE);
                 imageIntent.setType("image/*");
@@ -231,10 +245,8 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 managerMainActivity.switchFragment(managerMainActivity.current, managerMainActivity.memberFragment);
                 break;
             case R.id.manager_main_activity_num:
-                if (managerMainActivity.activityFragment == null) {
-                    managerMainActivity.activityFragment = new ActivityFragment();
-                }
-                managerMainActivity.switchFragment(managerMainActivity.current, managerMainActivity.activityFragment);
+                Intent activityListIntent = new Intent(getActivity(), ActivityListActivity.class);
+                startActivity(activityListIntent);
                 break;
             case R.id.manager_main_notice:
                 if (managerMainActivity.memberFragment == null) {
@@ -246,10 +258,8 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 Toast.makeText(getActivity(), "此功能即将来袭", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.manager_main_activity:
-                if (managerMainActivity.activityFragment == null) {
-                    managerMainActivity.activityFragment = new ActivityFragment();
-                }
-                managerMainActivity.switchFragment(managerMainActivity.current, managerMainActivity.activityFragment);
+                Intent activityListIntent2 = new Intent(getActivity(), ActivityListActivity.class);
+                startActivity(activityListIntent2);
                 break;
             case R.id.manager_main_album:
                 Toast.makeText(getActivity(), "此功能即将来袭", Toast.LENGTH_SHORT).show();
@@ -260,9 +270,8 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
 
     public static String getImageCachePath()//给图片一个存储路径
     {
-        String sdRoot = Environment.getExternalStorageDirectory().getAbsolutePath();
-        String result = sdRoot +
-                "/" + "xmatch";
+        String sdRoot = File.separator+"mnt"+File.separator+"sdcard";
+        String result = sdRoot;
         if (new File(result).exists() && new File(result).isDirectory()) {
             return result;
         } else {
@@ -287,6 +296,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
             case SELECT_PIC:
                 //获取图片后裁剪图片
                 clipperBigPic(getActivity(), data.getData());
+//                saveBitmap(data);
                 break;
             case SELECT_CLIPPER_PIC:
                 //获取图片后保存图片到本地，是否需要保存看情况而定

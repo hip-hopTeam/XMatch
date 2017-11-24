@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -20,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +36,7 @@ import com.example.coderqiang.xmatch_android.fragment.ActivityFragment;
 import com.example.coderqiang.xmatch_android.fragment.DepartmentFragment;
 import com.example.coderqiang.xmatch_android.fragment.ManagerMainFragment;
 import com.example.coderqiang.xmatch_android.fragment.MemberFragment;
+import com.example.coderqiang.xmatch_android.fragment.NoticeFragment;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 import com.example.coderqiang.xmatch_android.util.PhotoClipperUtil;
 
@@ -43,6 +46,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +68,7 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
     public MemberFragment memberFragment;
     public DepartmentFragment departmentFragment;
     public ActivityFragment activityFragment;
+    public NoticeFragment noticeFragment;
     public Fragment current;
 
     MenuItem menuItem;
@@ -74,13 +79,15 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
     private int menuSelect = 0;
 
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_manager);
+//        requestPermission();
         ButterKnife.bind(this);
         setConfig();
-        requestPermission();
         initData();
         initView();
         setStatusBarDarkMode(true,this);
@@ -170,6 +177,12 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
                 }
                 switchFragment(current, activityFragment);
                 break;
+            case R.id.item5:
+                if (noticeFragment == null) {
+                    noticeFragment = new NoticeFragment();
+                }
+                switchFragment(current, noticeFragment);
+                break;
             case R.id.item9:
                 Intent intent=new Intent(this,LoginActivity.class);
                 startActivity(intent);
@@ -185,7 +198,7 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-
+            System.out.println("权限没给2");
             //如果App的权限申请曾经被用户拒绝过，就需要在这里跟用户做出解释
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -193,11 +206,34 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
             } else {
                 //进行权限请求
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CALL_PHONE,Manifest.permission.SEND_SMS},
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CALL_PHONE,Manifest.permission.SEND_SMS,
+                                Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS},
                         1);
             }
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder logoutDialog =
+                new AlertDialog.Builder(ManagerMainActivity.this);
+        logoutDialog.setTitle("退出");
+        logoutDialog.setMessage("当前已经是首页，确定退出?");
+        logoutDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ManagerMainActivity.super.onBackPressed();
+                    }
+                });;
+        logoutDialog.setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        logoutDialog.show();
+    }
 }
 

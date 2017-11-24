@@ -13,7 +13,6 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long activityId;
 
-
     //部门
     private long depId;
     //活动名称

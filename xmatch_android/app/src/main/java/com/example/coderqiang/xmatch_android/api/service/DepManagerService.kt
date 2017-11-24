@@ -20,6 +20,7 @@ interface DepManagerService {
     fun depmanagerLogin(@Query("depManagerAccount") depManagerAccount:String,
                         @Query("password") password:String): Call<ObjectMessage<DepManagerDto>>
 
+
     @GET("api/depManager/get/{id}")
     fun getDepManagerById(@Path("id")depManagerId:Long): Call<ObjectMessage<DepManager>>
 

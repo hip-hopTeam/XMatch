@@ -27,6 +27,16 @@ public class AppNotice {
     //发送消息的部门
     private long departmentId;
 
+    private String deparmentName;
+
+    public String getDeparmentName() {
+        return deparmentName;
+    }
+
+    public void setDeparmentName(String deparmentName) {
+        this.deparmentName = deparmentName;
+    }
+
     public long getAppNoticeId() {
         return appNoticeId;
     }

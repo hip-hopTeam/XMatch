@@ -20,6 +20,7 @@ import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.adapter.ActivityAdapter;
 import com.example.coderqiang.xmatch_android.api.ActivityApi;
 import com.example.coderqiang.xmatch_android.dto.BaseMessage;
+import com.example.coderqiang.xmatch_android.dto.DepManagerDto;
 import com.example.coderqiang.xmatch_android.dto.DepManagerMessage;
 import com.example.coderqiang.xmatch_android.dto.IntResultMessage;
 import com.example.coderqiang.xmatch_android.dto.MemberDto;
@@ -160,6 +161,8 @@ public class AddActivityActivity extends Activity {
                         Intent intent = new Intent(AddActivityActivity.this, ActivityActivity.class);
                         System.out.println("id:"+message.getObject());
                         intent.putExtra(ActivityActivity.INTENT_ACTIVITY_ID, message.getObject());
+                        DepManagerDto depManagerDto = DepManagerLab.get(getApplicationContext()).getDepManagerDto();
+                        depManagerDto.setActivityNum(depManagerDto.getActivityNum() + 1);
                         startActivity(intent);
                         finish();
                         return;

@@ -18,6 +18,11 @@ interface ActivitySevice{
     fun getAllActivities(): Call<ObjectMessage<List<Activity>>>
 
     @GET("api/activity/get")
+    fun getDepActivities(@Query("type")type:Int,
+                         @Query("activityId")activityId: Long,
+                         @Query("departmentId")departmentId: Long): Call<ObjectMessage<List<Activity>>>
+
+    @GET("api/activity/get")
     fun getActivity(@Query("activityId")activityId:Long,
                     @Query("departmentId")departmentId:Long,
                     @Query("type")type:Long): Call<ObjectMessage<List<Activity>>>

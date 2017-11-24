@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.design.widget.AppBarLayout
+        android:paddingTop="21dp"
+        android:id="@+id/manager_add_dep_bar"
+        android:background="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="71dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/activity_detail_back"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/text_padding_large"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_back_1"/>
+            <TextView
+                android:layout_centerInParent="true"
+                android:text="通知详情"
+                android:gravity="center"
+                android:textColor="@color/colorBlack"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent" >
+            </TextView>
+            <TextView
+                android:id="@+id/item_notice_detaile_date"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center_vertical"
+                android:text="2017.12.21 12:63"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp" />
+        </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/corner_bg_white"
+            android:padding="8dp">
+            <TextView
+                android:id="@+id/item_notice_detaile_avator"
+                android:layout_width="@dimen/avator_size"
+                android:layout_height="@dimen/avator_size"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/notice_avator_circle"
+                android:text="外"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                />
+            <TextView
+                android:id="@+id/item_notice_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:text="关于"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_notice_detail_content"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/corner_bg_white"
+            android:padding="8dp"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/colorBlack"
+            android:lineSpacingExtra="8sp"
+            android:text="爱的快乐放声大哭福建省卡里的奋进阿萨德开了房间开始机框架看看啥发件方 "/>
+
+    </LinearLayout>
+
+</LinearLayout>

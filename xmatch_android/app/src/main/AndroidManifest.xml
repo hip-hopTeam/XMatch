@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.coderqiang.xmatch_android">
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,6 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.ActivityListActivity"/>
+        <activity android:name=".activity.SignUpActivity"/>
         <activity android:name=".activity.ChildDepartmentActivity"/>
         <activity android:name=".activity.AddChildDepartmentActivtiy"/>
         <activity android:name=".activity.ActivityActivity"/>
@@ -29,6 +32,8 @@
         </activity>
         <activity android:name=".activity.AddDepartmentActivity"/>
         <activity android:name=".activity.AddActivityActivity"/>
+        <activity android:name=".activity.AddNoticeActivity" />
+        <activity android:name=".activity.NoticeActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

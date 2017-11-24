@@ -60,7 +60,24 @@ public class ActivityApi {
         Call<ObjectMessage<List<Activity>>> call = service.getAllActivities();
         try {
             ObjectMessage<List<Activity>> message = call.execute().body();
-            System.out.println("code:"+message.getObject().size());
+            return message.getObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<Activity> getDepActivity(long depId) {
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DefaultConfig.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ActivitySevice service = retrofit.create(ActivitySevice.class);
+        Call<ObjectMessage<List<Activity>>> call = service.getDepActivities(1,-1,depId);
+        try {
+            ObjectMessage<List<Activity>> message = call.execute().body();
             return message.getObject();
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,6 +104,7 @@ public class ActivityApi {
     }
 
     public static int deleteActivity(Context context,long activityId) {
+        System.out.println("activityId:" + activityId);
         OkHttpClient client = new OkHttpClient();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(DefaultConfig.BASE_URL)

@@ -23,12 +23,11 @@ public class NoticeSystemController {
 
     @RequestMapping("/add")
     public BaseMessage addStatusOfNotice(@RequestParam("appNoticeId")long appNoticeId,
-                                         @RequestParam("userId")String strUserId,
+                                         @RequestParam("userId")long userId,
                                          @RequestParam("statusOfNotice")int statusOfNotice) {
         BaseMessage message = new BaseMessage();
 
         //Json数组转long数组待解决
-        long[] userId = new long[1];
 
         message.code = noticeSystemService.addStatusOfNotice(appNoticeId, userId, statusOfNotice);
         message.result = ThoResultCode.Companion.getMap().get(message.code);

@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by hp on 2017/11/13.
@@ -29,6 +28,7 @@ public class ActivityServiceImpl implements ActivityService{
     @Autowired
     DepartmentRepository depRepository;
 
+    @javax.transaction.Transactional
     @Override
     public ObjectMessage addActivity(Activity activity) {
         activity.setCreateTime(System.currentTimeMillis());
@@ -59,9 +59,10 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     public int deleteActivity(long activityId) {
-        repository.delete(activityId);
-        Department department = depRepository.findOne(activityId);
-        department.setActivityNum(department.getActivityNum()-1);
+        Activity activity = repository.findOne(activityId);
+        Department department = depRepository.findOne(activity.getDepId());
+        department.setActivityNum(department.getActivityNum()>0?department.getActivityNum()-1:0);
+        repository.delete(activity);
         return ResultCode.Companion.getSUCCESS();
     }
 
@@ -82,12 +83,29 @@ public class ActivityServiceImpl implements ActivityService{
                 activities = repository.findActivitiesByDepId(departmentId);
             }
         }
+        Collections.sort(activities, (o1, o2) -> {
+            if (o1.getCreateTime() > o2.getCreateTime()) {
+                return -1;
+            } else if (o1.getCreateTime() < o2.getCreateTime()) {
+                return 1;
+            }
+            return 0;
+        });
         return activities;
     }
 
     @Override
     public List<Activity> getAllActivity() {
         List<Activity> activities = repository.findAll();
+
+        Collections.sort(activities, (o1, o2) -> {
+            if (o1.getCreateTime() > o2.getCreateTime()) {
+                return -1;
+            } else if (o1.getCreateTime() < o2.getCreateTime()) {
+                return 1;
+            }
+            return 0;
+        });
         return activities;
     }
 

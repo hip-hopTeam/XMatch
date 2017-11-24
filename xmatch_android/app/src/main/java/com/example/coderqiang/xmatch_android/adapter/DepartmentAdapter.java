@@ -77,7 +77,7 @@ public class DepartmentAdapter extends RecyclerView.Adapter {
             }
         });
         Glide.with(context).load(DefaultConfig.BASE_URL+department.getImageUrl())
-                .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).error(R.drawable.avator)
+                .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).error(R.drawable.avator)
                 .into(departmentHolder.itemDepartmentAvator);
 
     }

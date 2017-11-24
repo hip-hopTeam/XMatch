@@ -66,6 +66,26 @@ public class DepManagerApi {
     }
 
 
+    public static BaseMessage signUpManager(DepManager depManager) {
+        OkHttpClient client = new OkHttpClient();
+        Request request=new Request.Builder()
+                .url(DefaultConfig.BASE_URL+"/api/depManager/add")
+                .addHeader("content-type","application/json;charset:utf-8")
+                .put(RequestBody.create(
+                        MediaType.parse("application/json; charset=utf-8"),
+                        new Gson().toJson(depManager)
+                )).build();
+        try {
+            okhttp3.Response response=client.newCall(request).execute();
+            BaseMessage message = new Gson().fromJson(response.body().string(), BaseMessage.class);
+            return message;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public static DepManagerDto getDepmanager(long depManagerId) {
         OkHttpClient client = new OkHttpClient();
         Request request=new Request.Builder()
