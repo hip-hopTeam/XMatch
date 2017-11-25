@@ -66,6 +66,33 @@ public class ActivityController {
         return message;
     }
 
+    @RequestMapping("/image/add")
+    public BaseMessage addActivityImage(
+            @RequestParam("file")MultipartFile file,
+            @RequestParam("activityId")long activityId,
+            HttpServletRequest request) {
+        BaseMessage message = new BaseMessage();
+
+        String rootPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
+        String prefix=file.getOriginalFilename().replaceAll(".*(\\.(.*))","$1");
+        String url="/image_activity/"+activityId+prefix;
+        File avator = new File(rootPath+"/static"+url);
+        if (!avator.getParentFile().exists()) {
+            avator.getParentFile().mkdirs();
+        }
+        try {
+            file.transferTo(avator);
+            message.code = LsyResultCode.Companion.getERROR();
+            message.result= LsyResultCode.Companion.getMap().get(message.code);
+            return message;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        message.code = activityservice.addActivityImage(activityId, url);
+        message.result = LsyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
     @RequestMapping("/get")
     public ObjectMessage getActivity(@RequestParam long activityId,
                                      @RequestParam long departmentId,
