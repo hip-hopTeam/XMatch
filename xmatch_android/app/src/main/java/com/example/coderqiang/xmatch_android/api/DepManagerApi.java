@@ -140,6 +140,25 @@ public class DepManagerApi {
         return null;
     }
 
+    public static BaseMessage updateDepartment(Department department){
+        OkHttpClient client = new OkHttpClient();
+        Request request=new Request.Builder()
+                .url(DefaultConfig.BASE_URL+"/api/department/update")
+                .addHeader("content-type","application/json;charset:utf-8")
+                .put(RequestBody.create(
+                        MediaType.parse("application/json; charset=utf-8"),
+                        new Gson().toJson(department)
+                )).build();
+        try {
+            okhttp3.Response response=client.newCall(request).execute();
+            BaseMessage message = new Gson().fromJson(response.body().string(), BaseMessage.class);
+            return message;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static BaseMessage addChildDepartment(ChildDepartment childDepartment){
         OkHttpClient client = new OkHttpClient();
         Request request=new Request.Builder()

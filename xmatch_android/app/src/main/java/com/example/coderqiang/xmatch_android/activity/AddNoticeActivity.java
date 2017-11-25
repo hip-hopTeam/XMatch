@@ -24,6 +24,7 @@ import com.example.coderqiang.xmatch_android.model.AppNotice;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
 import com.example.coderqiang.xmatch_android.util.ResultCode;
 import com.example.coderqiang.xmatch_android.util.WindowUtil;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +96,7 @@ public class AddNoticeActivity extends Activity {
                     }
                 })
                         .setSelectOptions(0)
-                        .setTitleText("当前周")
+                        .setTitleText("通知类型")
                         .build();
                 List<String> types = new ArrayList<>();
                 types.add("全校");
@@ -144,9 +145,9 @@ public class AddNoticeActivity extends Activity {
                     if (message.code == ResultCode.Companion.getSUCCESS()) {
                         result="添加成功";
                         Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AddNoticeActivity.this, ActivityActivity.class);
+                        Intent intent = new Intent(AddNoticeActivity.this, NoticeActivity.class);
                         System.out.println("id:"+message.getObject());
-                        intent.putExtra(ActivityActivity.INTENT_ACTIVITY_ID, message.getObject());
+                        intent.putExtra(NoticeActivity.EXTRA_NOTICE, new Gson().toJson(appNotice));
                         startActivity(intent);
                         finish();
                         return;

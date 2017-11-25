@@ -52,6 +52,7 @@ public class DepartmentServiceImpl implements DepartmentService {
             return LsyResultCode.Companion.getDEP_NOT_EXIT();
         }
         resDep.setDepSummary(dep.getDepSummary());
+        resDep.setEmergencyPhone(dep.getEmergencyPhone());
         return LsyResultCode.Companion.getSUCCESS();
     }
 

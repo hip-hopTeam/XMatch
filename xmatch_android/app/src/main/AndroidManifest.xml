@@ -28,12 +28,13 @@
         <activity android:name=".activity.ChildDepartmentActivity"/>
         <activity android:name=".activity.AddChildDepartmentActivtiy"/>
         <activity android:name=".activity.ActivityActivity"/>
-        <activity android:name=".activity.ManagerMainActivity">
-        </activity>
+        <activity android:name=".activity.ManagerMainActivity"/>
         <activity android:name=".activity.AddDepartmentActivity"/>
         <activity android:name=".activity.AddActivityActivity"/>
         <activity android:name=".activity.AddNoticeActivity" />
         <activity android:name=".activity.NoticeActivity"/>
+        <activity android:name=".activity.SettingActivity"/>
+        <activity android:name=".activity.EditDepartmentActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

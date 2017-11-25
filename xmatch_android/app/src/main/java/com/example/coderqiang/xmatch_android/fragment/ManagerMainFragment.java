@@ -36,7 +36,9 @@ import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.activity.ActivityListActivity;
 import com.example.coderqiang.xmatch_android.activity.AddDepartmentActivity;
 import com.example.coderqiang.xmatch_android.activity.ChildDepartmentActivity;
+import com.example.coderqiang.xmatch_android.activity.EditDepartmentActivity;
 import com.example.coderqiang.xmatch_android.activity.ManagerMainActivity;
+import com.example.coderqiang.xmatch_android.activity.SettingActivity;
 import com.example.coderqiang.xmatch_android.api.DepManagerApi;
 import com.example.coderqiang.xmatch_android.dto.DepManagerDto;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
@@ -200,7 +202,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
         refreshBtn.setOnClickListener(this);
     }
 
-    @OnClick({R.id.manager_main_notice, R.id.manager_main_paiban, R.id.manager_main_activity, R.id.manager_main_album})
+    @OnClick({R.id.manager_main_notice, R.id.manager_main_paiban, R.id.manager_main_activity, R.id.manager_main_album,R.id.manager_main_setting_btn})
     public void onClick(View view) {
         ManagerMainActivity managerMainActivity = (ManagerMainActivity) getActivity();
         switch (view.getId()) {
@@ -254,6 +256,10 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 }
                 managerMainActivity.switchFragment(managerMainActivity.current, managerMainActivity.memberFragment);
                 break;
+            case R.id.manager_main_setting_btn:
+                Intent settingIntent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(settingIntent);
+                break;
             case R.id.manager_main_paiban:
                 Toast.makeText(getActivity(), "此功能即将来袭", Toast.LENGTH_SHORT).show();
                 break;
@@ -268,23 +274,12 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    public static String getImageCachePath()//给图片一个存储路径
-    {
-        String sdRoot = File.separator+"mnt"+File.separator+"sdcard";
-        String result = sdRoot;
-        if (new File(result).exists() && new File(result).isDirectory()) {
-            return result;
-        } else {
-            return sdRoot;
-        }
-    }
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -303,6 +298,17 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 saveBitmap(data);
                 //显示图片
                 break;
+        }
+    }
+
+    public static String getImageCachePath()//给图片一个存储路径
+    {
+        String sdRoot = File.separator+"mnt"+File.separator+"sdcard";
+        String result = sdRoot;
+        if (new File(result).exists() && new File(result).isDirectory()) {
+            return result;
+        } else {
+            return sdRoot;
         }
     }
 

@@ -95,7 +95,6 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
 
 
     private void initData() {
-
 //        DefaultConfig.get(getApplicationContext()).setDepmanagerId(6);
     }
 
@@ -182,6 +181,10 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
                     noticeFragment = new NoticeFragment();
                 }
                 switchFragment(current, noticeFragment);
+                break;
+            case R.id.item8:
+                Intent settingIntent=new Intent(this,SettingActivity.class);
+                startActivity(settingIntent);
                 break;
             case R.id.item9:
                 Intent intent=new Intent(this,LoginActivity.class);

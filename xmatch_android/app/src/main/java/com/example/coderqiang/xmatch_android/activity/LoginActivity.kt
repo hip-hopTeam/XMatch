@@ -162,11 +162,11 @@ class LoginActivity : AppCompatActivity() {
         mPasswordView!!.error = null
 
         // Store values at the time of the login attempt.
-//        val account = mAccountView!!.text.toString()
-//        val password = mPasswordView!!.text.toString()
+        val account = mAccountView!!.text.toString()
+        val password = mPasswordView!!.text.toString()
 
-        val account = "west2online"
-        val password="123123"
+//        val account = "west2online"
+//        val password="123123"
 
         var cancel = false
         var focusView: View? = null

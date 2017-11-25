@@ -21,6 +21,7 @@ import com.example.coderqiang.xmatch_android.dto.DepManagerDto;
 import com.example.coderqiang.xmatch_android.model.ChildDepartment;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
 import com.example.coderqiang.xmatch_android.util.ResultCode;
+import com.example.coderqiang.xmatch_android.util.WindowUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +63,7 @@ public class AddChildDepartmentActivtiy extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activtity_main_add_child_department);
         ButterKnife.bind(this);
-
+        WindowUtil.setConfig(this);
     }
 
     @OnClick({R.id.manager_back, R.id.manager_add_child_save})
