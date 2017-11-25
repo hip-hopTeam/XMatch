@@ -5,14 +5,16 @@ import com.zsq.model.ActivityRepository;
 import com.zsq.model.Department;
 import com.zsq.model.DepartmentRepository;
 import com.zsq.service.ActivityService;
+import com.zsq.util.BaseMessage;
 import com.zsq.util.LsyResultCode;
+import com.zsq.util.ObjectMessage;
+import com.zsq.util.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by hp on 2017/11/13.
@@ -26,15 +28,19 @@ public class ActivityServiceImpl implements ActivityService{
     @Autowired
     DepartmentRepository depRepository;
 
+    @javax.transaction.Transactional
     @Override
-    public int addActivity(Activity activity) {
+    public ObjectMessage addActivity(Activity activity) {
         activity.setCreateTime(System.currentTimeMillis());
         activity.setSignIn(0);
         activity.setApplyNum(0);
         repository.save(activity);
         Department dep = depRepository.findOne(activity.getDepId());
         dep.setActivityNum(dep.getActivityNum()+1);
-        return LsyResultCode.Companion.getSUCCESS();
+        ObjectMessage message = new ObjectMessage();
+        message.code=LsyResultCode.Companion.getSUCCESS();
+        message.object=activity.getActivityId();
+        return message;
     }
 
     @Override
@@ -49,6 +55,15 @@ public class ActivityServiceImpl implements ActivityService{
         resActivity.setEndTime(activity.getEndTime());
         resActivity.setManagerPhone(activity.getManagerPhone());
         return LsyResultCode.Companion.getSUCCESS();
+    }
+
+    @Override
+    public int deleteActivity(long activityId) {
+        Activity activity = repository.findOne(activityId);
+        Department department = depRepository.findOne(activity.getDepId());
+        department.setActivityNum(department.getActivityNum()>0?department.getActivityNum()-1:0);
+        repository.delete(activity);
+        return ResultCode.Companion.getSUCCESS();
     }
 
     @Override
@@ -68,12 +83,29 @@ public class ActivityServiceImpl implements ActivityService{
                 activities = repository.findActivitiesByDepId(departmentId);
             }
         }
+        Collections.sort(activities, (o1, o2) -> {
+            if (o1.getCreateTime() > o2.getCreateTime()) {
+                return -1;
+            } else if (o1.getCreateTime() < o2.getCreateTime()) {
+                return 1;
+            }
+            return 0;
+        });
         return activities;
     }
 
     @Override
     public List<Activity> getAllActivity() {
         List<Activity> activities = repository.findAll();
+
+        Collections.sort(activities, (o1, o2) -> {
+            if (o1.getCreateTime() > o2.getCreateTime()) {
+                return -1;
+            } else if (o1.getCreateTime() < o2.getCreateTime()) {
+                return 1;
+            }
+            return 0;
+        });
         return activities;
     }
 

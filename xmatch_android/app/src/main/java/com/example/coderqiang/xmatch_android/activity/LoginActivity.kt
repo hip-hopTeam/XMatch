@@ -37,8 +37,11 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 import android.Manifest.permission.READ_CONTACTS
+import com.example.coderqiang.xmatch_android.api.DepManagerApi
 import com.example.coderqiang.xmatch_android.api.Login
 import com.example.coderqiang.xmatch_android.dao.DBManager
+import com.example.coderqiang.xmatch_android.model.DepManager
+import com.example.coderqiang.xmatch_android.util.DepManagerLab
 
 /**
  * Created by coderqiang on 2017/11/9.
@@ -54,11 +57,12 @@ class LoginActivity : AppCompatActivity() {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     // UI references.
-    private var mAccountView: AutoCompleteTextView? = null
-    private var mPasswordView: EditText? = null
+    var mAccountView: AutoCompleteTextView? = null
+    var mPasswordView: EditText? = null
     private var mLoginFormView: View? = null
     private var mRem_passwords: Switch? = null
     private var loadingView: AVLoadingIndicatorView? = null
+    var signUpBtn:TextView?=null
 
     private var pref: SharedPreferences? = null
     private var editor: SharedPreferences.Editor? = null
@@ -84,9 +88,10 @@ class LoginActivity : AppCompatActivity() {
         // Set up the login form.
         mAccountView = findViewById<View>(R.id.account) as AutoCompleteTextView
         populateAutoComplete()
-
         loadingView = findViewById<View>(R.id.login_loading) as AVLoadingIndicatorView
         mPasswordView = findViewById<View>(R.id.password) as EditText
+        signUpBtn=findViewById<View>(R.id.login_sign_up) as TextView
+        signUpBtn!!.setOnClickListener{signUp()}
         mPasswordView!!.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
             Log.i(TAG, "onEditorAction: Id:" + id)
             if (id == EditorInfo.IME_NULL || id == 6) {
@@ -95,23 +100,11 @@ class LoginActivity : AppCompatActivity() {
             }
             false
         })
-
         val signInButton = findViewById<View>(R.id.sign_in_button) as Button
         signInButton.setOnClickListener { attemptLogin() }
 
         mLoginFormView = findViewById(R.id.login_form)
         mRem_passwords = findViewById<View>(R.id.rem_passwords) as Switch
-
-        //记住密码功能
-        pref = PreferenceManager.getDefaultSharedPreferences(this)
-        val isRemember = pref!!.getBoolean("remember_password", false)
-        if (isRemember) {
-            val account = pref!!.getString("account", "")
-            val password = pref!!.getString("password", "")
-            mAccountView!!.setText(account)
-            mPasswordView!!.setText(password)
-            mRem_passwords!!.isChecked = true
-        }
     }
 
     private fun setLayout() {
@@ -172,6 +165,9 @@ class LoginActivity : AppCompatActivity() {
         val account = mAccountView!!.text.toString()
         val password = mPasswordView!!.text.toString()
 
+//        val account = "west2online"
+//        val password="123123"
+
         var cancel = false
         var focusView: View? = null
 
@@ -197,8 +193,13 @@ class LoginActivity : AppCompatActivity() {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true)
-            login(account, password)
+            loginDepManager(account, password)
         }
+    }
+
+    fun signUp(){
+        var intent=Intent(this@LoginActivity, SignUpActivity::class.java)
+        startActivity(intent)
     }
 
     private fun isPasswordValid(password: String): Boolean {
@@ -240,13 +241,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    private fun addEmailsToAutoComplete(emailAddressCollection: List<String>) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        val adapter = ArrayAdapter(this@LoginActivity,
-                android.R.layout.simple_dropdown_item_1line, emailAddressCollection)
-
-        mAccountView!!.setAdapter(adapter)
-    }
+//    private fun addEmailsToAutoComplete(emailAddressCollection: List<String>) {
+//        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+//        val adapter = ArrayAdapter(this@LoginActivity,
+//                android.R.layout.simple_dropdown_item_1line, emailAddressCollection)
+//
+//        mAccountView!!.setAdapter(adapter)
+//    }
 
 
     private interface ProfileQuery {
@@ -258,36 +259,94 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun login(muser: String, passwd: String) {
+//    private fun loginUser(muser: String, passwd: String) {
+//        Observable.create(Observable.OnSubscribe<Int> { subscriber ->
+//            val user = User()
+//            user.passwd = passwd
+//            user.stuNo = muser
+//            val dbManager = DBManager(applicationContext)
+//            val users = dbManager.queryUserList()
+//            var isExist = false
+//            for (resUser in users) {
+//                Log.i(TAG, "user " + resUser.stuNo)
+//                if (resUser.stuNo == user.stuNo) {
+//                    resUser.passwd = user.passwd
+//                    resUser.setIsLogin(true)
+//                    dbManager.updateUser(resUser)
+//                    isExist = true
+//                    break
+//                }
+//            }
+//            if (!isExist) {
+//                user.setIsLogin(true)
+//                dbManager.insertUser(user)
+//            }
+//            DefaultConfig.get(applicationContext).stuNo = user.stuNo
+//            var loginResponse = 0
+//            try {
+//                loginResponse = Login.loginUser(user)
+//            } catch (e: Exception) {
+//                subscriber.onError(e)
+//            }
+//            subscriber.onNext(loginResponse)
+//        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<Int> {
+//            override fun onCompleted() {
+//
+//            }
+//
+//            override fun onError(e: Throwable) {
+//                e.printStackTrace()
+//                Toast.makeText(applicationContext, "登录失败,请检查网络连接", Toast.LENGTH_SHORT).show()
+//            }
+//
+//            override fun onNext(loginResponse: Int?) {
+//                when (loginResponse) {
+//                    1 -> {
+//                        editor = pref!!.edit()
+//                        if (mRem_passwords!!.isChecked) {
+//                            editor!!.putBoolean("remember_password", true)
+//                            editor!!.putString("account", muser)
+//                            editor!!.putString("password", passwd)
+//                        } else {
+//                            editor!!.clear()
+//                        }
+//                        editor!!.apply()
+//                        val intent = Intent(this@LoginActivity, ManagerMainActivity::class.java)
+//                        startActivity(intent)
+//                        finish()
+//                        return
+//                    }
+//                    else -> Log.i(TAG, "未知错误")
+//                }
+//                Toast.makeText(applicationContext, loginResponse!!, Toast.LENGTH_SHORT).show()
+//                mPasswordView!!.error = ResultCode.map[loginResponse]
+//                mPasswordView!!.requestFocus()
+//                showProgress(false)
+//            }
+//        })
+//    }
+
+    private fun loginDepManager(managerAccount: String, passwd: String) {
         Observable.create(Observable.OnSubscribe<Int> { subscriber ->
-            val user = User()
-            user.passwd = passwd
-            user.stuNo = muser
-            val dbManager = DBManager(applicationContext)
-            val users = dbManager.queryUserList()
-            var isExist = false
-            for (resUser in users) {
-                Log.i(TAG, "user " + resUser.stuNo)
-                if (resUser.stuNo == user.stuNo) {
-                    resUser.passwd = user.passwd
-                    resUser.setIsLogin(true)
-                    dbManager.updateUser(resUser)
-                    isExist = true
-                    break
-                }
-            }
-            if (!isExist) {
-                user.setIsLogin(true)
-                dbManager.insertUser(user)
-            }
-            DefaultConfig.get(applicationContext).stuNo = user.stuNo
-            var loginResponse = 0
+            val depManager = DepManager()
+            depManager.password= passwd
+            depManager.depManagerAccount = managerAccount
             try {
-                loginResponse = Login.loginUser(user)
+                var loginResponse = DepManagerApi.loginManager(applicationContext,depManager.depManagerAccount,depManager.password);
+                if (loginResponse.code==ResultCode.SUCCESS){
+                    DepManagerLab.get(applicationContext).depManagerDto=loginResponse.`object`;
+                    DefaultConfig.get(applicationContext).depmanagerId= loginResponse.`object`.depManagerId.toInt();
+                    println("depId"+loginResponse.`object`.departmentId)
+                    if (loginResponse.`object`.departmentId == 0L) {
+                        subscriber.onNext(1000)
+                        return@OnSubscribe
+                    }
+                }
+                subscriber.onNext(loginResponse.code)
             } catch (e: Exception) {
                 subscriber.onError(e)
             }
-            subscriber.onNext(loginResponse)
+
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<Int> {
             override fun onCompleted() {
 
@@ -296,28 +355,35 @@ class LoginActivity : AppCompatActivity() {
             override fun onError(e: Throwable) {
                 e.printStackTrace()
                 Toast.makeText(applicationContext, "登录失败,请检查网络连接", Toast.LENGTH_SHORT).show()
+                showProgress(false)
             }
 
             override fun onNext(loginResponse: Int?) {
                 when (loginResponse) {
                     1 -> {
-                        editor = pref!!.edit()
-                        if (mRem_passwords!!.isChecked) {
-                            editor!!.putBoolean("remember_password", true)
-                            editor!!.putString("account", muser)
-                            editor!!.putString("password", passwd)
-                        } else {
-                            editor!!.clear()
-                        }
-                        editor!!.apply()
+//                        editor = pref!!.edit()
+//                        if (mRem_passwords!!.isChecked) {
+//                            editor!!.putBoolean("remember_password", true)
+//                            editor!!.putString("account",managerAccount )
+//                            editor!!.putString("password", passwd)
+//                        } else {
+//                            editor!!.clear()
+//                        }
+//                        editor!!.apply()
                         val intent = Intent(this@LoginActivity, ManagerMainActivity::class.java)
                         startActivity(intent)
                         finish()
                         return
                     }
-                    else -> Log.i(TAG, "未知错误")
+                    1000->{
+                        val intent = Intent(this@LoginActivity, AddDepartmentActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        return
+                    }
+                    else -> Log.i(TAG, ResultCode.map[loginResponse])
                 }
-                Toast.makeText(applicationContext, loginResponse!!, Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, ResultCode.map[loginResponse], Toast.LENGTH_SHORT).show()
                 mPasswordView!!.error = ResultCode.map[loginResponse]
                 mPasswordView!!.requestFocus()
                 showProgress(false)

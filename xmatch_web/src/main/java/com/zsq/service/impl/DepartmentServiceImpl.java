@@ -52,6 +52,7 @@ public class DepartmentServiceImpl implements DepartmentService {
             return LsyResultCode.Companion.getDEP_NOT_EXIT();
         }
         resDep.setDepSummary(dep.getDepSummary());
+        resDep.setEmergencyPhone(dep.getEmergencyPhone());
         return LsyResultCode.Companion.getSUCCESS();
     }
 
@@ -125,6 +126,14 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public int deleteChildDepartment(long childDepartmentId) {
+        ChildDepartment childDepartment = childDepartmentRepository.findOne(childDepartmentId);
+        if (childDepartment == null) {
+            return WyyResultCode.Companion.getCHILD_DEP_NOT_EXIST();
+        }
+        Department department = repository.findOne(childDepartment.getDepartmentId());
+        if(department!=null) {
+            department.setChildDepNum(department.getChildDepNum()-1);
+        }
         childDepartmentRepository.delete(childDepartmentId);
         return WyyResultCode.Companion.getSUCCESS();
     }

@@ -19,6 +19,7 @@ import com.example.coderqiang.xmatch_android.model.DepMember;
 import com.example.coderqiang.xmatch_android.model.User;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
+import com.example.coderqiang.xmatch_android.util.PhoneUtil;
 import com.example.coderqiang.xmatch_android.view.CircleImagview;
 
 import org.w3c.dom.Text;
@@ -123,10 +124,22 @@ public class OfficeMemberAdapter extends RecyclerView.Adapter {
                 }
             });
         } else if (getItemViewType(position) == TYPE_OFFICE) {
-            MemberDto memberDto = memberDtos.get(position -1);
+            final MemberDto memberDto = memberDtos.get(position -1);
             OfficeViewHolder officeViewHolder = (OfficeViewHolder) holder;
             officeViewHolder.itemMemberOfficeName.setText(memberDto.getUsername());
             officeViewHolder.role.setText("职位: "+memberDto.getRole());
+            officeViewHolder.itemMemberOfficeMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PhoneUtil.sendEmail(context.getActivity(),memberDto.getPhoneNum(),"");
+                }
+            });
+            officeViewHolder.itemMemberOfficePhone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PhoneUtil.call(context.getActivity(),memberDto.getPhoneNum());
+                }
+            });
         }
         Log.i(TAG, "onBindViewHolder: " + position);
 

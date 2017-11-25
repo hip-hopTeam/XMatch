@@ -1,18 +1,24 @@
 package com.example.coderqiang.xmatch_android.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.coderqiang.xmatch_android.R;
+import com.example.coderqiang.xmatch_android.activity.AddActivityActivity;
 import com.example.coderqiang.xmatch_android.adapter.ActivityAdapter;
 import com.example.coderqiang.xmatch_android.adapter.DepartmentAdapter;
 import com.example.coderqiang.xmatch_android.api.ActivityApi;
@@ -46,7 +52,13 @@ public class ActivityFragment extends Fragment {
     RecyclerView managerActivityRecycler;
     @BindView(R.id.manager_activity_bar)
     AppBarLayout managerActivityBar;
+    @BindView(R.id.manager_activity_refresh)
+    SwipeRefreshLayout refreshLayout;
     Unbinder unbinder;
+
+    ActivityAdapter activityAdapter;
+
+    DrawerLayout drawer;
 
     @Nullable
     @Override
@@ -61,10 +73,10 @@ public class ActivityFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        initData();
+        initData(false);
     }
 
-    private void initData() {
+    public void initData(boolean refresh) {
         Observable.create(new Observable.OnSubscribe<Object>() {
             @Override
             public void call(Subscriber<? super Object> subscriber) {
@@ -85,13 +97,40 @@ public class ActivityFragment extends Fragment {
             @Override
             public void onNext(Object object) {
                 List<Activity> activities=(List<Activity>)object;
-                managerActivityRecycler.setAdapter(new ActivityAdapter(activities,ActivityFragment.this));
+                if (activities != null) {
+                    if (refresh)
+                    Toast.makeText(getActivity(), "刷新数据成功", Toast.LENGTH_SHORT).show();
+                    activityAdapter=new ActivityAdapter(activities,ActivityFragment.this);
+                    managerActivityRecycler.setAdapter(activityAdapter);
+                }
+                refreshLayout.setRefreshing(false);
             }
         });
     }
 
     private void initView() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData(true);
+
+            }
+        });
+        drawer = getActivity().findViewById(R.id.drawer_layout);
+        managerActivityAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), AddActivityActivity.class);
+                startActivity(intent);
+            }
+        });
         managerActivityRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        managerActivityMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(Gravity.LEFT);
+            }
+        });
     }
 
     @Override

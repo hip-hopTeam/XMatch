@@ -18,6 +18,7 @@ import com.example.coderqiang.xmatch_android.activity.ChildDepartmentActivity;
 import com.example.coderqiang.xmatch_android.fragment.DepartmentFragment;
 import com.example.coderqiang.xmatch_android.model.Department;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
+import com.example.coderqiang.xmatch_android.util.PhoneUtil;
 import com.example.coderqiang.xmatch_android.util.SwtichActivityUtil;
 import com.example.coderqiang.xmatch_android.view.CircleImagview;
 
@@ -61,8 +62,22 @@ public class DepartmentAdapter extends RecyclerView.Adapter {
                 context.getActivity().startActivity(intent);
             }
         });
+
+        departmentHolder.itemDepartmentPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PhoneUtil.call(context.getActivity(),department.getEmergencyPhone());
+            }
+        });
+
+        departmentHolder.itemDepartmentMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PhoneUtil.sendEmail(context.getActivity(),department.getEmergencyPhone(),"test");
+            }
+        });
         Glide.with(context).load(DefaultConfig.BASE_URL+department.getImageUrl())
-                .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).error(R.drawable.avator)
+                .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).error(R.drawable.avator)
                 .into(departmentHolder.itemDepartmentAvator);
 
     }

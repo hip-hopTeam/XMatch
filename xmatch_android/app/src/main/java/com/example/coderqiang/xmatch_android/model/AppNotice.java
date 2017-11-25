@@ -21,24 +21,33 @@ public class AppNotice {
     //发送消息的部门
     private long departmentId;
 
+    private String deparmentName;
 
 
-    @Generated(hash = 319174031)
+
+    @Generated(hash = 811142381)
     public AppNotice(Long appNoticeId, String title, String content,
-            long createTime, int type, long departmentId) {
+            long createTime, int type, long departmentId, String deparmentName) {
         this.appNoticeId = appNoticeId;
         this.title = title;
         this.content = content;
         this.createTime = createTime;
         this.type = type;
         this.departmentId = departmentId;
+        this.deparmentName = deparmentName;
     }
 
     @Generated(hash = 25845735)
     public AppNotice() {
     }
 
+    public String getDeparmentName() {
+        return deparmentName;
+    }
 
+    public void setDeparmentName(String deparmentName) {
+        this.deparmentName = deparmentName;
+    }
 
     public Long getAppNoticeId() {
         return appNoticeId;

@@ -30,6 +30,7 @@ public class AppNoticeDao extends AbstractDao<AppNotice, Long> {
         public final static Property CreateTime = new Property(3, long.class, "createTime", false, "CREATE_TIME");
         public final static Property Type = new Property(4, int.class, "type", false, "TYPE");
         public final static Property DepartmentId = new Property(5, long.class, "departmentId", false, "DEPARTMENT_ID");
+        public final static Property DeparmentName = new Property(6, String.class, "deparmentName", false, "DEPARMENT_NAME");
     }
 
 
@@ -50,7 +51,8 @@ public class AppNoticeDao extends AbstractDao<AppNotice, Long> {
                 "\"CONTENT\" TEXT," + // 2: content
                 "\"CREATE_TIME\" INTEGER NOT NULL ," + // 3: createTime
                 "\"TYPE\" INTEGER NOT NULL ," + // 4: type
-                "\"DEPARTMENT_ID\" INTEGER NOT NULL );"); // 5: departmentId
+                "\"DEPARTMENT_ID\" INTEGER NOT NULL ," + // 5: departmentId
+                "\"DEPARMENT_NAME\" TEXT);"); // 6: deparmentName
     }
 
     /** Drops the underlying database table. */
@@ -80,6 +82,11 @@ public class AppNoticeDao extends AbstractDao<AppNotice, Long> {
         stmt.bindLong(4, entity.getCreateTime());
         stmt.bindLong(5, entity.getType());
         stmt.bindLong(6, entity.getDepartmentId());
+ 
+        String deparmentName = entity.getDeparmentName();
+        if (deparmentName != null) {
+            stmt.bindString(7, deparmentName);
+        }
     }
 
     @Override
@@ -103,6 +110,11 @@ public class AppNoticeDao extends AbstractDao<AppNotice, Long> {
         stmt.bindLong(4, entity.getCreateTime());
         stmt.bindLong(5, entity.getType());
         stmt.bindLong(6, entity.getDepartmentId());
+ 
+        String deparmentName = entity.getDeparmentName();
+        if (deparmentName != null) {
+            stmt.bindString(7, deparmentName);
+        }
     }
 
     @Override
@@ -118,7 +130,8 @@ public class AppNoticeDao extends AbstractDao<AppNotice, Long> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // content
             cursor.getLong(offset + 3), // createTime
             cursor.getInt(offset + 4), // type
-            cursor.getLong(offset + 5) // departmentId
+            cursor.getLong(offset + 5), // departmentId
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // deparmentName
         );
         return entity;
     }
@@ -131,6 +144,7 @@ public class AppNoticeDao extends AbstractDao<AppNotice, Long> {
         entity.setCreateTime(cursor.getLong(offset + 3));
         entity.setType(cursor.getInt(offset + 4));
         entity.setDepartmentId(cursor.getLong(offset + 5));
+        entity.setDeparmentName(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
      }
     
     @Override

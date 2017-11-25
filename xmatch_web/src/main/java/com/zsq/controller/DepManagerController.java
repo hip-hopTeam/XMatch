@@ -108,6 +108,10 @@ public class DepManagerController {
         if(message.code == LsyResultCode.Companion.getSUCCESS()) {
             DepManager depManager = (DepManager) result.get("depManager");
             DepManagerDto depManagerDto = new DepManagerDto();
+            if (depManager.getDepartmentId() != 0) {
+                Department department = departmentService.getDepartment(depManager.getDepartmentId());
+                BeanUtils.copyProperties(department, depManagerDto);
+            }
             BeanUtils.copyProperties(depManager,depManagerDto);
             message.object = depManagerDto;
         }

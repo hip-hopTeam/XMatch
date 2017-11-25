@@ -9,6 +9,7 @@
 
     <com.example.coderqiang.xmatch_android.view.CircleImagview
         android:id="@+id/item_member_apply_avator"
+        android:scaleType="centerCrop"
         android:layout_width="@dimen/avator_size"
         android:layout_height="@dimen/avator_size"
         android:src="@drawable/avator"/>

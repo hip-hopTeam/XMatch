@@ -27,13 +27,41 @@ import java.util.prefs.BackingStoreException;
 @RestController
 @RequestMapping("/api/activity")
 public class ActivityController {
+
     @Autowired
     ActivityService activityservice;
 
     @RequestMapping("/add")
-    public BaseMessage addActivity(@RequestBody Activity activity) {
+    public ObjectMessage addActivity(@RequestBody Activity activity) {
+        ObjectMessage message = new ObjectMessage();
+        message = activityservice.addActivity(activity);
+        message.result = LsyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
+    @RequestMapping("/image/add")
+    public BaseMessage addActivityImage(
+            @RequestParam("file")MultipartFile file,
+            @RequestParam("activityId")long activityId,
+            HttpServletRequest request) {
         BaseMessage message = new BaseMessage();
-        message.code = activityservice.addActivity(activity);
+
+        String rootPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
+        String prefix=file.getOriginalFilename().replaceAll(".*(\\.(.*))","$1");
+        String url="/image_activity/"+activityId+prefix;
+        File avator = new File(rootPath+"/static"+url);
+        if (!avator.getParentFile().exists()) {
+            avator.getParentFile().mkdirs();
+        }
+        try {
+            file.transferTo(avator);
+        } catch (IOException e) {
+            e.printStackTrace();
+            message.code = LsyResultCode.Companion.getERROR();
+            message.result= LsyResultCode.Companion.getMap().get(message.code);
+            return message;
+        }
+        message.code = activityservice.addActivityImage(activityId, url);
         message.result = LsyResultCode.Companion.getMap().get(message.code);
         return message;
     }
@@ -93,6 +121,15 @@ public class ActivityController {
     public BaseMessage updateActivity(@RequestBody Activity activity) {
         BaseMessage message = new BaseMessage();
         message.code = activityservice.updateActivity(activity);
+        message.result = LsyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
+
+    @RequestMapping("/delete")
+    public BaseMessage deleteActivity(@RequestParam("activityId") long activityId) {
+        BaseMessage message = new BaseMessage();
+        message.code = activityservice.deleteActivity(activityId);
         message.result = LsyResultCode.Companion.getMap().get(message.code);
         return message;
     }
