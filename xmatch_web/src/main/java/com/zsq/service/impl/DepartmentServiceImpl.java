@@ -6,10 +6,13 @@ import com.zsq.util.LsyResultCode;
 import com.zsq.util.WyyResultCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,8 +66,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<Department> getAll() {
-        List<Department> departments = repository.getAll();
+    public List<Department> getAllDepartments(int page, int rows) {
+        Sort sort = new Sort(Sort.Direction.DESC,"creatTime");
+        List<Department> departments = repository.getAllDepartments(new PageRequest(page,rows,sort)).getContent();
+
+
         return departments;
     }
 

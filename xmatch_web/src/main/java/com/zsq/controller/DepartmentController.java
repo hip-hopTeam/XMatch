@@ -35,9 +35,10 @@ public class DepartmentController {
     }
     
     @RequestMapping("/findAll")
-    public ObjectMessage findAll() {
+    public ObjectMessage findAll(@RequestParam(required = false,defaultValue = "0") int page,
+                                 @RequestParam(required = false,defaultValue = "10") int rows) {
         ObjectMessage message = new ObjectMessage();
-        List<Department> departments = departmentService.getAll();
+        List<Department> departments = departmentService.getAllDepartments(page, rows);
         message.code = WyyResultCode.Companion.getSUCCESS();
         message.result = WyyResultCode.Companion.getMap().get(message.code);
         message.object = departments;
