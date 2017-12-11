@@ -28,7 +28,7 @@ public interface DepartmentService {
 
     public Department getDepartment(long departmentId);
 
-    public List<Department> getAll();
+    public List<Department> getAllDepartments(int page, int rows);
 
     public Department getDepartmentByDepName(String depName);
 
