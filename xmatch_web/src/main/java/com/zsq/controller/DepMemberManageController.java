@@ -59,7 +59,9 @@ public class DepMemberManageController {
 
     @RequestMapping("/get")
     public ObjectMessage getDepMember(@RequestParam("depId") long depId,
-                                      @RequestParam(value = "state", required = false, defaultValue = "0") int state) {
+                                      @RequestParam(value = "state", required = false, defaultValue = "0") int state,
+                                      @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                                      @RequestParam(value = "rows", required = false, defaultValue = "100") int rows) {
         ObjectMessage message = new ObjectMessage();
         Department department = departmentService.getDepartment(depId);
         if(department==null) {
@@ -68,9 +70,10 @@ public class DepMemberManageController {
             return message;
         }
         List<MemberDto> depMembers;
-        depMembers = depMemberManagerService.getDepMember(depId, state);
+        depMembers = depMemberManagerService.getDepMember(depId, state, page, rows);
         message.code = WyyResultCode.Companion.getSUCCESS();
         message.result = WyyResultCode.Companion.getMap().get(message.code);
+        message.object = depMembers;
         return message;
     }
 
