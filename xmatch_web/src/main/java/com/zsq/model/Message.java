@@ -1,6 +1,5 @@
 package com.zsq.model;
 
-import com.google.gson.Gson;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

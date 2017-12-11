@@ -26,12 +26,12 @@
                 android:layout_height="match_parent" >
             </TextView>
             <ImageView
-                android:id="@+id/manager_add_dep_add"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
+                android:id="@+id/manager_add_dep_refresh"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/text_padding_large"
-                android:src="@drawable/ic_add"/>
+                android:src="@drawable/ic_refresh"/>
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
     <LinearLayout
@@ -48,6 +48,7 @@
             <com.example.coderqiang.xmatch_android.view.CircleImagview
                 android:id="@+id/manager_main_avator"
                 android:src="@drawable/avator"
+                android:scaleType="centerCrop"
                 android:layout_margin="8dp"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
@@ -185,6 +186,7 @@
                 android:layout_height="0dp"
                 android:background="@drawable/corner_bg_white">
                 <LinearLayout
+                    android:id="@+id/manager_main_notice"
                     android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -203,6 +205,7 @@
                         android:gravity="center_horizontal"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/manager_main_paiban"
                     android:background="@drawable/corner_bg_white"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -229,6 +232,7 @@
                 android:layout_weight="1"
                 android:layout_height="0dp">
                 <LinearLayout
+                    android:id="@+id/manager_main_activity"
                     android:background="@drawable/corner_bg_white"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -248,6 +252,7 @@
                         android:gravity="center_horizontal"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/manager_main_album"
                     android:background="@drawable/corner_bg_white"
                     android:layout_width="0dp"
                     android:layout_weight="1"

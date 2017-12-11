@@ -16,28 +16,42 @@
             android:layout_width="118dp"
             android:layout_marginRight="8dp"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/fzu"/>
+            android:scaleType="centerCrop" />
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/item_manager_activity_title"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textSize="18sp"
-                android:gravity="center_vertical"
-                android:textColor="@color/colorBlack"
-                android:singleLine="true"
-                android:text="校社联送旧晚会"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/item_manager_activity_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorBlack"
+                    android:singleLine="true"
+                    android:text="校社联送旧晚会"/>
+                <ImageView
+                    android:id="@+id/item_manager_activity_status"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginRight="@dimen/text_padding"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/activity_runing_circle"/>
+            </LinearLayout>
             <TextView
                 android:id="@+id/item_manager_activity_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:maxLines="4"
+                android:paddingRight="4dp"
                 android:text="是集美貌与智慧于一身的历史最悠久最酷炫最强大的学生组织。始于情怀，精于技术，重于传承">
 
             </TextView>

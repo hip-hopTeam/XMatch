@@ -27,13 +27,14 @@ import java.util.prefs.BackingStoreException;
 @RestController
 @RequestMapping("/api/activity")
 public class ActivityController {
+
     @Autowired
     ActivityService activityservice;
 
     @RequestMapping("/add")
-    public BaseMessage addActivity(@RequestBody Activity activity) {
-        BaseMessage message = new BaseMessage();
-        message.code = activityservice.addActivity(activity);
+    public ObjectMessage addActivity(@RequestBody Activity activity) {
+        ObjectMessage message = new ObjectMessage();
+        message = activityservice.addActivity(activity);
         message.result = LsyResultCode.Companion.getMap().get(message.code);
         return message;
     }
@@ -54,24 +55,27 @@ public class ActivityController {
         }
         try {
             file.transferTo(avator);
+        } catch (IOException e) {
+            e.printStackTrace();
             message.code = LsyResultCode.Companion.getERROR();
             message.result= LsyResultCode.Companion.getMap().get(message.code);
             return message;
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         message.code = activityservice.addActivityImage(activityId, url);
         message.result = LsyResultCode.Companion.getMap().get(message.code);
         return message;
     }
 
+
     @RequestMapping("/get")
-    public ObjectMessage getActivity(@RequestParam long activityId,
-                                     @RequestParam long departmentId,
-                                     @RequestParam int type) {
+    public ObjectMessage getActivity(@RequestParam int type,
+                                     @RequestParam(required = false,defaultValue = "-1") long activityId,
+                                     @RequestParam(required = false,defaultValue = "-1") long departmentId,
+                                     @RequestParam(required = false,defaultValue = "0") int page,
+                                     @RequestParam(required = false,defaultValue = "10") int rows) {
         ObjectMessage message = new ObjectMessage();
         List<Activity> activityList = new ArrayList<>();
-        activityList = activityservice.getActivity(activityId,departmentId,type);
+        activityList = activityservice.getActivity(activityId,departmentId,type,page,rows);
         message.code = LsyResultCode.Companion.getSUCCESS();
         message.result = LsyResultCode.Companion.getMap().get(message.code);
         message.object = activityList;
@@ -93,6 +97,15 @@ public class ActivityController {
     public BaseMessage updateActivity(@RequestBody Activity activity) {
         BaseMessage message = new BaseMessage();
         message.code = activityservice.updateActivity(activity);
+        message.result = LsyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
+
+    @RequestMapping("/delete")
+    public BaseMessage deleteActivity(@RequestParam("activityId") long activityId) {
+        BaseMessage message = new BaseMessage();
+        message.code = activityservice.deleteActivity(activityId);
         message.result = LsyResultCode.Companion.getMap().get(message.code);
         return message;
     }

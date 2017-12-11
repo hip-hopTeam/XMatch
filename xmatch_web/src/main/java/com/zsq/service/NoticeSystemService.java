@@ -5,7 +5,7 @@ package com.zsq.service;
  */
 public interface NoticeSystemService {
 
-    public int addStatusOfNotice(long appNoticeId,long[] userId,int statusOfNotice);
+    public int addStatusOfNotice(long appNoticeId,long userId,int statusOfNotice);
 
     public int deleteStatusOfNotice(long noticeSystemId);
 }

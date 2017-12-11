@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,12 +54,28 @@ public  class AppNoticeServiceImpl implements AppNoticeService{
     @Override
     public  List<AppNotice> getOneDepNoticesByType(long departmentId,int type) {
         List<AppNotice> oneDepTypeNotices = repository.findAppNoticesByDepartmentIdAndType(departmentId,type);
+        Collections.sort(oneDepTypeNotices, (o1, o2) -> {
+            if (o1.getCreateTime() > o2.getCreateTime()) {
+                return -1;
+            } else if (o1.getCreateTime() < o2.getCreateTime()) {
+                return 1;
+            }
+            return 0;
+        });
         return oneDepTypeNotices;
     }
 
     @Override
     public List<AppNotice> getAllDepNotices() {
         List<AppNotice> allDepNotices = repository.getAll();
+        Collections.sort(allDepNotices, (o1, o2) -> {
+            if (o1.getCreateTime() > o2.getCreateTime()) {
+                return -1;
+            } else if (o1.getCreateTime() < o2.getCreateTime()) {
+                return 1;
+            }
+            return 0;
+        });
         return allDepNotices;
     }
 

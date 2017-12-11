@@ -1,6 +1,7 @@
 package com.example.coderqiang.xmatch_android.api.service
 
 import com.example.coderqiang.xmatch_android.dto.BaseMessage
+import com.example.coderqiang.xmatch_android.dto.DepManagerDto
 import com.example.coderqiang.xmatch_android.dto.MemberDto
 import com.example.coderqiang.xmatch_android.dto.ObjectMessage
 import com.example.coderqiang.xmatch_android.model.DepManager
@@ -16,11 +17,14 @@ import retrofit2.http.*
 interface DepManagerService {
 
     @POST("api/depManager/login")
-    fun depmanagerLogin(@Field("depManagerAccount") depManagerAccount:String,
-                        @Field("password") password:String): Call<ObjectMessage<DepManager>>
+    fun depmanagerLogin(@Query("depManagerAccount") depManagerAccount:String,
+                        @Query("password") password:String): Call<ObjectMessage<DepManagerDto>>
+
 
     @GET("api/depManager/get/{id}")
     fun getDepManagerById(@Path("id")depManagerId:Long): Call<ObjectMessage<DepManager>>
+
+
 
     @GET("api/department/findAll")
     fun getAllDepartment():Call<ObjectMessage<Department>>
@@ -30,6 +34,9 @@ interface DepManagerService {
 
     @POST("api/depMemberManage/update")
     fun updateMember(@Body requestBody: RequestBody): Call<BaseMessage>
+
+    @GET("api/department/deleteChildDep")
+    fun deleteChildDepartment(@Query("childDepartmentId")childDepartmentId: Long):Call<BaseMessage>
 
 
 }

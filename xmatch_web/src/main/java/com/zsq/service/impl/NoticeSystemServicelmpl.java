@@ -25,11 +25,9 @@ public class NoticeSystemServicelmpl implements NoticeSystemService{
     NoticeSystemRepository repository;
 
     @Override
-    public int addStatusOfNotice(long appNoticeId,long[] userId,int statusOfNotice) {
+    public int addStatusOfNotice(long appNoticeId,long userId,int statusOfNotice) {
         NoticeSystem noticeSystem = new NoticeSystem();
         noticeSystem.setAppNoticeId(appNoticeId);
-
-
         noticeSystem.setUserId(userId);
         noticeSystem.setStatusOfNotice(statusOfNotice);
         repository.save(noticeSystem);
