@@ -1,6 +1,8 @@
 from flask_restful import Resource, marshal_with, fields, reqparse, request
 from . import format_response_with, success, failure, unauthorized, api, desc, db
 from models.models import Activity
+from utils import *
+
 
 activity_fields = {
     'activity_id': fields.Integer,
@@ -49,4 +51,4 @@ class ActivityResource(Resource):
         return success(pagination)
 
 api.add_resource(ActivityResource, '/activity', methods=['GET'])
-api.add_resource(ActivityDetails, '/activity/<int:activity_id>', methods=['POST'])
+api.add_resource(ActivityDetails, '/activity/<int:activity_id>', methods=['GET'])

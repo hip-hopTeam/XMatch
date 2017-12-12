@@ -1,7 +1,8 @@
 from flask_restful import Resource, marshal_with, fields, reqparse, request
 from . import format_response_with, success, failure, unauthorized, api, desc, db
 from models.models import Department, ChildDepartment
-from utils import isLoggedIn
+from utils import *
+
 
 department_fields = {
     'department_id': fields.Integer,
