@@ -49,6 +49,9 @@ public class ActivityApplyServiceImpl implements ActivityApplyService{
         }
         Activity activity = activityRepository.findOne(activityApply.getActivityId());
         activityApply.setState(2);
+        activityApply.setLon(activityApply.getLon());
+        activityApply.setLat(activityApply.getLat());
+        activityApply.setDistance(activityApply.getDistance());
         activityApply.setSignInTime(System.currentTimeMillis());
         activity.setSignIn(activity.getSignIn()+1);
         return LsyResultCode.Companion.getSUCCESS();
