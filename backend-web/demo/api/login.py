@@ -1,7 +1,7 @@
 #!/usr/bin/env python 
 from flask import session
 from flask_restful import Resource, marshal_with, fields, reqparse, request
-from . import format_response_with, success, failure, api, desc, db
+from . import format_response_with, success, failure, unauthorized, api, desc, db
 from models.models import DepManager
 
 global_fields = {
@@ -24,4 +24,13 @@ class Login(Resource):
             session['logged_in'] = "True"
             return success(None)
 
+class Logout(Resource):
+    @format_response_with({})
+    def post(self):
+        if not isLoggedIn():
+            return unauthorized()
+        session.pop('logged_in', None) 
+        return success(None)
+
 api.add_resource(Login, '/manager/login', methods=['POST','GET'])
+api.add_resource(Logout,'/manager/logout',methods=['POST'])
