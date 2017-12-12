@@ -11,18 +11,17 @@ global_fields = {
 }
 
 class Login(Resource):
-    @format_response_with(None)
+    @format_response_with({})
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('username', type=str, required=True)
         parser.add_argument('password', type=str, required=True)
         args = parser.parse_args()
-        supervisor = DepManager.query.filter_by(manager_name=args.username, role_supervisor=2, password=args.password)
+        supervisor = DepManager.query.filter_by(manager_name=args.username, role=DepManager.role_supervisor, password=args.password).first()
         if supervisor is None:
-            return failure(-1,'there is no such supervisor')
-        # Add to session
+            return failure(-1,'incorrect username or password')
         else:
-            session['logged_in'] = True
+            session['logged_in'] = "True"
             return success(None)
 
-api.add_resource(Login, '/login', methods=['POST'])
+api.add_resource(Login, '/manager/login', methods=['POST','GET'])
