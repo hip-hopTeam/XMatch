@@ -81,22 +81,25 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Map<String, Object> getChildDepartmentByDepId(long depId) {
+    public Map<String, Object> getChildDepartmentByDepId(long depId, int page, int rows) {
         Map<String, Object> result = new HashMap<>();
         Department department = repository.findOne(depId);
         if(department==null) {
             result.put("code", WyyResultCode.Companion.getDEP_NOT_EXIST());
             return result;
         }
-        List<ChildDepartment> childDepartments = childDepartmentRepository.getByDepartmentId(depId);
+        Sort sort = new Sort(Sort.Direction.ASC,"childDepartmentId");
+        List<ChildDepartment> childDepartments = childDepartmentRepository.getByDepartmentId(depId, new PageRequest(page,rows,sort)).getContent();
+
         result.put("code", WyyResultCode.Companion.getSUCCESS());
         result.put("childDepartments", childDepartments);
         return result;
     }
 
     @Override
-    public List<ChildDepartment> getAllChildDep() {
-        return childDepartmentRepository.getAll();
+    public List<ChildDepartment> getAllChildDep(int page, int rows) {
+        Sort sort = new Sort(Sort.Direction.ASC,"childDepartmentId");
+        return childDepartmentRepository.getAll(new PageRequest(page,rows,sort)).getContent();
     }
 
     @Override
