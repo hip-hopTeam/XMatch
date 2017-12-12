@@ -7,6 +7,8 @@ import com.zsq.util.ResultCode;
 import com.zsq.util.WyyResultCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,13 +75,17 @@ public class DepMemberManagerServiceImpl implements DepMemberManagerService {
     }
 
     @Override
-    public List<MemberDto> getDepMember(long depId, int state) {
+    /*
+    按照部门Id和部员状态查找部员
+     */
+    public List<MemberDto> getDepMember(long depId, int state, int page, int rows) {
         List<MemberDto> memberDtos=new ArrayList<>();
         List<DepMember> depMembers;
+        Sort sort = new Sort(Sort.Direction.ASC, "joinTime");
         if(state==0) {
             depMembers= repository.findDepMembersByDepId(depId);
         } else {
-            depMembers=repository.findDepMembersByDepIdAndState(depId,state);
+            depMembers=repository.findDepMembersByDepIdAndState(depId, state, new PageRequest(page, rows, sort)).getContent();
         }
         for (DepMember depMember:depMembers){
             MemberDto memberDto=new MemberDto();
