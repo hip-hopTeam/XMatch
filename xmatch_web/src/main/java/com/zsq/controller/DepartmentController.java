@@ -35,9 +35,10 @@ public class DepartmentController {
     }
     
     @RequestMapping("/findAll")
-    public ObjectMessage findAll() {
+    public ObjectMessage findAll(@RequestParam(required = false,defaultValue = "0") int page,
+                                 @RequestParam(required = false,defaultValue = "10") int rows) {
         ObjectMessage message = new ObjectMessage();
-        List<Department> departments = departmentService.getAll();
+        List<Department> departments = departmentService.getAllDepartments(page, rows);
         message.code = WyyResultCode.Companion.getSUCCESS();
         message.result = WyyResultCode.Companion.getMap().get(message.code);
         message.object = departments;
@@ -70,15 +71,17 @@ public class DepartmentController {
     }
 
     @RequestMapping("/getChildDep")
-    public ObjectMessage getChildDep(@RequestParam(value = "depId", required = false, defaultValue = "-1") long depId) {
+    public ObjectMessage getChildDep(@RequestParam(value = "depId", required = false, defaultValue = "-1") long depId,
+                                        @RequestParam(required = false, defaultValue = "0") int page,
+                                        @RequestParam(required = false, defaultValue = "10") int rows) {
         ObjectMessage message = new ObjectMessage();
         if(depId<0) {
             message.code = WyyResultCode.Companion.getSUCCESS();
             message.result = WyyResultCode.Companion.getMap().get(message.code);
-            message.object = departmentService.getAllChildDep();
+            message.object = departmentService.getAllChildDep(page, rows);
             return message;
         } else {
-            Map<String, Object> result = departmentService.getChildDepartmentByDepId(depId);
+            Map<String, Object> result = departmentService.getChildDepartmentByDepId(depId, page, rows);
             message.code = (int) result.get("code");
             message.result = WyyResultCode.Companion.getMap().get(message.code);
             if (message.code == WyyResultCode.Companion.getSUCCESS()) {

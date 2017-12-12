@@ -28,7 +28,7 @@ public interface DepartmentService {
 
     public Department getDepartment(long departmentId);
 
-    public List<Department> getAll();
+    public List<Department> getAllDepartments(int page, int rows);
 
     public Department getDepartmentByDepName(String depName);
 
@@ -37,12 +37,12 @@ public interface DepartmentService {
      * @param depId
      * @return
      */
-    public Map<String, Object> getChildDepartmentByDepId(long depId);
+    public Map<String, Object> getChildDepartmentByDepId(long depId, int pages, int rows);
 
     /**
      * 查找所有子部门
      */
-    public List<ChildDepartment> getAllChildDep();
+    public List<ChildDepartment> getAllChildDep(int page, int rows);
 
     /**
      * 添加子部门

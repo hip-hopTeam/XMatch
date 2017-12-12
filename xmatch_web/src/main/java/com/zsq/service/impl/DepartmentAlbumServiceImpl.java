@@ -5,6 +5,8 @@ import com.zsq.model.DepartmentAlbumRepository;
 import com.zsq.service.DepartmentAlbumService;
 import com.zsq.util.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,14 +44,16 @@ public class DepartmentAlbumServiceImpl implements DepartmentAlbumService {
     }
 
     @Override
-    public List<DepartmentAlbum> getAlbumByDepId(long depId) {
-        List<DepartmentAlbum> departmentAlbums = departmentAlbumRepository.getbyDepId(depId);
+    public List<DepartmentAlbum> getAlbumByDepId(long depId, int page, int rows) {
+        Sort sort = new Sort(Sort.Direction.DESC,"creatTime");
+        List<DepartmentAlbum> departmentAlbums = departmentAlbumRepository.getbyDepId(depId,new PageRequest(page,rows,sort)).getContent();
         return departmentAlbums;
     }
 
     @Override
-    public List<DepartmentAlbum> getAlbumByActivity(long activity) {
-        List<DepartmentAlbum> departmentAlbums = departmentAlbumRepository.getbyDepId(activity);
+    public List<DepartmentAlbum> getAlbumByActivity(long activity, int page, int rows) {
+        Sort sort = new Sort(Sort.Direction.DESC,"creatTime");
+        List<DepartmentAlbum> departmentAlbums = departmentAlbumRepository.getbyDepId(activity,new PageRequest(page,rows,sort)).getContent();
         return departmentAlbums;
     }
 

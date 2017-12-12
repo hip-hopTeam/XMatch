@@ -39,32 +39,7 @@ public class ActivityController {
         return message;
     }
 
-    @RequestMapping("/image/add")
-    public BaseMessage addActivityImage(
-            @RequestParam("file")MultipartFile file,
-            @RequestParam("activityId")long activityId,
-            HttpServletRequest request) {
-        BaseMessage message = new BaseMessage();
 
-        String rootPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
-        String prefix=file.getOriginalFilename().replaceAll(".*(\\.(.*))","$1");
-        String url="/image_activity/"+activityId+prefix;
-        File avator = new File(rootPath+"/static"+url);
-        if (!avator.getParentFile().exists()) {
-            avator.getParentFile().mkdirs();
-        }
-        try {
-            file.transferTo(avator);
-        } catch (IOException e) {
-            e.printStackTrace();
-            message.code = LsyResultCode.Companion.getERROR();
-            message.result= LsyResultCode.Companion.getMap().get(message.code);
-            return message;
-        }
-        message.code = activityservice.addActivityImage(activityId, url);
-        message.result = LsyResultCode.Companion.getMap().get(message.code);
-        return message;
-    }
 
 
     @RequestMapping("/get")
@@ -83,9 +58,10 @@ public class ActivityController {
     }
 
     @RequestMapping("/getAll")
-    public ObjectMessage getAllActivity() {
+    public ObjectMessage getAllActivity(@RequestParam(required = false,defaultValue = "0") int page,
+                                        @RequestParam(required = false,defaultValue = "10") int rows) {
         ObjectMessage message = new ObjectMessage();
-        List<Activity> activityList = activityservice.getAllActivity();
+        List<Activity> activityList = activityservice.getAllActivity(page, rows);
         message.code = LsyResultCode.Companion.getSUCCESS();
         message.result = LsyResultCode.Companion.getMap().get(message.code);
         message.object = activityList;

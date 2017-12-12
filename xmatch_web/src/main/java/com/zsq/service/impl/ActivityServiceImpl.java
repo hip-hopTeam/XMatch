@@ -113,9 +113,9 @@ public class ActivityServiceImpl implements ActivityService{
      * @return List<Activity>
      */
     @Override
-    public List<Activity> getAllActivity() {
+    public List<Activity> getAllActivity(int page, int rows) {
         Sort sort=new Sort(Sort.Direction.DESC,"createTime");
-        List<Activity> activities = repository.findAllAcitivities(new PageRequest(0,10000,sort)).getContent();
+        List<Activity> activities = repository.findAllAcitivities(new PageRequest(page,rows,sort)).getContent();
 
         Collections.sort(activities, (o1, o2) -> {
             if (o1.getCreateTime() > o2.getCreateTime()) {

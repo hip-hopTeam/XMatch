@@ -23,7 +23,7 @@ public interface ActivityService {
 
     public List<Activity> getActivity(long activityId,long departmentId, int type,int page,int rows);
 
-    public List<Activity> getAllActivity();
+    public List<Activity> getAllActivity(int page, int rows);
 
 
     public int addActivityImage(long activity,String url);
