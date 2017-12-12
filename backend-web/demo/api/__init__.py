@@ -5,4 +5,4 @@ from models.response import *
 
 api = Api()
 
-from . import manager, activity, department, login
+from . import manager, activity, department, login, utils
