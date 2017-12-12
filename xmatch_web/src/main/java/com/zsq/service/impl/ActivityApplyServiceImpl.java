@@ -47,7 +47,7 @@ public class ActivityApplyServiceImpl implements ActivityApplyService{
         if(activityApply.getState() == 2) {
             return LsyResultCode.Companion.getACTIVITY_SIGNIN_EXIST();
         }
-        Activity activity = activityRepository.findOne(activityApply.getActivityId());
+        Activity activity = activityRepository.findOne(activityApplyId);
         activityApply.setState(2);
         activityApply.setLon(activityApply.getLon());
         activityApply.setLat(activityApply.getLat());
