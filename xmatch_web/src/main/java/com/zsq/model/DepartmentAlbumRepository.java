@@ -16,7 +16,7 @@ public interface DepartmentAlbumRepository extends PagingAndSortingRepository<De
     public Page<DepartmentAlbum> getbyDepId(long depId, Pageable pageable);
 
     @Query("select a from DepartmentAlbum a where a.activityId=?1")
-    public List<DepartmentAlbum> getbyActivityId(long activity, Pageable pageable);
+    public Page<DepartmentAlbum> getbyActivityId(long activity, Pageable pageable);
 
 
 }

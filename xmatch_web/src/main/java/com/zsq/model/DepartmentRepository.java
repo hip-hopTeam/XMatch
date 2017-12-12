@@ -14,6 +14,9 @@ import java.util.List;
 public interface DepartmentRepository extends PagingAndSortingRepository<Department,Long> {
     public Department findDepartmentByDepName(String depName);
 
+    @Query("select d from Department d where d.departmentId=?1")
+    public Department getDepartmentByDepartmentId(long depId);
+
     @Query("select d from Department d")
     public Page<Department> getAllDepartments(Pageable pageable);
 }
