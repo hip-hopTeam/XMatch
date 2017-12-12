@@ -1,6 +1,8 @@
 from flask_restful import Resource, marshal_with, fields, reqparse, request
-from . import format_response_with, success, failure, api, desc, db
+from . import format_response_with, success, failure, unauthorized, api, desc, db
 from models.models import Activity
+from utils import *
+
 
 activity_fields = {
     'activity_id': fields.Integer,
@@ -19,6 +21,11 @@ activity_fields = {
 class ActivityDetails(Resource):
     @format_response_with(activity_fields)
     def get(self, activity_id=None):
+        # status: if the user is a supervisor, status is True
+        status = isLoggedIn()
+        if not status:
+            return unauthorized()
+
         if activity_id == None:
             failure(-1,'activity_id is required')
         activity = Activity.query.filter_by(activity_id=activity_id).first()
@@ -29,6 +36,11 @@ class ActivityDetails(Resource):
 class ActivityResource(Resource):
     @format_response_with(activity_fields)
     def get(self):
+        # status: if the user is a supervisor, status is True
+        status = isLoggedIn()
+        if not status:
+            return unauthorized()
+
         try:
             page = int(request.args.get("page") or 1)
         except ValueError:
@@ -39,4 +51,4 @@ class ActivityResource(Resource):
         return success(pagination)
 
 api.add_resource(ActivityResource, '/activity', methods=['GET'])
-api.add_resource(ActivityDetails, '/activity/<int:activity_id>', methods=['POST'])
+api.add_resource(ActivityDetails, '/activity/<int:activity_id>', methods=['GET'])
