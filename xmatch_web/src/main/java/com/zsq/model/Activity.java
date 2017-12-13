@@ -9,6 +9,10 @@ import javax.persistence.*;
 @Entity
 public class Activity {
 
+    public static final int SIGN_UNSTART=0;
+    public static final int SIGN_ING=1;
+    public static final int SIGN_FINISH=2;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long activityId;
@@ -44,6 +48,28 @@ public class Activity {
     private float measure;
 
     private String depName;
+
+    //签到情况 1 未签到 2 正在签到 3 签到截止
+    private int signState;
+
+    //签到代码 2348
+    private String signStr;
+
+    public int getSignState() {
+        return signState;
+    }
+
+    public void setSignState(int signState) {
+        this.signState = signState;
+    }
+
+    public String getSignStr() {
+        return signStr;
+    }
+
+    public void setSignStr(String signStr) {
+        this.signStr = signStr;
+    }
 
     public float getMeasure() {
         return measure;

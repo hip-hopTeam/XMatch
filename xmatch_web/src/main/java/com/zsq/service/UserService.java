@@ -1,7 +1,6 @@
 package com.zsq.service;
 
-import com.zsq.model.User;
-
+import com.zsq.model.*;
 import java.util.Map;
 
 /**
@@ -32,4 +31,5 @@ public interface UserService {
      * 登陆
      */
     public Map<String, Object> userLogin(String stuNo, String passwd);
+
 }

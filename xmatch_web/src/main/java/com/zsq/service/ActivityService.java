@@ -28,4 +28,6 @@ public interface ActivityService {
 
     public int addActivityImage(long activity,String url);
 
+    public int signInActivity(Activity activity);
+
 }

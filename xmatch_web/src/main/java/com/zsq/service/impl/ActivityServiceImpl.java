@@ -141,4 +141,17 @@ public class ActivityServiceImpl implements ActivityService{
         activity.setImageUrl(url);
         return LsyResultCode.Companion.getSUCCESS();
     }
+
+    @Override
+    public int signInActivity(Activity activity) {
+        Activity resActivity = repository.findOne(activity.getActivityId());
+        if(resActivity == null) {
+            return LsyResultCode.Companion.getACTIVITY_NOT_EXIST();
+        }
+        resActivity.setSignState(2);
+        resActivity.setSignStr(activity.getSignStr());
+        return LsyResultCode.Companion.getSUCCESS();
+    }
+
+
 }

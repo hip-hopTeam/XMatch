@@ -86,4 +86,15 @@ public class ActivityController {
         return message;
     }
 
+    @RequestMapping("/signIn")
+    public BaseMessage signInActivity(@RequestBody Activity activity) {
+        BaseMessage message = new BaseMessage();
+        message.code = activityservice.signInActivity(activity);
+        message.result = LsyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
+
+
+
 }

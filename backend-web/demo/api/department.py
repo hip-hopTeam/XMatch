@@ -1,8 +1,7 @@
 from flask_restful import Resource, marshal_with, fields, reqparse, request
-from . import format_response_with, success, failure, api, desc, db
+from . import format_response_with, success, failure, unauthorized, api, desc, db
 from models.models import Department, ChildDepartment
-
-
+from utils import *
 
 
 department_fields = {
@@ -36,6 +35,11 @@ child_department_fields = {
 class DepartmentDetails(Resource):
     @format_response_with(department_fields)
     def get(self, department_id=None):
+        # status: if the user is a supervisor, status is True
+        status = isLoggedIn()
+        if not status:
+            return unauthorized()
+
         if department_id == None:
             return failure(-1,'department_id is required')
         department = Department.query.filter_by(department_id=department_id,state=Department.audit_approved).first()
@@ -46,6 +50,11 @@ class DepartmentDetails(Resource):
 class DepartmentResource(Resource):
     @format_response_with(department_fields)
     def get(self):
+        # status: if the user is a supervisor, status is True
+        status = isLoggedIn()
+        if not status:
+            return unauthorized()
+
         try:
             page = int(request.args.get("page") or 1)
         except ValueError:
@@ -58,6 +67,11 @@ class DepartmentResource(Resource):
 class ChildDepartmentResource(Resource):
     @format_response_with(child_department_fields)
     def get(self, department_id=None):
+        # status: if the user is a supervisor, status is True
+        status = isLoggedIn()
+        if not status:
+            return unauthorized()
+
         if department_id == None:
             failure(-1,'department_id is required')
         child_department = ChildDepartment.query.filter_by(department_id=department_id,state=Department.audit_approved).all()
@@ -66,6 +80,11 @@ class ChildDepartmentResource(Resource):
 class AuditDepartment(Resource):
     @format_response_with(department_fields)
     def get(self):
+        # status: if the user is a supervisor, status is True
+        status = isLoggedIn()
+        if not status:
+            return unauthorized()
+
         try:
             page = int(request.args.get("page") or 1)
         except ValueError:
@@ -77,6 +96,11 @@ class AuditDepartment(Resource):
 
     @format_response_with(department_fields)
     def post(self):
+        # status: if the user is a supervisor, status is True
+        status = isLoggedIn()
+        if not status:
+            return unauthorized()
+
         parser = reqparse.RequestParser()
         parser.add_argument('department_id', type=int, required=True)
         parser.add_argument('state',choices=(str(Department.audit_approved), str(Department.audit_rejected)), required=True)

@@ -1,5 +1,6 @@
 package com.zsq.service.impl;
 
+import com.zsq.model.ActivityApply;
 import com.zsq.model.User;
 import com.zsq.model.UserRepository;
 import com.zsq.service.UserService;
@@ -80,6 +81,7 @@ public class UserServiceImpl implements UserService {
         result.put("user",user);
         return result;
     }
+
 
 
 }
