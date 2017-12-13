@@ -40,6 +40,8 @@ public class MemberDto {
     /**用户头像*/
     private String avatorUrl;
 
+
+
     public long getDepMemberId() {
         return depMemberId;
     }

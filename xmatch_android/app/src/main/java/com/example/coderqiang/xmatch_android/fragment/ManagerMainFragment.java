@@ -38,6 +38,7 @@ import com.example.coderqiang.xmatch_android.activity.AddDepartmentActivity;
 import com.example.coderqiang.xmatch_android.activity.ChildDepartmentActivity;
 import com.example.coderqiang.xmatch_android.activity.EditDepartmentActivity;
 import com.example.coderqiang.xmatch_android.activity.ManagerMainActivity;
+import com.example.coderqiang.xmatch_android.activity.MessageActivity;
 import com.example.coderqiang.xmatch_android.activity.SettingActivity;
 import com.example.coderqiang.xmatch_android.api.DepManagerApi;
 import com.example.coderqiang.xmatch_android.dto.DepManagerDto;
@@ -251,10 +252,8 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 startActivity(activityListIntent);
                 break;
             case R.id.manager_main_notice:
-                if (managerMainActivity.memberFragment == null) {
-                    managerMainActivity.memberFragment = new MemberFragment();
-                }
-                managerMainActivity.switchFragment(managerMainActivity.current, managerMainActivity.memberFragment);
+                Intent messageIntent = new Intent(getActivity(), MessageActivity.class);
+                startActivity(messageIntent);
                 break;
             case R.id.manager_main_setting_btn:
                 Intent settingIntent = new Intent(getActivity(), SettingActivity.class);
@@ -348,13 +347,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
         if (context == null || file == null) {
             throw new NullPointerException();
         }
-        Uri uri;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            System.out.println("package:" + getActivity().getPackageName());
-            uri = FileProvider.getUriForFile(context.getApplicationContext(), getActivity().getPackageName() + ".fileprovider", file);
-        } else {
-            uri = Uri.fromFile(file);
-        }
+        Uri uri = Uri.fromFile(file);
         return uri;
     }
 

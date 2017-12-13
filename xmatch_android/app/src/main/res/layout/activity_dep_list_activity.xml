@@ -30,10 +30,12 @@
                 android:layout_height="match_parent" >
             </TextView>
             <ImageView
+                android:id="@+id/manager_activity_add"
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="8dp" />
+                android:layout_marginRight="@dimen/text_padding_large"
+                android:src="@drawable/icon_add"/>
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
     

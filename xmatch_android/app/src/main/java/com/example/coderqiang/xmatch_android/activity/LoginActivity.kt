@@ -17,13 +17,6 @@ import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.TranslateAnimation
 import android.view.inputmethod.EditorInfo
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Switch
-import android.widget.TextView
-import android.widget.Toast
 
 import com.example.coderqiang.xmatch_android.R
 import com.example.coderqiang.xmatch_android.model.User
@@ -37,6 +30,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 import android.Manifest.permission.READ_CONTACTS
+import android.widget.*
 import com.example.coderqiang.xmatch_android.api.DepManagerApi
 import com.example.coderqiang.xmatch_android.api.Login
 import com.example.coderqiang.xmatch_android.dao.DBManager
@@ -66,6 +60,8 @@ class LoginActivity : AppCompatActivity() {
 
     private var pref: SharedPreferences? = null
     private var editor: SharedPreferences.Editor? = null
+
+    var isUser=false
 
     companion object {
 
@@ -102,9 +98,17 @@ class LoginActivity : AppCompatActivity() {
         })
         val signInButton = findViewById<View>(R.id.sign_in_button) as Button
         signInButton.setOnClickListener { attemptLogin() }
-
         mLoginFormView = findViewById(R.id.login_form)
         mRem_passwords = findViewById<View>(R.id.rem_passwords) as Switch
+        mAccountView!!.setText("west2online")
+        mPasswordView!!.setText("123123")
+        mRem_passwords!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
+            if (b) {
+                isUser=false
+            }else{
+                isUser=true
+            }
+        })
     }
 
     private fun setLayout() {
@@ -193,7 +197,12 @@ class LoginActivity : AppCompatActivity() {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true)
-            loginDepManager(account, password)
+            if (!isUser) {
+                loginDepManager(account, password)
+            }else{
+                println("登录用户!")
+            }
+
         }
     }
 

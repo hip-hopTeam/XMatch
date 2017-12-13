@@ -8,9 +8,11 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -27,6 +29,8 @@ import com.example.coderqiang.xmatch_android.dto.MemberDto;
 import com.example.coderqiang.xmatch_android.dto.ObjectMessage;
 import com.example.coderqiang.xmatch_android.fragment.ActivityFragment;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
+import com.example.coderqiang.xmatch_android.util.PhoneUtil;
+import com.example.coderqiang.xmatch_android.util.RegexUtil;
 import com.example.coderqiang.xmatch_android.util.ResultCode;
 import com.example.coderqiang.xmatch_android.util.WindowUtil;
 
@@ -122,15 +126,30 @@ public class AddActivityActivity extends Activity {
 
     private void addActivity() {
         final com.example.coderqiang.xmatch_android.model.Activity activity=new com.example.coderqiang.xmatch_android.model.Activity();
+        if (managerAddActivityName.getText().toString().length() <= 0) {
+            RegexUtil.showToast(this,"活动名不能为空!");
+            return;
+        }
         activity.setActivityName(managerAddActivityName.getText().toString());
+        if (managerAddActivityAddress.getText().toString().length() <= 0) {
+            RegexUtil.showToast(this,"地点不能为空!");
+            return;
+        }
         activity.setAddress(managerAddActivityAddress.getText().toString());
         activity.setDepName(DepManagerLab.get(getApplicationContext()).getDepManagerDto().getDepName());
         activity.setContent(managerAddActivitySummary.getText().toString());
+        if (endTime >= startTime) {
+            RegexUtil.showToast(this,"截止时间一定要大于开始时间!");
+            return;
+        }
         activity.setStartTime(startTime);
         activity.setEndTime(endTime);
         activity.setDepId(DepManagerLab.get(getApplicationContext()).getDepManagerDto().getDepartmentId());
+        if (!RegexUtil.isPhone(managerAddActivityPhone.getText().toString())) {
+            RegexUtil.showToast(this,"手机格式不正确!");
+            return;
+        }
         activity.setManagerPhone(managerAddActivityPhone.getText().toString());
-
         Observable.create(new Observable.OnSubscribe<Object>() {
             @Override
             public void call(Subscriber<? super Object> subscriber) {

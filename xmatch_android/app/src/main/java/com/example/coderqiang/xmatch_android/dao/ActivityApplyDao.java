@@ -31,6 +31,9 @@ public class ActivityApplyDao extends AbstractDao<ActivityApply, Long> {
         public final static Property State = new Property(4, int.class, "state", false, "STATE");
         public final static Property ApplyTime = new Property(5, long.class, "applyTime", false, "APPLY_TIME");
         public final static Property SignInTime = new Property(6, long.class, "signInTime", false, "SIGN_IN_TIME");
+        public final static Property Lon = new Property(7, double.class, "lon", false, "LON");
+        public final static Property Lat = new Property(8, double.class, "lat", false, "LAT");
+        public final static Property Distance = new Property(9, double.class, "distance", false, "DISTANCE");
     }
 
 
@@ -52,7 +55,10 @@ public class ActivityApplyDao extends AbstractDao<ActivityApply, Long> {
                 "\"USER_NAME\" TEXT," + // 3: userName
                 "\"STATE\" INTEGER NOT NULL ," + // 4: state
                 "\"APPLY_TIME\" INTEGER NOT NULL ," + // 5: applyTime
-                "\"SIGN_IN_TIME\" INTEGER NOT NULL );"); // 6: signInTime
+                "\"SIGN_IN_TIME\" INTEGER NOT NULL ," + // 6: signInTime
+                "\"LON\" REAL NOT NULL ," + // 7: lon
+                "\"LAT\" REAL NOT NULL ," + // 8: lat
+                "\"DISTANCE\" REAL NOT NULL );"); // 9: distance
     }
 
     /** Drops the underlying database table. */
@@ -87,6 +93,9 @@ public class ActivityApplyDao extends AbstractDao<ActivityApply, Long> {
         stmt.bindLong(5, entity.getState());
         stmt.bindLong(6, entity.getApplyTime());
         stmt.bindLong(7, entity.getSignInTime());
+        stmt.bindDouble(8, entity.getLon());
+        stmt.bindDouble(9, entity.getLat());
+        stmt.bindDouble(10, entity.getDistance());
     }
 
     @Override
@@ -115,6 +124,9 @@ public class ActivityApplyDao extends AbstractDao<ActivityApply, Long> {
         stmt.bindLong(5, entity.getState());
         stmt.bindLong(6, entity.getApplyTime());
         stmt.bindLong(7, entity.getSignInTime());
+        stmt.bindDouble(8, entity.getLon());
+        stmt.bindDouble(9, entity.getLat());
+        stmt.bindDouble(10, entity.getDistance());
     }
 
     @Override
@@ -131,7 +143,10 @@ public class ActivityApplyDao extends AbstractDao<ActivityApply, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // userName
             cursor.getInt(offset + 4), // state
             cursor.getLong(offset + 5), // applyTime
-            cursor.getLong(offset + 6) // signInTime
+            cursor.getLong(offset + 6), // signInTime
+            cursor.getDouble(offset + 7), // lon
+            cursor.getDouble(offset + 8), // lat
+            cursor.getDouble(offset + 9) // distance
         );
         return entity;
     }
@@ -145,6 +160,9 @@ public class ActivityApplyDao extends AbstractDao<ActivityApply, Long> {
         entity.setState(cursor.getInt(offset + 4));
         entity.setApplyTime(cursor.getLong(offset + 5));
         entity.setSignInTime(cursor.getLong(offset + 6));
+        entity.setLon(cursor.getDouble(offset + 7));
+        entity.setLat(cursor.getDouble(offset + 8));
+        entity.setDistance(cursor.getDouble(offset + 9));
      }
     
     @Override

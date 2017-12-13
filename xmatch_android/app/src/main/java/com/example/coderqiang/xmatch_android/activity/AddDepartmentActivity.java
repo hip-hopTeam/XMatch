@@ -26,6 +26,7 @@ import com.example.coderqiang.xmatch_android.dto.DepManagerDto;
 import com.example.coderqiang.xmatch_android.model.Department;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
+import com.example.coderqiang.xmatch_android.util.RegexUtil;
 import com.example.coderqiang.xmatch_android.util.ResultCode;
 import com.example.coderqiang.xmatch_android.util.WindowUtil;
 
@@ -77,25 +78,6 @@ public class AddDepartmentActivity extends Activity  {
     }
 
 
-
-//    @Override
-//    public void onClick(View view) {
-//        Log.i(TAG, "onClick: "+view.getId());
-//        switch (view.getId()) {
-//            case R.id.manager_back:
-//
-//                break;
-//            case R.id.manager_add_dep_image:
-//
-//                break;
-//            case R.id.manager_add_dep_save:
-//
-//                break;
-//        }
-//    }
-
-
-
     @OnClick({R.id.manager_back, R.id.manager_add_dep_save})
     public void onViewClicked(View view) {
         Log.i(TAG, "onViewClicked: "+view.getId());
@@ -104,6 +86,14 @@ public class AddDepartmentActivity extends Activity  {
                 super.onBackPressed();
                 break;
             case R.id.manager_add_dep_save:
+                if (RegexUtil.isEmpty(managerAddDepName.getText().toString())){
+                    RegexUtil.showToast(this, "部门名字不能为空!");
+                    return;
+                }
+                if (!RegexUtil.isPhone(managerAddDepPhone.getText().toString())) {
+                    RegexUtil.showToast(this, "手机格式不正确!");
+                    return;
+                }
                 Department department = new Department();
                 department.setDepManagerId(DefaultConfig.get(getApplicationContext()).getDepmanagerId());
                 department.setDepName(managerAddDepName.getText().toString());
