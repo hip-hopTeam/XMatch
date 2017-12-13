@@ -15,6 +15,7 @@ class WyyResultCode {
         val DEP_MEMBER_NOT_EXIST=16
         val CHILD_DEP_EXIST=17
         val CHILD_DEP_NOT_EXIST=18
+        val COURSE_NOT_EXIST=19
 
         val map = mapOf<Int, String>(
                 SUCCESS to "success",
@@ -26,7 +27,8 @@ class WyyResultCode {
                 DEP_MEMBER_EXIST to "部员已存在",
                 DEP_MEMBER_NOT_EXIST to "部员不存在",
                 CHILD_DEP_EXIST to "子部门已存在",
-                CHILD_DEP_NOT_EXIST to "子部门不存在"
+                CHILD_DEP_NOT_EXIST to "子部门不存在",
+                COURSE_NOT_EXIST to "课程信息不存在"
         )
     }
 }
