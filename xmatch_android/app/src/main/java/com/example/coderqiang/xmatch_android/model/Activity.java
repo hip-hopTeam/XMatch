@@ -7,6 +7,11 @@ package com.example.coderqiang.xmatch_android.model;
  */
 public class Activity {
 
+    public static final int SIGN_UNSTART=0;
+    public static final int SIGN_ING=1;
+    public static final int SIGN_FINISH=2;
+
+
     private long activityId;
     private long depId;
     //活动名称
@@ -38,6 +43,28 @@ public class Activity {
     private float measure;
 
     private String depName;
+
+    //签到情况 0 未签到 1 正在签到 2 签到截止
+    private int signState;
+
+    //签到代码 2348
+    private String signStr;
+
+    public int getSignState() {
+        return signState;
+    }
+
+    public void setSignState(int signState) {
+        this.signState = signState;
+    }
+
+    public String getSignStr() {
+        return signStr;
+    }
+
+    public void setSignStr(String signStr) {
+        this.signStr = signStr;
+    }
 
     public float getMeasure() {
         return measure;

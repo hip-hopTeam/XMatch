@@ -37,7 +37,6 @@ import rx.schedulers.Schedulers;
 public class ActivityListActivity extends Activity {
     private static final String TAG="ActivityListActivity";
 
-
     @BindView(R.id.dep_list_back)
     ImageView depListBack;
     @BindView(R.id.dep_list_activity_bar)

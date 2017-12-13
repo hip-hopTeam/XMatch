@@ -66,7 +66,6 @@ public class ActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
-
         return view;
     }
 

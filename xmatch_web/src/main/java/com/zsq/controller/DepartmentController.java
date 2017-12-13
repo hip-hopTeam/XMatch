@@ -82,7 +82,7 @@ public class DepartmentController {
             message.code = (int) result.get("code");
             message.result = WyyResultCode.Companion.getMap().get(message.code);
             if (message.code == WyyResultCode.Companion.getSUCCESS()) {
-                message.object = (List<ChildDepartment>) result.get("childDepartments");
+                message.object = result.get("childDepartments");
             }
             return message;
         }

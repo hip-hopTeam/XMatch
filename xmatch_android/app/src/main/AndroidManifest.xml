@@ -38,7 +38,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.coderqiang.xmatch_android.fileprovider"
+            android:authorities="com.example.coderqiang.xmatch_android.fileProvider"
             android:grantUriPermissions="true"
             android:exported="false">
             <meta-data

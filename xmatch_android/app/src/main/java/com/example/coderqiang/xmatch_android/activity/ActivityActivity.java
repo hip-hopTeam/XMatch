@@ -68,7 +68,7 @@ public class ActivityActivity extends Activity {
     @BindView(R.id.activity_detail_back)
     ImageView activityDetailBack;
     @BindView(R.id.manager_add_dep_bar)
-    AppBarLayout managerAddDepBar;
+    LinearLayout managerAddDepBar;
     @BindView(R.id.activity_detail_image)
     ImageView activityDetailImage;
     @BindView(R.id.activity_detail_title)
@@ -79,6 +79,8 @@ public class ActivityActivity extends Activity {
     TextView activityDetailAddress;
     @BindView(R.id.activity_detail_time)
     TextView activityDetailTime;
+    @BindView(R.id.activity_detail_add_image)
+    TextView activityDetailAddImage;
     @BindView(R.id.activity_detail_manager)
     TextView activityDetailManager;
     @BindView(R.id.add_dep_name_tv)
@@ -95,6 +97,7 @@ public class ActivityActivity extends Activity {
         setConfig();
         ButterKnife.bind(this);
         activityId=getIntent().getLongExtra("activityId",0);
+        initView();
         initData();
         activityDetailBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +106,11 @@ public class ActivityActivity extends Activity {
             }
         });
     }
+
+    private void initView() {
+
+    }
+
     private void setConfig() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -113,7 +121,7 @@ public class ActivityActivity extends Activity {
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.colorWhite));
+            window.setStatusBarColor(getResources().getColor(R.color.transparent));
         }
     }
 
@@ -152,7 +160,7 @@ public class ActivityActivity extends Activity {
         activityDetailAddress.setText(activity.getAddress()+"");
         activityDetailContent.setText(activity.getContent()+"");
         SimpleDateFormat dateFormat=new SimpleDateFormat("MM月dd日 HH:mm");
-        activityDetailTime.setText(dateFormat.format(activity.getStartTime())+ " - " + dateFormat.format(activity.getEndTime()));
+        activityDetailTime.setText("起:"+dateFormat.format(activity.getStartTime())+ "\n止：" + dateFormat.format(activity.getEndTime()));
         activityDetailTitle.setText(activity.getActivityName());
         activityDetailMeasure.setText(activity.getMeasure()+"");
         activityDetailManager.setText(activity.getDepName()+"");
@@ -160,7 +168,8 @@ public class ActivityActivity extends Activity {
                 .asBitmap().error(R.drawable.avator)
                 .into(activityDetailImage);
         if (activity.getDepId() == DepManagerLab.get(getApplicationContext()).getDepManagerDto().getDepartmentId()) {
-            activityDetailImage.setOnClickListener(v->{
+            activityDetailAddImage.setVisibility(View.VISIBLE);
+            activityDetailAddImage.setOnClickListener(v->{
                 if (ContextCompat.checkSelfPermission(this,
                         Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS)
                         != PackageManager.PERMISSION_GRANTED||ContextCompat.checkSelfPermission(this,
@@ -193,6 +202,7 @@ public class ActivityActivity extends Activity {
 //                saveBitmap(data);
                 break;
             case SELECT_CLIPPER_PIC:
+                Log.i(TAG, "onActivityResult: saveBitmap");
                 //获取图片后保存图片到本地，是否需要保存看情况而定
                 saveBitmap(data);
                 //显示图片
@@ -250,7 +260,7 @@ public class ActivityActivity extends Activity {
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             System.out.println("package:" + this.getPackageName());
-            uri = FileProvider.getUriForFile(context.getApplicationContext(), this.getPackageName() + ".fileprovider", file);
+            uri = FileProvider.getUriForFile(context.getApplicationContext(), this.getPackageName() + ".fileProvider", file);
         } else {
             uri = Uri.fromFile(file);
         }
@@ -318,7 +328,6 @@ public class ActivityActivity extends Activity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

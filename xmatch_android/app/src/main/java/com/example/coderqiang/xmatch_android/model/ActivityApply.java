@@ -19,12 +19,20 @@ public class ActivityApply {
     private int state;
     //报名时间
     private long applyTime;
+
     //签到时间
     private long signInTime;
+    //签到经度
+    private double lon;
+    //签到纬度
+    private double lat;
+    //签到距离
+    private double distance;
 
-    @Generated(hash = 1899094068)
+    @Generated(hash = 790710435)
     public ActivityApply(Long activityApplyId, Long activityId, Long userId,
-            String userName, int state, long applyTime, long signInTime) {
+            String userName, int state, long applyTime, long signInTime, double lon,
+            double lat, double distance) {
         this.activityApplyId = activityApplyId;
         this.activityId = activityId;
         this.userId = userId;
@@ -32,10 +40,37 @@ public class ActivityApply {
         this.state = state;
         this.applyTime = applyTime;
         this.signInTime = signInTime;
+        this.lon = lon;
+        this.lat = lat;
+        this.distance = distance;
     }
 
     @Generated(hash = 2141696118)
     public ActivityApply() {
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     public Long getActivityApplyId() {

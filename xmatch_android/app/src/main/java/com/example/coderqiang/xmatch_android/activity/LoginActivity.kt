@@ -105,6 +105,8 @@ class LoginActivity : AppCompatActivity() {
 
         mLoginFormView = findViewById(R.id.login_form)
         mRem_passwords = findViewById<View>(R.id.rem_passwords) as Switch
+        mAccountView!!.setText("west2online")
+        mPasswordView!!.setText("123123")
     }
 
     private fun setLayout() {
