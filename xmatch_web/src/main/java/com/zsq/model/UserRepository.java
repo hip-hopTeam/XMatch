@@ -1,5 +1,6 @@
 package com.zsq.model;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
@@ -15,6 +16,9 @@ public interface UserRepository extends PagingAndSortingRepository<com.zsq.model
      * @return 返回对应学号的学生
      */
     public com.zsq.model.User findUserByStuNo(String stuNo);
+
+    @Query("select u from User u where u.userId=?1")
+    public User findUsersByUserId(long userId);
 
 
 }
