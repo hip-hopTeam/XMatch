@@ -7,8 +7,8 @@ import android.content.Context;
  */
 
 public class DefaultConfig {
-    public static final String BASE_URL = "http://120.25.241.49:8080/xmatch-0.0.1/";
-//    public static final String BASE_URL = "http://172.25.14.162:7979";
+//    public static final String BASE_URL = "http://120.25.241.49:8080/xmatch-0.0.1/";
+    public static final String BASE_URL = "http://172.25.21.31:7979";
 //    public static final String BASE_URL = "http://10.0.2.2:7979";
 
     public  static DefaultConfig defaultConfig;

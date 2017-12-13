@@ -28,6 +28,7 @@ import com.example.coderqiang.xmatch_android.model.DepManager
 import com.example.coderqiang.xmatch_android.model.User
 import com.example.coderqiang.xmatch_android.util.DefaultConfig
 import com.example.coderqiang.xmatch_android.util.DepManagerLab
+import com.example.coderqiang.xmatch_android.util.RegexUtil
 import com.example.coderqiang.xmatch_android.util.ResultCode
 import com.wang.avi.AVLoadingIndicatorView
 import kotlinx.android.synthetic.main.activity_sign_up.*
@@ -135,6 +136,30 @@ class SignUpActivity : AppCompatActivity(){
     }
 
     fun signUp(){
+        if (RegexUtil.isEmpty(account.text.toString())) {
+            RegexUtil.showToast(this, "账号不能为空!")
+            return
+        }
+        if (RegexUtil.isEmpty(password.text.toString())) {
+            RegexUtil.showToast(this, "密码不能为空!")
+            return
+        }
+        if (password.text.toString().length <= 6) {
+            RegexUtil.showToast(this, "密码长度必须大于6!")
+            return
+        }
+        if (RegexUtil.isEmpty(sign_up_name.text.toString())) {
+            RegexUtil.showToast(this, "名字不能为空!")
+            return
+        }
+        if (!RegexUtil.isPhone(sign_up_phone.text.toString())) {
+            RegexUtil.showToast(this, "手机格式不正确!")
+            return
+        }
+        if (!RegexUtil.isPhone(sign_up_email.text.toString())) {
+            RegexUtil.showToast(this, "邮箱格式不正确!")
+            return
+        }
         Observable.create(Observable.OnSubscribe<Int> { subscriber ->
             val depManager = DepManager()
             depManager.password= password.text.toString()

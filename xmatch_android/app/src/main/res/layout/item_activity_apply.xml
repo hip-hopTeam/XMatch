@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+    <com.example.coderqiang.xmatch_android.view.CircleImagview
+        android:id="@+id/item_member_apply_avator"
+        android:scaleType="centerCrop"
+        android:layout_width="@dimen/avator_size"
+        android:layout_height="@dimen/avator_size"
+        android:src="@drawable/avator"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="@dimen/avator_size"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/item_member_apply_name"
+            android:paddingLeft="@dimen/text_size_large"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/text_padding"
+            android:layout_height="@dimen/avator_size"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorBlack"
+            android:text="郑世强"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/text_size_large"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/text_padding"
+            android:layout_height="@dimen/avator_size"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorBlack">
+            <TextView
+                android:id="@+id/item_member_apply_state"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/avator_size"
+                android:textSize="13sp"
+                android:textColor="@color/colorBlack"
+                android:text="已签到"/>
+            <TextView
+                android:id="@+id/item_member_apply_distance"
+                android:layout_marginLeft="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/avator_size"
+                android:textSize="13sp"
+                android:textColor="@color/colorBlack"
+                android:text="距我100m"/>
+            <TextView
+                android:id="@+id/item_member_apply_time"
+                android:layout_marginLeft="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/avator_size"
+                android:textSize="13sp"
+                android:textColor="@color/colorBlack"
+                android:text="16:21"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -133,7 +133,7 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
             Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
             extraFlagField.invoke(activity.getWindow(), darkmode ? darkModeFlag : 0, darkModeFlag);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 

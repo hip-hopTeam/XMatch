@@ -12,14 +12,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
-                android:id="@+id/manager_activity_menu"
+                android:id="@+id/activity_apply_back"
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/text_padding_large"
-                android:src="@drawable/ic_menu"/>
+                android:src="@drawable/ic_back_1"/>
             <TextView
-                android:text="活动中心"
+                android:text="签到记录"
                 android:gravity="center"
                 android:textColor="@color/colorBlack"
                 android:layout_width="0dp"
@@ -27,25 +27,23 @@
                 android:layout_height="match_parent" >
             </TextView>
             <ImageView
-                android:id="@+id/manager_activity_add"
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/text_padding_large"
-                android:src="@drawable/icon_add"/>
+                />
         </LinearLayout>
 
 
     </android.support.design.widget.AppBarLayout>
     <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-        android:id="@+id/manager_activity_refresh"
+        android:id="@+id/activity_apply_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/manager_activity_recycler"
+            android:id="@+id/activity_apply_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never">
+            android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
     </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
