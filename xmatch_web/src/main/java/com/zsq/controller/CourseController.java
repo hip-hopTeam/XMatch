@@ -39,6 +39,9 @@ public class CourseController {
     public BaseMessage addCourses(@RequestBody List<Course> courses) {
         BaseMessage message = new BaseMessage();
         message.code = courseService.addCourses(courses);
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
     @RequestMapping("/delete")
     public BaseMessage deleteCourse(@RequestParam("courseId") long courseId) {
         BaseMessage message = new BaseMessage();
