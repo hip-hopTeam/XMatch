@@ -18,6 +18,9 @@ public interface DepMemberRepository extends PagingAndSortingRepository<DepMembe
     @Query("select d from DepMember d where d.depId=?1")
     public Page<DepMember> findDepMembersByDepId(long depId, Pageable pageable);
 
+    @Query("select d from DepMember d where d.depId=?1")
+    public List<DepMember> findDepMemberByDepId(long depId);
+
     /**
      * 根据部门id和部员状态查找部员
      */

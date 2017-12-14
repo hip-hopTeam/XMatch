@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * Created by ${wyy} on 2017/12/13/013.
  */
@@ -38,9 +40,16 @@ public class CourseController {
         return message;
     }
 
-//    @RequestMapping("/get")
-//    public ObjectMessage getCourseByDepId(@RequestParam("depId") long depId) {
-//
-//    }
+    @RequestMapping("/get")
+    public ObjectMessage getCourseByDepId(@RequestParam("depId") long depId) {
+        ObjectMessage message = new ObjectMessage();
+        Map<String, Object> result = courseService.getCourseByDepId(depId);
+        message.code = (int) result.get("code");
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
+        if(message.code == WyyResultCode.Companion.getSUCCESS()) {
+            message.object = result.get("courses");
+        }
+        return message;
+    }
 
 }
