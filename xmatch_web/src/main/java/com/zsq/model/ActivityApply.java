@@ -3,7 +3,9 @@ package com.zsq.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Id
+
+        ;
 
 /**
  * @author CoderQiang
@@ -115,4 +117,3 @@ public class ActivityApply {
         this.distance = distance;
     }
 }
-

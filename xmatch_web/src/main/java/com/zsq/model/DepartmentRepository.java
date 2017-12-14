@@ -1,5 +1,7 @@
 package com.zsq.model;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -11,6 +13,10 @@ import java.util.List;
  */
 public interface DepartmentRepository extends PagingAndSortingRepository<Department,Long> {
     public Department findDepartmentByDepName(String depName);
+
+    @Query("select d from Department d where d.departmentId=?1")
+    public Department getDepartmentByDepartmentId(long depId);
+
     @Query("select d from Department d")
-    public List<Department> getAll();
+    public Page<Department> getAllDepartments(Pageable pageable);
 }

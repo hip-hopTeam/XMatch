@@ -14,9 +14,9 @@ public interface DepartmentAlbumService {
 
     public int uploadAlbumImage(long departmentAlbumId, String url);
 
-    public List<DepartmentAlbum> getAlbumByDepId(long depId);
+    public List<DepartmentAlbum> getAlbumByDepId(long depId, int page, int rows);
 
-    public List<DepartmentAlbum> getAlbumByActivity(long activity);
+    public List<DepartmentAlbum> getAlbumByActivity(long activity, int page, int rows);
 
     public int deleteAlbum(long departmentAlbumId);
 

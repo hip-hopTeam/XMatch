@@ -77,10 +77,12 @@ public class DepartmentAlbumController {
 
     @RequestMapping("/get_activity")
     public ObjectMessage getAlbumByActivity(
-            @RequestParam(value = "activityId")long activityId) {
+            @RequestParam(value = "activityId")long activityId,
+            @RequestParam(required = false, defaultValue = "0")int page,
+            @RequestParam(required = false, defaultValue = "10")int rows) {
         ObjectMessage message = new ObjectMessage();
         try {
-            List<DepartmentAlbum> albums = departmentAlbumService.getAlbumByActivity(activityId);
+            List<DepartmentAlbum> albums = departmentAlbumService.getAlbumByActivity(activityId,page,rows);
             message.code = ResultCode.Companion.getSUCCESS();
             message.result = ResultCode.Companion.getMap().get(message.code);
             message.object = albums;
@@ -95,10 +97,12 @@ public class DepartmentAlbumController {
 
     @RequestMapping("/get_dep")
     public ObjectMessage getAlbumByDep(
-            @RequestParam(value = "depId")long depId) {
+            @RequestParam(value = "depId")long depId,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int rows) {
         ObjectMessage message = new ObjectMessage();
         try {
-            List<DepartmentAlbum> albums = departmentAlbumService.getAlbumByDepId(depId);
+            List<DepartmentAlbum> albums = departmentAlbumService.getAlbumByDepId(depId,page,rows);
             message.code = ResultCode.Companion.getSUCCESS();
             message.result = ResultCode.Companion.getMap().get(message.code);
             message.object = albums;

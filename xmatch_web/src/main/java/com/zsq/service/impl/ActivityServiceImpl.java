@@ -113,9 +113,18 @@ public class ActivityServiceImpl implements ActivityService{
      * @return List<Activity>
      */
     @Override
-    public List<Activity> getAllActivity() {
+    public List<Activity> getAllActivity(int page, int rows) {
         Sort sort=new Sort(Sort.Direction.DESC,"createTime");
-        List<Activity> activities = repository.findAllAcitivities(new PageRequest(0,10000,sort)).getContent();
+        List<Activity> activities = repository.findAllAcitivities(new PageRequest(page,rows,sort)).getContent();
+
+        Collections.sort(activities, (o1, o2) -> {
+            if (o1.getCreateTime() > o2.getCreateTime()) {
+                return -1;
+            } else if (o1.getCreateTime() < o2.getCreateTime()) {
+                return 1;
+            }
+            return 0;
+        });
         return activities;
     }
 
@@ -132,4 +141,17 @@ public class ActivityServiceImpl implements ActivityService{
         activity.setImageUrl(url);
         return LsyResultCode.Companion.getSUCCESS();
     }
+
+    @Override
+    public int signInActivity(Activity activity) {
+        Activity resActivity = repository.findOne(activity.getActivityId());
+        if(resActivity == null) {
+            return LsyResultCode.Companion.getACTIVITY_NOT_EXIST();
+        }
+        resActivity.setSignState(2);
+        resActivity.setSignStr(activity.getSignStr());
+        return LsyResultCode.Companion.getSUCCESS();
+    }
+
+
 }

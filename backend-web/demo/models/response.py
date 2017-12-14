@@ -23,3 +23,6 @@ def format_response_with(spec_fields):
         "object": fields.Nested(spec_fields),
     }
     return marshal_with(format_response_fields)
+
+def unauthorized():
+    return failure(02, 'unauthorized access')

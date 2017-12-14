@@ -6,10 +6,13 @@ import com.zsq.util.LsyResultCode;
 import com.zsq.util.WyyResultCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,8 +66,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<Department> getAll() {
-        List<Department> departments = repository.getAll();
+    public List<Department> getAllDepartments(int page, int rows) {
+        Sort sort = new Sort(Sort.Direction.DESC,"creatTime");
+        List<Department> departments = repository.getAllDepartments(new PageRequest(page,rows,sort)).getContent();
+
+
         return departments;
     }
 
@@ -75,22 +81,25 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Map<String, Object> getChildDepartmentByDepId(long depId) {
+    public Map<String, Object> getChildDepartmentByDepId(long depId, int page, int rows) {
         Map<String, Object> result = new HashMap<>();
         Department department = repository.findOne(depId);
         if(department==null) {
             result.put("code", WyyResultCode.Companion.getDEP_NOT_EXIST());
             return result;
         }
-        List<ChildDepartment> childDepartments = childDepartmentRepository.getByDepartmentId(depId);
+        Sort sort = new Sort(Sort.Direction.ASC,"childDepartmentId");
+        List<ChildDepartment> childDepartments = childDepartmentRepository.getByDepartmentId(depId, new PageRequest(page,rows,sort)).getContent();
+
         result.put("code", WyyResultCode.Companion.getSUCCESS());
         result.put("childDepartments", childDepartments);
         return result;
     }
 
     @Override
-    public List<ChildDepartment> getAllChildDep() {
-        return childDepartmentRepository.getAll();
+    public List<ChildDepartment> getAllChildDep(int page, int rows) {
+        Sort sort = new Sort(Sort.Direction.ASC,"childDepartmentId");
+        return childDepartmentRepository.getAll(new PageRequest(page,rows,sort)).getContent();
     }
 
     @Override

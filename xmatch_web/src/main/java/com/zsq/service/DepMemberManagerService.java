@@ -25,7 +25,7 @@ public interface DepMemberManagerService {
     /**
      * 根据部门id和部员状态查找部员
      */
-    public List<MemberDto> getDepMember(long depId, int state);
+    public List<MemberDto> getDepMember(long depId, int state, int page, int rows);
     /**
      * 管理员同意部员加入
      */

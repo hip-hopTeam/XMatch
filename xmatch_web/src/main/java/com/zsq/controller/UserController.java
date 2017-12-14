@@ -1,12 +1,11 @@
 package com.zsq.controller;
 
 import com.zsq.dto.UserDto;
+import com.zsq.model.ActivityApply;
 import com.zsq.model.User;
+import com.zsq.service.ActivityApplyService;
 import com.zsq.service.UserService;
-import com.zsq.util.BaseMessage;
-import com.zsq.util.ObjectMessage;
-import com.zsq.util.ResultCode;
-import com.zsq.util.WyyResultCode;
+import com.zsq.util.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Base64Utils;
@@ -27,6 +26,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    ActivityApplyService activityApplyService;
 
     @RequestMapping("/add")
     public BaseMessage addUser(@RequestBody  User user) {
@@ -84,4 +85,22 @@ public class UserController {
         }
         return message;
     }
+
+    @RequestMapping("/addActivityApply")
+    public BaseMessage addActivity(@RequestBody ActivityApply activityApply) {
+        BaseMessage message = new BaseMessage();
+        message.code = activityApplyService.addActivityApply(activityApply);
+        message.result = LsyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
+    @RequestMapping("/signInApply")
+    public BaseMessage signInApply(@RequestBody ActivityApply activityApply) {
+        BaseMessage message = new BaseMessage();
+        message.code = activityApplyService.signInActivityApply(activityApply.getActivityApplyId());
+        message.result = LsyResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
+
 }
