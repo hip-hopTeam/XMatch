@@ -35,7 +35,7 @@ public class Course {
      */
     private int startWeek;
     /**
-     * 课程的节数周数 1-20
+     * 课程的结束周数 1-20
      */
     private int endWeek;
     //是否双周
