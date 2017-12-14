@@ -52,7 +52,6 @@ import rx.schedulers.Schedulers;
 public class MessageActivity extends Activity {
     private static final String TAG = "MessageActivity";
 
-
     @BindView(R.id.message_back)
     ImageView messageBack;
     @BindView(R.id.message_select)
@@ -67,7 +66,6 @@ public class MessageActivity extends Activity {
     RecyclerView messageRecycler;
 
     Activity activity;
-
 
     private MyReciver receiver;//声明一个广播接收器
     private List<MessageMember> allMemberDtos = new ArrayList<>();
