@@ -6,12 +6,17 @@ import com.zsq.model.ActivityApplyRepository;
 import com.zsq.model.ActivityRepository;
 import com.zsq.service.ActivityApplyService;
 import com.zsq.util.LsyResultCode;
+import com.zsq.util.WyyResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hp on 2017/11/13.
@@ -55,6 +60,20 @@ public class ActivityApplyServiceImpl implements ActivityApplyService{
         activityApply.setSignInTime(System.currentTimeMillis());
         activity.setSignIn(activity.getSignIn()+1);
         return LsyResultCode.Companion.getSUCCESS();
+    }
+
+    @Override
+    public Map<String, Object> getActivityApplyByActivityId(long activityId, int page, int rows) {
+        Activity isExistActivity = activityRepository.findActivityByActivityId(activityId);
+        Map<String, Object> result = new HashMap<>();
+        if(isExistActivity == null) {
+            result.put("code", LsyResultCode.Companion.getACTIVITY_NOT_EXIST());
+        }
+        Sort sort = new Sort(Sort.Direction.ASC, "applyTime");
+        List<ActivityApply> activityApplies = repository.findActivityAppliesByActivityId(activityId, new PageRequest(page, rows, sort)).getContent();
+        result.put("code", WyyResultCode.Companion.getSUCCESS());
+        result.put("object", activityApplies);
+        return result;
     }
 
 }
