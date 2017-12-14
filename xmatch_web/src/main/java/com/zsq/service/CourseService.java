@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public interface CourseService {
     public int addCourse(Course course);
+    public int addCourses(List<Course> courses);
     public int deleteCourse(long courseId);
     public Map<String, Object> getCourseByUserId(long userId);
     public Map<String, Object> getCourseByDepId(long depId);

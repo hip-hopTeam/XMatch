@@ -48,6 +48,17 @@ public class User {
     /**用户头像*/
     private String avatorUrl;
 
+    /**个人简介**/
+    private String summary;
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
     public String getAvatorUrl() {
         return avatorUrl;
     }

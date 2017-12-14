@@ -18,6 +18,7 @@ import com.example.coderqiang.xmatch_android.adapter.NoticeAdapter;
 import com.example.coderqiang.xmatch_android.api.NoticeApi;
 import com.example.coderqiang.xmatch_android.model.Activity;
 import com.example.coderqiang.xmatch_android.model.AppNotice;
+import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
 
 import java.util.List;
@@ -44,8 +45,8 @@ public class NoticeItemFragment extends Fragment {
 
     Unbinder unbinder;
 
-    //1 全校 2 部门
-    int type=1;
+    //1 部门 2 全校
+    int type=2;
 
     public static NoticeItemFragment getInstance(int type) {
         NoticeItemFragment noticeItemFragment = new NoticeItemFragment();
@@ -76,8 +77,20 @@ public class NoticeItemFragment extends Fragment {
     private void initData(boolean refresh) {
         System.out.println("获取数据");
         Observable.create(subscriber -> {
-                List<AppNotice> notices = NoticeApi.getNotices(type, DepManagerLab.get(getActivity()).getDepManagerDto().getDepartmentId());
+            long depId=0;
+            if (type == 1&& !DefaultConfig.get(getActivity()).isUser()) {
+                depId = DepManagerLab.get(getActivity()).getDepManagerDto().getDepartmentId();
+                List<AppNotice> notices = NoticeApi.getNotices(type, depId);
                 subscriber.onNext(notices);
+                return;
+            }
+            if (type == 1&&DefaultConfig.get(getActivity()).isUser()) {
+                List<AppNotice> notices = NoticeApi.getUserNotices(DefaultConfig.get(getActivity()).getUserId());
+                subscriber.onNext(notices);
+                return;
+            }
+            List<AppNotice> notices = NoticeApi.getNotices(type,depId);
+            subscriber.onNext(notices);
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Object>() {
             @Override
             public void onCompleted() {

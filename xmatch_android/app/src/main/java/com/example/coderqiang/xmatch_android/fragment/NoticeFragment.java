@@ -25,6 +25,7 @@ import com.example.coderqiang.xmatch_android.api.ActivityApi;
 import com.example.coderqiang.xmatch_android.api.NoticeApi;
 import com.example.coderqiang.xmatch_android.model.Activity;
 import com.example.coderqiang.xmatch_android.model.AppNotice;
+import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +83,9 @@ public class NoticeFragment extends Fragment {
         managerNoticeViewPager.setCurrentItem(0);
         managerNoticeTabLayout.setTabsFromPagerAdapter(fragAdapter);
         managerNoticeTabLayout.setupWithViewPager(managerNoticeViewPager);
+        if (DefaultConfig.get(getActivity()).isUser()) {
+            managerNoticeAdd.setVisibility(View.GONE);
+        }
     }
 
     private void initData() {

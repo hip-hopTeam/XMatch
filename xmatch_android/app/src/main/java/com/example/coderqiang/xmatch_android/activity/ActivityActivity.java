@@ -30,11 +30,13 @@ import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.adapter.ActivityAdapter;
 import com.example.coderqiang.xmatch_android.api.ActivityApi;
 import com.example.coderqiang.xmatch_android.api.DepManagerApi;
+import com.example.coderqiang.xmatch_android.dto.UserDto;
 import com.example.coderqiang.xmatch_android.fragment.ActivityFragment;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
 import com.example.coderqiang.xmatch_android.util.PhotoClipperUtil;
 import com.example.coderqiang.xmatch_android.util.ResultCode;
+import com.example.coderqiang.xmatch_android.util.UserDtoLab;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -68,6 +70,8 @@ public class ActivityActivity extends Activity {
     
     public static final int SET_PATTERN=3;
 
+    @BindView(R.id.activity_detail_album)
+    TextView activityDetailAlbum;
     @BindView(R.id.activity_detail_back)
     ImageView activityDetailBack;
     @BindView(R.id.manager_add_dep_bar)
@@ -96,6 +100,7 @@ public class ActivityActivity extends Activity {
     TextView signBtn;
 
     long activityId=0;
+    boolean isUser=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +109,7 @@ public class ActivityActivity extends Activity {
         setConfig();
         ButterKnife.bind(this);
         activityId=getIntent().getLongExtra("activityId",0);
+        isUser = DefaultConfig.get(this).isUser();
         initView();
         initData();
     }
@@ -122,6 +128,21 @@ public class ActivityActivity extends Activity {
                 onBackPressed();
             }
         });
+        activityDetailAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ActivityActivity.this, AlbumActivity.class);
+                intent.putExtra("activityId", activityId);
+                intent.putExtra("title", activityDetailTitle.getText().toString());
+                if (isUser) {
+                    intent.putExtra("uploadName", UserDtoLab.get(getApplicationContext()).getUserDto().getUsername());
+                }else {
+                    intent.putExtra("uploadName", DepManagerLab.get(getApplicationContext()).getDepManagerDto().getDepName());
+                }
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void setConfig() {
@@ -183,7 +204,7 @@ public class ActivityActivity extends Activity {
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .error(R.drawable.avator)
                 .into(activityDetailImage);
-        if (activity.getDepId() == DepManagerLab.get(getApplicationContext()).getDepManagerDto().getDepartmentId()) {
+        if (DepManagerLab.get(getApplicationContext()).getDepManagerDto()!=null&&activity.getDepId() == DepManagerLab.get(getApplicationContext()).getDepManagerDto().getDepartmentId()) {
             activityDetailAddImage.setVisibility(View.VISIBLE);
             activityDetailAddImage.setOnClickListener(v->{
                 if (ContextCompat.checkSelfPermission(this,

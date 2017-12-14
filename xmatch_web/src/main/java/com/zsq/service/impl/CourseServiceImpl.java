@@ -1,5 +1,11 @@
 package com.zsq.service.impl;
 
+import com.zsq.model.Course;
+import com.zsq.model.CourseRepository;
+import com.zsq.model.User;
+import com.zsq.model.UserRepository;
+import com.zsq.service.CourseService;
+import com.zsq.util.ResultCode;
 import com.zsq.model.*;
 import com.zsq.service.CourseService;
 import com.zsq.util.WyyResultCode;
@@ -8,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +48,12 @@ public class CourseServiceImpl implements CourseService {
         }
         courseRepository.save(course);
         return WyyResultCode.Companion.getSUCCESS();
+    }
+
+    @Override
+    public int addCourses(List<Course> courses) {
+        courseRepository.save(courses);
+        return ResultCode.Companion.getSUCCESS();
     }
 
     @Override

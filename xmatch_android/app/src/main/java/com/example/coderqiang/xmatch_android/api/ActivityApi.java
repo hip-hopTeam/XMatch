@@ -4,11 +4,14 @@ import android.content.Context;
 
 import com.example.coderqiang.xmatch_android.api.service.ActivitySevice;
 import com.example.coderqiang.xmatch_android.api.service.DepManagerService;
+import com.example.coderqiang.xmatch_android.api.service.UserService;
 import com.example.coderqiang.xmatch_android.dto.BaseMessage;
 import com.example.coderqiang.xmatch_android.dto.IntResultMessage;
 import com.example.coderqiang.xmatch_android.dto.MemberDto;
 import com.example.coderqiang.xmatch_android.dto.ObjectMessage;
 import com.example.coderqiang.xmatch_android.model.Activity;
+import com.example.coderqiang.xmatch_android.model.DepMember;
+import com.example.coderqiang.xmatch_android.model.DepartmentAlbum;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
 import com.example.coderqiang.xmatch_android.util.ResultCode;
@@ -152,6 +155,47 @@ public class ActivityApi {
         }
         return 0;
     }
+
+
+    public static ObjectMessage<Long> addAlbum(Context context,DepartmentAlbum departmentAlbum) {
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DefaultConfig.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ActivitySevice activitySevice = retrofit.create(ActivitySevice.class);
+        Call<ObjectMessage<Long>> userCall = activitySevice.addAlbum(departmentAlbum);
+        try {
+            ObjectMessage<Long> message= userCall.execute().body();
+            return message;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+    public static int deleteAlbum(Context context,long albumId) {
+        System.out.println("albumId:" + albumId);
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DefaultConfig.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ActivitySevice service = retrofit.create(ActivitySevice.class);
+        Call<BaseMessage> call = service.deleteAlbum(albumId);
+        try {
+            BaseMessage message = call.execute().body();
+            return message.code;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
 
 }

@@ -6,6 +6,8 @@ import com.example.coderqiang.xmatch_android.dto.MemberDto
 import com.example.coderqiang.xmatch_android.dto.ObjectMessage
 import com.example.coderqiang.xmatch_android.model.DepManager
 import com.example.coderqiang.xmatch_android.model.Department
+import com.example.coderqiang.xmatch_android.model.DepartmentAlbum
+import com.example.coderqiang.xmatch_android.model.User
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -38,5 +40,12 @@ interface DepManagerService {
     @GET("api/department/deleteChildDep")
     fun deleteChildDepartment(@Query("childDepartmentId")childDepartmentId: Long):Call<BaseMessage>
 
+    @GET("/api/album/image/get_dep")
+    fun getDepAlbumByDepId(@Query("depId")depId: Long): Call<ObjectMessage<List<DepartmentAlbum>>>
 
+    @GET("/api/album/image/get_activity")
+    fun getDepAlbumByActivityId(@Query("activityId")depId: Long): Call<ObjectMessage<List<DepartmentAlbum>>>
+
+    @POST("/api/album/image/add")
+    fun addDepAlum(@Body departmentAlbum: DepartmentAlbum):Call<BaseMessage>
 }

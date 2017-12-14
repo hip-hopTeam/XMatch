@@ -1,10 +1,12 @@
 package com.example.coderqiang.xmatch_android.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,12 +14,20 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.adapter.ChildDepartmentAdapter;
+import com.example.coderqiang.xmatch_android.api.ActivityApi;
 import com.example.coderqiang.xmatch_android.api.DepManagerApi;
+import com.example.coderqiang.xmatch_android.api.UserApi;
 import com.example.coderqiang.xmatch_android.model.ChildDepartment;
+import com.example.coderqiang.xmatch_android.model.DepMember;
+import com.example.coderqiang.xmatch_android.util.DefaultConfig;
+import com.example.coderqiang.xmatch_android.util.DepManagerLab;
+import com.example.coderqiang.xmatch_android.util.ResultCode;
 
 import java.util.List;
 
@@ -46,13 +56,18 @@ public class ChildDepartmentActivity extends Activity implements View.OnClickLis
 
     long departmentId = 0;
     String departmentName = "";
+    @BindView(R.id.manager_child_department_add_tv)
+    TextView managerChildDepartmentAddTv;
     @BindView(R.id.manager_back)
     ImageView managerBack;
     @BindView(R.id.manager_child_department_name)
     TextView managerChildDepartmentName;
-
+    @BindView(R.id.manager_child_department_add_layout)
+    LinearLayout managerChildDepartmentAddLayout;
     @BindView(R.id.manager_child_department_add)
-    ImageView addChildDepartment;
+    public ImageView addChildDepartment;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +77,6 @@ public class ChildDepartmentActivity extends Activity implements View.OnClickLis
         ButterKnife.bind(this);
         departmentId = getIntent().getLongExtra("departmentId", 0);
         departmentName = getIntent().getStringExtra("departmentName");
-
         initView();
     }
 
@@ -99,6 +113,10 @@ public class ChildDepartmentActivity extends Activity implements View.OnClickLis
         managerChildDepartmentRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         managerChildDepartmentName.setText(departmentName);
         addChildDepartment.setOnClickListener(this);
+        managerChildDepartmentAddLayout.setOnClickListener(this);
+        if (!DefaultConfig.get(getApplicationContext()).isUser()){
+            managerChildDepartmentAddTv.setVisibility(View.GONE);
+        }
     }
 
     @OnClick(R.id.manager_back)
@@ -121,16 +139,74 @@ public class ChildDepartmentActivity extends Activity implements View.OnClickLis
 
     }
 
-
-
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.manager_child_department_add:
-                Intent intent = new Intent(this, AddChildDepartmentActivtiy.class);
-                startActivity(intent);
+                if (!DefaultConfig.get(getApplicationContext()).isUser()) {
+                    Intent intent = new Intent(this, AddChildDepartmentActivtiy.class);
+                    startActivity(intent);
+                }else {
+                    addDepartment();
+                }
+                break;
+            case R.id.manager_child_department_add_layout:
+                if (DefaultConfig.get(getApplicationContext()).isUser()) {
+                    addDepartment();
+                }
+                break;
         }
+    }
+
+    public void addDepartment(){
+        AlertDialog.Builder logoutDialog =
+                new AlertDialog.Builder(ChildDepartmentActivity.this);
+        logoutDialog.setTitle("申请");
+        logoutDialog.setMessage("是否以普通部员身份加入<"+departmentName+">?");
+        logoutDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Observable.create(new Observable.OnSubscribe<Object>() {
+                            @Override
+                            public void call(Subscriber<? super Object> subscriber) {
+                                DepMember depMember = new DepMember();
+                                depMember.setUserId(DefaultConfig.get(getApplicationContext()).getUserId());
+                                depMember.setState(DepMember.STATE_APPLY);
+                                depMember.setJoinTime(System.currentTimeMillis());
+                                depMember.setRole("部员");
+                                depMember.setDepId(departmentId);
+                                int result = UserApi.addApplyToDepartment(getApplicationContext(), depMember);
+                                subscriber.onNext(result);
+                            }
+                        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Object>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onNext(Object object) {
+                                int result=(int)object;
+                                if (result == ResultCode.Companion.getSUCCESS()) {
+                                    Toast.makeText(ChildDepartmentActivity.this, "添加申请成功", Toast.LENGTH_SHORT).show();
+                                }else if (result==ResultCode.Companion.getDEP_MEMBER_EXIST()){
+                                    Toast.makeText(ChildDepartmentActivity.this, "已加入过该部门", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(ChildDepartmentActivity.this, "添加申请失败", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });;
+        logoutDialog.setNegativeButton("取消",
+                null);
+        logoutDialog.show();
     }
 
     @Override

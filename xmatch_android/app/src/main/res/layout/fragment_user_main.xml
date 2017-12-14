@@ -26,7 +26,7 @@
                 android:layout_height="match_parent" >
             </TextView>
             <ImageView
-                android:id="@+id/manager_add_dep_refresh"
+                android:id="@+id/user_main_refresh"
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:layout_gravity="center_vertical"
@@ -64,6 +64,7 @@
                 android:textSize="17sp"
                 android:text="郑世强"/>
             <TextView
+                android:id="@+id/user_main_college"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/user_main_name"
@@ -71,7 +72,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="16dp"
                 android:textColor="@color/colorBlackLight_2"
-                android:text="部长" />
+                android:text="数计学院" />
             <ImageView
                 android:id="@+id/user_main_setting_btn"
                 android:layout_width="@dimen/icon_size"
@@ -98,84 +99,25 @@
             android:text="总有一天，会有一个人，看你写过的所有状态，读完写的所有微博，看你从小到大的所有照片，甚至去别的地方寻找关于你的信息，试着听你听的歌，走你走过的地方."/>
 
         <LinearLayout
-            android:padding="8dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/corner_bg_white"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+            <TextView
+                android:padding="@dimen/text_padding"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textSize="18sp"
-                    android:text="部门数"/>
-                <TextView
-                    android:id="@+id/user_main_member_num"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="32sp"
-                    android:gravity="center_horizontal"
-                    android:text="35"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textSize="18sp"
-                    android:text="参加活动"/>
-                <TextView
-                    android:id="@+id/user_main_activity_num"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="32sp"
-                    android:gravity="center_horizontal"
-                    android:text="35"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/colorBlackLight_2"
-                    android:textSize="18sp"
-                    android:text="本周活动"/>
-                <TextView
-                    android:id="@+id/user_main_week_activity_num"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="32sp"
-                    android:gravity="center_horizontal"
-                    android:text="35"
-                    />
-            </LinearLayout>
+                android:text="我的部门:"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/user_main_recycler"
+                android:background="@drawable/corner_bg_white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/user_main_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            
-        </android.support.v7.widget.RecyclerView>
+
+
     </LinearLayout>
 </RelativeLayout>

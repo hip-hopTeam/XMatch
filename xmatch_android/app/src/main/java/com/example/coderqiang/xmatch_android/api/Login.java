@@ -23,21 +23,5 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login {
 
-    public static Integer loginUser(User user) {
-        OkHttpClient client = new OkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(DefaultConfig.BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        UserService userService = retrofit.create(UserService.class);
-        Call<ObjectMessage<User>> call= userService.userLogin(user.getStuNo(), user.getPasswd());
-        try {
-            ObjectMessage<User> message = call.execute().body();
-            return message.code;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return ResultCode.Companion.getERROR();
-    }
+
 }

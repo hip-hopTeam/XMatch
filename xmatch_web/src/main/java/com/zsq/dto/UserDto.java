@@ -6,7 +6,6 @@ package com.zsq.dto;
 public class UserDto {
 
     private Long userId;
-
     /**
      * 学号
      */
@@ -29,8 +28,20 @@ public class UserDto {
     private int bindPhone;
     /**手机号*/
     private String phoneNum;
+
     /**邮箱, 为 null则未绑定*/
     private String email;
+
+    /**个人简介**/
+    private String summary;
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
 
     public Long getUserId() {
         return userId;

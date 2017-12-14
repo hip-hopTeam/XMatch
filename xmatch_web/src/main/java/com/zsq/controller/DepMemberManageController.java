@@ -77,6 +77,7 @@ public class DepMemberManageController {
         return message;
     }
 
+
     @RequestMapping("/handle")
     public BaseMessage handleResult(@RequestParam("depMemberId") long depMemberId,
                                       @RequestParam( "state") int state) {

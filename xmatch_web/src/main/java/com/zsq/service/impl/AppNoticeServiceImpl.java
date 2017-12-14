@@ -2,14 +2,19 @@ package com.zsq.service.impl;
 
 import com.zsq.model.AppNotice;
 import com.zsq.model.AppNoticeRepository;
+import com.zsq.model.DepMemberRepository;
 import com.zsq.service.AppNoticeService;
+import com.zsq.service.DepMemberManagerService;
 import com.zsq.util.ThoResultCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +28,9 @@ public  class AppNoticeServiceImpl implements AppNoticeService{
 
     @Autowired
     AppNoticeRepository repository;
+    @Autowired
+    DepMemberManagerService depMemberManagerService;
+
 
 
     @Override
@@ -49,6 +57,16 @@ public  class AppNoticeServiceImpl implements AppNoticeService{
     public List<AppNotice> getOneDepAllNotices(long departmentId) {
         List<AppNotice> oneDepAppNotices = repository.findAppNoticesByDepartmentId(departmentId);
         return oneDepAppNotices;
+    }
+
+    @Override
+    public List<AppNotice> getUserAllNotices(long userId,int page,int rows) {
+        List<Long> depIds=depMemberManagerService.getDepartments(userId);
+        if (depIds.size() >=1) {
+            Sort sort=new Sort(Sort.Direction.DESC,"createTime");
+            return repository.getUserAll(depIds,new PageRequest(page,rows,sort)).getContent();
+        }
+        return new ArrayList<>();
     }
 
     @Override

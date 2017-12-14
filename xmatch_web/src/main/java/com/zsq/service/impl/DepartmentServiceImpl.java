@@ -1,6 +1,7 @@
 package com.zsq.service.impl;
 
 import com.zsq.model.*;
+import com.zsq.service.DepMemberManagerService;
 import com.zsq.service.DepartmentService;
 import com.zsq.util.LsyResultCode;
 import com.zsq.util.WyyResultCode;
@@ -12,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author _Lines
@@ -33,6 +31,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     DepManagerRepository depManagerRepository;
+
+    @Autowired
+    DepMemberManagerService depMemberManagerService;
 
     @Override
     public int addDepartment(Department dep) {
@@ -66,11 +67,18 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<Department> getUserDepartment(long userId) {
+        List<Long> depIds=depMemberManagerService.getDepartments(userId);
+        if (depIds.size() >=1) {
+            return repository.getDepartmentsByDepartmentId(depIds);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
     public List<Department> getAllDepartments(int page, int rows) {
         Sort sort = new Sort(Sort.Direction.DESC,"creatTime");
         List<Department> departments = repository.getAllDepartments(new PageRequest(page,rows,sort)).getContent();
-
-
         return departments;
     }
 

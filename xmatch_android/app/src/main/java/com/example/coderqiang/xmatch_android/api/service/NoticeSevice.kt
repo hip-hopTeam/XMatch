@@ -17,6 +17,9 @@ interface NoticeSevice {
     @GET("api/notice/manager/get_all")
     fun getAllNotices(): Call<ObjectMessage<List<AppNotice>>>
 
+    @GET("api/notice/user/get_department")
+    fun getUserAllNotices(@Query("userId")userId: Long): Call<ObjectMessage<List<AppNotice>>>
+
     @GET("api/notice/manager/get_department")
     fun getDepNotices(@Query("type")type:Int,
                          @Query("departmentId")activityId: Long): Call<ObjectMessage<List<AppNotice>>>

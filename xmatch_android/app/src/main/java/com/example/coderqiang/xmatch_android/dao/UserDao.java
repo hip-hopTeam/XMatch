@@ -35,6 +35,7 @@ public class UserDao extends AbstractDao<User, Long> {
         public final static Property Email = new Property(8, String.class, "email", false, "EMAIL");
         public final static Property IsLogin = new Property(9, boolean.class, "isLogin", false, "IS_LOGIN");
         public final static Property AvatorUrl = new Property(10, String.class, "avatorUrl", false, "AVATOR_URL");
+        public final static Property Summary = new Property(11, String.class, "summary", false, "SUMMARY");
     }
 
 
@@ -60,7 +61,8 @@ public class UserDao extends AbstractDao<User, Long> {
                 "\"PHONE_NUM\" TEXT," + // 7: phoneNum
                 "\"EMAIL\" TEXT," + // 8: email
                 "\"IS_LOGIN\" INTEGER NOT NULL ," + // 9: isLogin
-                "\"AVATOR_URL\" TEXT);"); // 10: avatorUrl
+                "\"AVATOR_URL\" TEXT," + // 10: avatorUrl
+                "\"SUMMARY\" TEXT);"); // 11: summary
     }
 
     /** Drops the underlying database table. */
@@ -115,6 +117,11 @@ public class UserDao extends AbstractDao<User, Long> {
         if (avatorUrl != null) {
             stmt.bindString(11, avatorUrl);
         }
+ 
+        String summary = entity.getSummary();
+        if (summary != null) {
+            stmt.bindString(12, summary);
+        }
     }
 
     @Override
@@ -163,6 +170,11 @@ public class UserDao extends AbstractDao<User, Long> {
         if (avatorUrl != null) {
             stmt.bindString(11, avatorUrl);
         }
+ 
+        String summary = entity.getSummary();
+        if (summary != null) {
+            stmt.bindString(12, summary);
+        }
     }
 
     @Override
@@ -183,7 +195,8 @@ public class UserDao extends AbstractDao<User, Long> {
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // phoneNum
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // email
             cursor.getShort(offset + 9) != 0, // isLogin
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10) // avatorUrl
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // avatorUrl
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11) // summary
         );
         return entity;
     }
@@ -201,6 +214,7 @@ public class UserDao extends AbstractDao<User, Long> {
         entity.setEmail(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setIsLogin(cursor.getShort(offset + 9) != 0);
         entity.setAvatorUrl(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setSummary(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
      }
     
     @Override

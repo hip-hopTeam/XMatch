@@ -58,10 +58,6 @@ public class AddDepartmentActivity extends Activity  {
     EditText managerAddDepSummary;
     @BindView(R.id.manager_add_dep_phone)
     EditText managerAddDepPhone;
-//    @BindView(R.id.manager_add_dep_image)
-//    ImageView managerAddDepImage;
-//    @BindView(R.id.manager_add_dep_image_tv)
-//    TextView managerAddDepImageTv;
     @BindView(R.id.add_dep_name_tv)
     LinearLayout addDepNameTv;
     @BindView(R.id.manager_add_dep_save)

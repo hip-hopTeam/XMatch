@@ -37,6 +37,7 @@ import com.example.coderqiang.xmatch_android.fragment.DepartmentFragment;
 import com.example.coderqiang.xmatch_android.fragment.ManagerMainFragment;
 import com.example.coderqiang.xmatch_android.fragment.MemberFragment;
 import com.example.coderqiang.xmatch_android.fragment.NoticeFragment;
+import com.example.coderqiang.xmatch_android.fragment.UserMainFragment;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 import com.example.coderqiang.xmatch_android.util.PhotoClipperUtil;
 
@@ -71,6 +72,8 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
     public NoticeFragment noticeFragment;
     public Fragment current;
 
+    public UserMainFragment userMainFragment;
+
     MenuItem menuItem;
     public NavigationView navigationView;
     @BindView(R.id.drawer_layout)
@@ -78,7 +81,7 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
 
     private int menuSelect = 0;
 
-
+    private boolean isUser=false;
 
 
     @Override
@@ -87,6 +90,7 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
         setContentView(R.layout.activity_main_manager);
 //        requestPermission();
         ButterKnife.bind(this);
+        isUser=DefaultConfig.get(this).isUser();
         setConfig();
         initData();
         initView();
@@ -101,8 +105,17 @@ public class ManagerMainActivity extends FragmentActivity implements NavigationV
     private void initView() {
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        managerMainFragment = new ManagerMainFragment();
-        current = managerMainFragment;
+        if (!isUser) {
+            if (managerMainFragment == null) {
+                managerMainFragment = new ManagerMainFragment();
+            }
+            current=managerMainFragment;
+        }else {
+            if (userMainFragment == null) {
+                userMainFragment = new UserMainFragment();
+            }
+           current=userMainFragment;
+        }
         menuItem = navigationView.getMenu().getItem(menuSelect);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container , current)

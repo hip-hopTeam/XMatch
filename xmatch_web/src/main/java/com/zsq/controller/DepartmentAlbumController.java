@@ -38,7 +38,7 @@ public class DepartmentAlbumController {
             Map<String,Object> result=departmentAlbumService.addAlbum(departmentAlbum);
             message.code = (int) result.get("code");
             message.result = ResultCode.Companion.getMap().get(message.code);
-            message.object=result.get("result");
+            message.object=result.get("result");//albumId
         } catch (Exception e) {
             e.printStackTrace();
             message.code = ResultCode.Companion.getERROR();
@@ -48,7 +48,7 @@ public class DepartmentAlbumController {
     }
 
     @RequestMapping("/upload")
-    public BaseMessage uploadAlbum( 
+    public BaseMessage uploadAlbum(
             @RequestParam("departmentAlbumId") long departmentAlbumId
             , @RequestParam("file")MultipartFile file,
                                     HttpServletRequest request) {
@@ -97,7 +97,7 @@ public class DepartmentAlbumController {
     public ObjectMessage getAlbumByDep(
             @RequestParam(value = "depId")long depId,
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int rows) {
+            @RequestParam(required = false, defaultValue = "100") int rows) {
         ObjectMessage message = new ObjectMessage();
         try {
             List<DepartmentAlbum> albums = departmentAlbumService.getAlbumByDepId(depId,page,rows);

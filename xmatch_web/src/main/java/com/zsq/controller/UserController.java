@@ -4,16 +4,22 @@ import com.zsq.dto.UserDto;
 import com.zsq.model.ActivityApply;
 import com.zsq.model.User;
 import com.zsq.service.ActivityApplyService;
+import com.zsq.service.DepartmentService;
 import com.zsq.service.UserService;
 import com.zsq.util.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Base64Utils;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -28,12 +34,43 @@ public class UserController {
     UserService userService;
     @Autowired
     ActivityApplyService activityApplyService;
+    @Autowired
+    DepartmentService departmentService;
 
     @RequestMapping("/add")
-    public BaseMessage addUser(@RequestBody  User user) {
-        BaseMessage message = new BaseMessage();
-        message.code=userService.addUser(user);
+    public ObjectMessage addUser(@RequestBody  User user) {
+        ObjectMessage message = new ObjectMessage();
+        Map<String,Object> resultMap=userService.addUser(user);
+        message.code= (int) resultMap.get("code");
         message.result = ResultCode.Companion.getMap().get(message.code);
+        message.object = resultMap.get("userId");
+        return message;
+    }
+
+    @RequestMapping("/avator/add")
+    public BaseMessage addDepManagerAvator(
+            @RequestParam("userId") long userId
+            , @RequestParam("avator")MultipartFile file,
+            HttpServletRequest request) {
+        BaseMessage message = new BaseMessage();
+
+        String rootPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
+        String prefix=file.getOriginalFilename().replaceAll(".*(\\.(.*))","$1");
+        String url="/avator_user/"+userId+prefix;
+        File avator = new File(rootPath+"/static"+url);
+        if (!avator.getParentFile().exists()) {
+            avator.getParentFile().mkdirs();
+        }
+        try {
+            file.transferTo(avator);
+        } catch (IOException e) {
+            message.code = LsyResultCode.Companion.getERROR();
+            message.result= LsyResultCode.Companion.getMap().get(message.code);
+            e.printStackTrace();
+            return message;
+        }
+        message.code = userService.addUserAvator(userId, url);
+        message.result = LsyResultCode.Companion.getMap().get(message.code);
         return message;
     }
 
@@ -102,5 +139,15 @@ public class UserController {
         return message;
     }
 
+    @RequestMapping("/getDeps")
+    public ObjectMessage getDeps(
+            @RequestParam long userId
+    ){
+        ObjectMessage message = new ObjectMessage();
+        message.code=ResultCode.Companion.getSUCCESS();
+        message.result = ResultCode.Companion.getMap().get(message.code);
+        message.object = departmentService.getUserDepartment(userId);
+        return message;
+    }
 
 }

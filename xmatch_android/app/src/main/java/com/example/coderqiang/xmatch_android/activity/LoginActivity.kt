@@ -33,9 +33,11 @@ import android.Manifest.permission.READ_CONTACTS
 import android.widget.*
 import com.example.coderqiang.xmatch_android.api.DepManagerApi
 import com.example.coderqiang.xmatch_android.api.Login
+import com.example.coderqiang.xmatch_android.api.UserApi
 import com.example.coderqiang.xmatch_android.dao.DBManager
 import com.example.coderqiang.xmatch_android.model.DepManager
 import com.example.coderqiang.xmatch_android.util.DepManagerLab
+import rx.Subscriber
 
 /**
  * Created by coderqiang on 2017/11/9.
@@ -61,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
     private var pref: SharedPreferences? = null
     private var editor: SharedPreferences.Editor? = null
 
-    var isUser=false
+    var isUser=true
 
     companion object {
 
@@ -89,7 +91,6 @@ class LoginActivity : AppCompatActivity() {
         signUpBtn=findViewById<View>(R.id.login_sign_up) as TextView
         signUpBtn!!.setOnClickListener{signUp()}
         mPasswordView!!.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
-            Log.i(TAG, "onEditorAction: Id:" + id)
             if (id == EditorInfo.IME_NULL || id == 6) {
                 attemptLogin()
                 return@OnEditorActionListener true
@@ -197,10 +198,12 @@ class LoginActivity : AppCompatActivity() {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true)
+            DefaultConfig.get(this).isUser=isUser
             if (!isUser) {
                 loginDepManager(account, password)
             }else{
-                println("登录用户!")
+                println("登录用户")
+                loginUser(account,password)
             }
 
         }
@@ -250,15 +253,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-//    private fun addEmailsToAutoComplete(emailAddressCollection: List<String>) {
-//        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-//        val adapter = ArrayAdapter(this@LoginActivity,
-//                android.R.layout.simple_dropdown_item_1line, emailAddressCollection)
-//
-//        mAccountView!!.setAdapter(adapter)
-//    }
-
-
     private interface ProfileQuery {
         companion object {
             val PROJECTION = arrayOf(ContactsContract.CommonDataKinds.Email.ADDRESS, ContactsContract.CommonDataKinds.Email.IS_PRIMARY)
@@ -267,73 +261,6 @@ class LoginActivity : AppCompatActivity() {
             val IS_PRIMARY = 1
         }
     }
-
-//    private fun loginUser(muser: String, passwd: String) {
-//        Observable.create(Observable.OnSubscribe<Int> { subscriber ->
-//            val user = User()
-//            user.passwd = passwd
-//            user.stuNo = muser
-//            val dbManager = DBManager(applicationContext)
-//            val users = dbManager.queryUserList()
-//            var isExist = false
-//            for (resUser in users) {
-//                Log.i(TAG, "user " + resUser.stuNo)
-//                if (resUser.stuNo == user.stuNo) {
-//                    resUser.passwd = user.passwd
-//                    resUser.setIsLogin(true)
-//                    dbManager.updateUser(resUser)
-//                    isExist = true
-//                    break
-//                }
-//            }
-//            if (!isExist) {
-//                user.setIsLogin(true)
-//                dbManager.insertUser(user)
-//            }
-//            DefaultConfig.get(applicationContext).stuNo = user.stuNo
-//            var loginResponse = 0
-//            try {
-//                loginResponse = Login.loginUser(user)
-//            } catch (e: Exception) {
-//                subscriber.onError(e)
-//            }
-//            subscriber.onNext(loginResponse)
-//        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<Int> {
-//            override fun onCompleted() {
-//
-//            }
-//
-//            override fun onError(e: Throwable) {
-//                e.printStackTrace()
-//                Toast.makeText(applicationContext, "登录失败,请检查网络连接", Toast.LENGTH_SHORT).show()
-//            }
-//
-//            override fun onNext(loginResponse: Int?) {
-//                when (loginResponse) {
-//                    1 -> {
-//                        editor = pref!!.edit()
-//                        if (mRem_passwords!!.isChecked) {
-//                            editor!!.putBoolean("remember_password", true)
-//                            editor!!.putString("account", muser)
-//                            editor!!.putString("password", passwd)
-//                        } else {
-//                            editor!!.clear()
-//                        }
-//                        editor!!.apply()
-//                        val intent = Intent(this@LoginActivity, ManagerMainActivity::class.java)
-//                        startActivity(intent)
-//                        finish()
-//                        return
-//                    }
-//                    else -> Log.i(TAG, "未知错误")
-//                }
-//                Toast.makeText(applicationContext, loginResponse!!, Toast.LENGTH_SHORT).show()
-//                mPasswordView!!.error = ResultCode.map[loginResponse]
-//                mPasswordView!!.requestFocus()
-//                showProgress(false)
-//            }
-//        })
-//    }
 
     private fun loginDepManager(managerAccount: String, passwd: String) {
         Observable.create(Observable.OnSubscribe<Int> { subscriber ->
@@ -400,5 +327,52 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
+    fun loginUser(muser: String, passwd: String){
+        Observable.create(Observable.OnSubscribe<Int> { subscriber ->
+            val user = User()
+            user.stuNo=muser
+            user.passwd=passwd;
+            DefaultConfig.get(this@LoginActivity).setStuNo(user.stuNo)
+            val loginResponse = UserApi.loginUser(this@LoginActivity, user)
+            if (loginResponse == ResultCode.NET_ERROR) {
+                subscriber.onError(Throwable())
+                return@OnSubscribe
+            }
+            subscriber.onNext(loginResponse)
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<Int> {
+            override fun onCompleted() {
+
+            }
+
+            override fun onError(e: Throwable) {
+                e.printStackTrace()
+                Toast.makeText(applicationContext, "登录失败,请检查网络连接", Toast.LENGTH_SHORT).show()
+                mPasswordView!!.setError("网络连接失败!")
+                mPasswordView!!.requestFocus()
+                showProgress(false)
+            }
+
+            override fun onNext(loginResponse: Int?) {
+                when (loginResponse) {
+                    ResultCode.NET_ERROR -> {
+                    }
+                    ResultCode.LOGIN_PWD_ERROR -> {
+                        Log.i(TAG, "密码错误")
+                    }
+                    ResultCode.SUCCESS -> {
+                        val intent = Intent(this@LoginActivity, UserMainActivity::class.java)
+                        intent.putExtra("id", id_2)
+                        startActivity(intent)
+                        finish()
+                        return
+                    }
+                }
+                Toast.makeText(applicationContext, ResultCode.map[loginResponse], Toast.LENGTH_SHORT).show()
+                mPasswordView!!.setError(ResultCode.map[loginResponse])
+                mPasswordView!!.requestFocus()
+                showProgress(false)
+            }
+        })
+    }
 
 }

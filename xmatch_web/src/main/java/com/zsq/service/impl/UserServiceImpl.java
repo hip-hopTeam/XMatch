@@ -4,6 +4,7 @@ import com.zsq.model.ActivityApply;
 import com.zsq.model.User;
 import com.zsq.model.UserRepository;
 import com.zsq.service.UserService;
+import com.zsq.util.LsyResultCode;
 import com.zsq.util.ResultCode;
 import com.zsq.util.WyyResultCode;
 import org.springframework.beans.BeanUtils;
@@ -29,13 +30,28 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public int addUser(User user) {
+    public Map<String,Object> addUser(User user) {
         User isExistUser=repository.findUserByStuNo(user.getStuNo());
+        Map<String, Object> map = new HashMap<>();
         if (isExistUser != null && isExistUser.getUserId() >= 0) {
-            return ResultCode.Companion.getUSER_EXIST();
+            map.put("code",ResultCode.Companion.getUSER_EXIST());
+            map.put("userId",user.getUserId());
+            return map;
         }
         repository.save(user);
-        return ResultCode.Companion.getSUCCESS();
+        map.put("code",ResultCode.Companion.getSUCCESS());
+        map.put("userId",user.getUserId());
+        return map;
+    }
+
+    @Override
+    public int addUserAvator(long userId, String url) {
+        User user = repository.findOne(userId);
+        if (user == null) {
+            return LsyResultCode.Companion.getDEPMANAGER_NOT_EXIST();
+        }
+        user.setAvatorUrl(url);
+        return LsyResultCode.Companion.getSUCCESS();
     }
 
     @Override

@@ -20,6 +20,9 @@ public interface DepartmentRepository extends PagingAndSortingRepository<Departm
     @Query("select d from Department d")
     public Page<Department> getAllDepartments(Pageable pageable);
 
+    @Query("select d from Department d where d.departmentId in (?1)")
+    public List<Department> getDepartmentsByDepartmentId(List<Long> depIds);
+
     @Query("select d from Department d where d.departmentId=?1")
     public Department getByDepartmentId(long depId);
 }

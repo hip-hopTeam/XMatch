@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Administrator on 2017/11/11/011.
@@ -114,5 +115,13 @@ public class DepMemberManagerServiceImpl implements DepMemberManagerService {
         }
         depMember.setState(state);
         return ResultCode.Companion.getSUCCESS();
+    }
+
+    @Override
+    public List<Long> getDepartments(long userId) {
+        List<DepMember> depMembers = repository.findOfficeDepMemberByUserId(userId);
+        List<Long> depIds=depMembers.stream().map( depMember -> depMember.getDepId()).collect(Collectors.toList());
+        System.out.println("depIds:"+depIds.size());
+        return depIds;
     }
 }
