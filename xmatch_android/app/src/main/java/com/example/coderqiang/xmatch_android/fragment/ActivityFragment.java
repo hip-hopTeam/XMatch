@@ -25,6 +25,9 @@ import com.example.coderqiang.xmatch_android.api.ActivityApi;
 import com.example.coderqiang.xmatch_android.api.DepManagerApi;
 import com.example.coderqiang.xmatch_android.model.Activity;
 import com.example.coderqiang.xmatch_android.model.Department;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.header.SinaRefreshView;
 
 import java.util.List;
 
@@ -53,7 +56,7 @@ public class ActivityFragment extends Fragment {
     @BindView(R.id.manager_activity_bar)
     AppBarLayout managerActivityBar;
     @BindView(R.id.manager_activity_refresh)
-    SwipeRefreshLayout refreshLayout;
+    TwinklingRefreshLayout refreshLayout;
     Unbinder unbinder;
 
     ActivityAdapter activityAdapter;
@@ -66,13 +69,13 @@ public class ActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
+        initData(false);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        initData(false);
     }
 
     public void initData(boolean refresh) {
@@ -102,17 +105,22 @@ public class ActivityFragment extends Fragment {
                     activityAdapter=new ActivityAdapter(activities,ActivityFragment.this);
                     managerActivityRecycler.setAdapter(activityAdapter);
                 }
-                refreshLayout.setRefreshing(false);
+                refreshLayout.finishRefreshing();
             }
         });
     }
 
     private void initView() {
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        refreshLayout.setHeaderView(new SinaRefreshView(this.getActivity()));
+        refreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
-            public void onRefresh() {
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 initData(true);
+            }
 
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                super.onLoadMore(refreshLayout);
             }
         });
         drawer = getActivity().findViewById(R.id.drawer_layout);

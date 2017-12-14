@@ -20,6 +20,7 @@ import com.example.coderqiang.xmatch_android.dto.BaseMessage;
 import com.example.coderqiang.xmatch_android.dto.DepManagerDto;
 import com.example.coderqiang.xmatch_android.model.ChildDepartment;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
+import com.example.coderqiang.xmatch_android.util.RegexUtil;
 import com.example.coderqiang.xmatch_android.util.ResultCode;
 import com.example.coderqiang.xmatch_android.util.WindowUtil;
 
@@ -78,6 +79,18 @@ public class AddChildDepartmentActivtiy extends Activity {
     }
 
     private void postData() {
+        if (RegexUtil.isEmpty(managerAddChildName.getText().toString())){
+            RegexUtil.showToast(this,"子部门名字不能为空!");
+            return;
+        }
+        if (!RegexUtil.isPhone(managerAddChildPhone.getText().toString())) {
+            RegexUtil.showToast(this,"手机格式不正确!");
+            return;
+        }
+        if (!RegexUtil.isEmail(managerAddChildEmail.getText().toString())) {
+            RegexUtil.showToast(this,"邮箱格式不正确!");
+            return;
+        }
         Observable.create(new Observable.OnSubscribe<Object>() {
             @Override
             public void call(Subscriber<? super Object> subscriber) {

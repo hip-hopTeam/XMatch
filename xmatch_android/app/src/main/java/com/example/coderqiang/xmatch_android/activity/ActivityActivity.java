@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.adapter.ActivityAdapter;
 import com.example.coderqiang.xmatch_android.api.ActivityApi;
@@ -64,6 +65,8 @@ public class ActivityActivity extends Activity {
 
     public static final int SELECT_PIC = 2;
     public static final int SELECT_CLIPPER_PIC = 1;
+    
+    public static final int SET_PATTERN=3;
 
     @BindView(R.id.activity_detail_back)
     ImageView activityDetailBack;
@@ -87,6 +90,10 @@ public class ActivityActivity extends Activity {
     LinearLayout addDepNameTv;
     @BindView(R.id.activity_detail_measure)
     TextView activityDetailMeasure;
+    @BindView(R.id.activity_detail_apply)
+    TextView activityDetailApplyNum;
+    @BindView(R.id.activity_detail_sign)
+    TextView signBtn;
 
     long activityId=0;
 
@@ -99,16 +106,22 @@ public class ActivityActivity extends Activity {
         activityId=getIntent().getLongExtra("activityId",0);
         initView();
         initData();
+    }
+
+    private void initView() {
+        signBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ActivityActivity.this, SampleSetPatternActivity.class);
+                startActivityForResult(intent,SET_PATTERN);
+            }
+        });
         activityDetailBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-    }
-
-    private void initView() {
-
     }
 
     private void setConfig() {
@@ -160,12 +173,15 @@ public class ActivityActivity extends Activity {
         activityDetailAddress.setText(activity.getAddress()+"");
         activityDetailContent.setText(activity.getContent()+"");
         SimpleDateFormat dateFormat=new SimpleDateFormat("MM月dd日 HH:mm");
-        activityDetailTime.setText("起:"+dateFormat.format(activity.getStartTime())+ "\n止：" + dateFormat.format(activity.getEndTime()));
+        activityDetailTime.setText("起:"+dateFormat.format(activity.getStartTime())+ "\n止:" + dateFormat.format(activity.getEndTime()));
         activityDetailTitle.setText(activity.getActivityName());
         activityDetailMeasure.setText(activity.getMeasure()+"");
         activityDetailManager.setText(activity.getDepName()+"");
-        Glide.with(this).load(DefaultConfig.BASE_URL+activity.getImageUrl())
-                .asBitmap().error(R.drawable.avator)
+        Glide.with(this)
+                .load(DefaultConfig.BASE_URL+activity.getImageUrl())
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .error(R.drawable.avator)
                 .into(activityDetailImage);
         if (activity.getDepId() == DepManagerLab.get(getApplicationContext()).getDepManagerDto().getDepartmentId()) {
             activityDetailAddImage.setVisibility(View.VISIBLE);
@@ -196,8 +212,12 @@ public class ActivityActivity extends Activity {
             return;
         }
         switch (requestCode) {
+            case SET_PATTERN:
+                Log.i(TAG, "onActivityResult: 设置锁屏回调");
+                break;
             case SELECT_PIC:
                 //获取图片后裁剪图片
+
                 clipperBigPic(this, data.getData());
 //                saveBitmap(data);
                 break;
@@ -257,13 +277,7 @@ public class ActivityActivity extends Activity {
         if (context == null || file == null) {
             throw new NullPointerException();
         }
-        Uri uri;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            System.out.println("package:" + this.getPackageName());
-            uri = FileProvider.getUriForFile(context.getApplicationContext(), this.getPackageName() + ".fileProvider", file);
-        } else {
-            uri = Uri.fromFile(file);
-        }
+        Uri uri = Uri.fromFile(file);//照片截图输出的图片只能用Uri.fromFile()
         return uri;
     }
 

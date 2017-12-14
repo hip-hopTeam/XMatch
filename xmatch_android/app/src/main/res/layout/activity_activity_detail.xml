@@ -52,7 +52,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/fzu"
                 android:elevation="8dp"/>
 
             <LinearLayout
@@ -175,18 +174,41 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"/>
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/text_padding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/text_padding"
+                        android:paddingRight="@dimen/text_padding">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="报名人数: 10/11"
+                            android:gravity="center"
+                            android:textSize="@dimen/text_size_normal" />
+                        <TextView
+                            android:id="@+id/activity_detail_apply"
+                            android:layout_marginLeft="@dimen/text_padding"
+                            android:padding="4dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"/>
+                    </LinearLayout>
                 </LinearLayout>
                 <RelativeLayout
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" >
                     <TextView
+                        android:id="@+id/activity_detail_sign"
                         android:layout_centerInParent="true"
                         android:layout_width="128dp"
                         android:layout_height="48dp"
                         android:background="@drawable/sign_button_bg_blue"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/text_size_super"
+                        android:elevation="8dp"
                         android:gravity="center"
                         android:text="签到情况"/>
                 </RelativeLayout>
@@ -215,109 +237,10 @@
                 android:textSize="@dimen/text_size_large"
                 android:background="@drawable/corner_bg_white"
                 android:textColor="@color/colorBlack"
+                android:lineSpacingExtra="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-
-            <!--<LinearLayout-->
-                <!--android:layout_marginTop="@dimen/text_padding"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:paddingLeft="@dimen/text_padding"-->
-                <!--android:paddingRight="@dimen/text_padding">-->
-
-                <!--<TextView-->
-                    <!--android:textColor="@color/colorBlack"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:text="地点:"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textSize="@dimen/text_size_normal" />-->
-                <!--<TextView-->
-                    <!--android:id="@+id/activity_detail_address"-->
-                    <!--android:layout_marginLeft="@dimen/text_padding"-->
-                    <!--android:padding="4dp"-->
-                    <!--android:background="@drawable/corner_bg_white"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:singleLine="true"/>-->
-            <!--</LinearLayout>-->
-            <!--<LinearLayout-->
-                <!--android:layout_marginTop="@dimen/text_padding"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:paddingLeft="@dimen/text_padding"-->
-                <!--android:paddingRight="@dimen/text_padding">-->
-
-                <!--<TextView-->
-                    <!--android:textColor="@color/colorBlack"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:text="时间:"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textSize="@dimen/text_size_normal" />-->
-                <!--<TextView-->
-                    <!--android:id="@+id/activity_detail_time"-->
-                    <!--android:layout_marginLeft="@dimen/text_padding"-->
-                    <!--android:padding="4dp"-->
-                    <!--android:background="@drawable/corner_bg_white"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:singleLine="true"/>-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_marginTop="@dimen/text_padding"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:paddingLeft="@dimen/text_padding"-->
-                <!--android:paddingRight="@dimen/text_padding">-->
-
-                <!--<TextView-->
-                    <!--android:textColor="@color/colorBlack"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:text="主办方:"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textSize="@dimen/text_size_normal" />-->
-                <!--<TextView-->
-                    <!--android:id="@+id/activity_detail_manager"-->
-                    <!--android:layout_marginLeft="@dimen/text_padding"-->
-                    <!--android:padding="4dp"-->
-                    <!--android:background="@drawable/corner_bg_white"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:singleLine="true"/>-->
-            <!--</LinearLayout>-->
-            <!--<LinearLayout-->
-                <!--android:layout_marginTop="@dimen/text_padding"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:paddingLeft="@dimen/text_padding"-->
-                <!--android:paddingRight="@dimen/text_padding">-->
-
-                <!--<TextView-->
-                    <!--android:textColor="@color/colorBlack"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:text="综测:"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textSize="@dimen/text_size_normal" />-->
-                <!--<TextView-->
-                    <!--android:id="@+id/activity_detail_measure"-->
-                    <!--android:layout_marginLeft="@dimen/text_padding"-->
-                    <!--android:padding="4dp"-->
-                    <!--android:background="@drawable/corner_bg_white"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:singleLine="true"/>-->
-            <!--</LinearLayout>-->
         </LinearLayout>
     </ScrollView>
-
-
 </RelativeLayout>

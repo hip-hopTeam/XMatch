@@ -15,6 +15,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long courseId;
 
+    private long userId;
     /**
      * 课程名字
      */
@@ -47,6 +48,14 @@ public class Course {
     //学期 1 或 2
     private int xuenian;
 
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
     public long getCourseId() {
         return courseId;

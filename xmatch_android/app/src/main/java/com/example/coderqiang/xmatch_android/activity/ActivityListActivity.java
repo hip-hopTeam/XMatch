@@ -1,6 +1,7 @@
 package com.example.coderqiang.xmatch_android.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -43,20 +46,33 @@ public class ActivityListActivity extends Activity {
     AppBarLayout depListActivityBar;
     @BindView(R.id.dep_list_recycler)
     RecyclerView depListRecycler;
+    @BindView(R.id.manager_activity_add)
+    ImageView managerActivityAdd;
+
+    Activity activity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dep_list_activity);
         ButterKnife.bind(this);
+        activity=this;
         initData();
         initView();
         WindowUtil.setConfig(this);
+
     }
 
     private void initView() {
         depListRecycler.setLayoutManager(new LinearLayoutManager(this));
         depListBack.setOnClickListener(v -> super.onBackPressed());
+        managerActivityAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(activity, AddActivityActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void initData() {
