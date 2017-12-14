@@ -35,6 +35,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.coderqiang.xmatch_android.R;
 import com.example.coderqiang.xmatch_android.activity.ActivityListActivity;
 import com.example.coderqiang.xmatch_android.activity.AddDepartmentActivity;
+import com.example.coderqiang.xmatch_android.activity.AlbumActivity;
 import com.example.coderqiang.xmatch_android.activity.ChildDepartmentActivity;
 import com.example.coderqiang.xmatch_android.activity.EditDepartmentActivity;
 import com.example.coderqiang.xmatch_android.activity.ManagerMainActivity;
@@ -267,7 +268,11 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
                 startActivity(activityListIntent2);
                 break;
             case R.id.manager_main_album:
-                Toast.makeText(getActivity(), "此功能即将来袭", Toast.LENGTH_SHORT).show();
+                Intent albumIntent = new Intent(getActivity(), AlbumActivity.class);
+                albumIntent.putExtra("depId", DepManagerLab.get(getActivity()).getDepManagerDto().getDepartmentId());
+                albumIntent.putExtra("uploadName", DepManagerLab.get(getActivity()).getDepManagerDto().getDepName());
+                albumIntent.putExtra("title", DepManagerLab.get(getActivity()).getDepManagerDto().getDepName());
+                startActivity(albumIntent);
                 break;
 
         }
@@ -276,9 +281,7 @@ public class ManagerMainFragment extends Fragment implements View.OnClickListene
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

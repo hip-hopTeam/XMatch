@@ -1,5 +1,7 @@
 package com.zsq.model;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -19,6 +21,9 @@ public interface AppNoticeRepository extends PagingAndSortingRepository<AppNotic
 
     @Query("select a from AppNotice a where a.departmentId=?1 and a.type=?2")
     public List<AppNotice> findAppNoticesByDepartmentIdAndType(long departmentId,int type);
+
+    @Query("select a from AppNotice a where a.departmentId in (?1)")
+    public Page<AppNotice> getUserAll(List<Long> depId, Pageable pageable);
 
     @Query("select a from AppNotice a")
     public List<AppNotice> getAll();

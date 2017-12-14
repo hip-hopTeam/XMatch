@@ -59,6 +59,7 @@ public class AddChildDepartmentActivtiy extends Activity {
     @BindView(R.id.manager_add_child_layout)
     ConstraintLayout managerAddChildLayout;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

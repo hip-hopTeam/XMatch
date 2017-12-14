@@ -28,6 +28,8 @@ public interface DepartmentService {
 
     public Department getDepartment(long departmentId);
 
+    public List<Department> getUserDepartment(long userId);
+
     public List<Department> getAllDepartments(int page, int rows);
 
     public Department getDepartmentByDepName(String depName);

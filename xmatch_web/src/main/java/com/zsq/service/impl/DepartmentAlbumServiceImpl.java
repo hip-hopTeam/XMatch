@@ -1,7 +1,9 @@
 package com.zsq.service.impl;
 
+import com.zsq.model.ActivityRepository;
 import com.zsq.model.DepartmentAlbum;
 import com.zsq.model.DepartmentAlbumRepository;
+import com.zsq.service.ActivityService;
 import com.zsq.service.DepartmentAlbumService;
 import com.zsq.util.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +27,21 @@ public class DepartmentAlbumServiceImpl implements DepartmentAlbumService {
 
     @Autowired
     private DepartmentAlbumRepository departmentAlbumRepository;
+    @Autowired
+    private ActivityRepository activityRepository;
 
 
     @Override
     public Map<String, Object> addAlbum(DepartmentAlbum departmentAlbum) {
         Map<String, Object> result = new HashMap<>();
+        departmentAlbum.setCreatTime(System.currentTimeMillis());
+        if (departmentAlbum.getActivityId() != 0) {
+            long departmentId = activityRepository.findOne(departmentAlbum.getActivityId()).getDepId();
+            departmentAlbum.setDepId(departmentId);
+        }
         departmentAlbumRepository.save(departmentAlbum);
         result.put("code",ResultCode.Companion.getSUCCESS());
-        result.put("result", departmentAlbum);
+        result.put("result", departmentAlbum.getDepartmentAlbumId());
         return result;
     }
 
@@ -53,7 +62,7 @@ public class DepartmentAlbumServiceImpl implements DepartmentAlbumService {
     @Override
     public List<DepartmentAlbum> getAlbumByActivity(long activity, int page, int rows) {
         Sort sort = new Sort(Sort.Direction.DESC,"creatTime");
-        List<DepartmentAlbum> departmentAlbums = departmentAlbumRepository.getbyDepId(activity,new PageRequest(page,rows,sort)).getContent();
+        List<DepartmentAlbum> departmentAlbums = departmentAlbumRepository.getbyActivityId(activity,new PageRequest(page,rows,sort)).getContent();
         return departmentAlbums;
     }
 

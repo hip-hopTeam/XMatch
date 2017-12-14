@@ -1,5 +1,6 @@
 package com.zsq.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
  * Created by coderqiang on 2017/11/8.
  * 课程表
  */
+@Entity
 public class Course {
 
     @Id

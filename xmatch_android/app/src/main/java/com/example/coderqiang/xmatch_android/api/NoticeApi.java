@@ -73,4 +73,24 @@ public class NoticeApi {
         return null;
     }
 
+
+    public static List<AppNotice> getUserNotices(long userId) {
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DefaultConfig.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        NoticeSevice service = retrofit.create(NoticeSevice.class);
+        Call<ObjectMessage<List<AppNotice>>> call= service.getUserAllNotices(userId);
+
+        try {
+            ObjectMessage<List<AppNotice>> message = call.execute().body();
+            return message.getObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

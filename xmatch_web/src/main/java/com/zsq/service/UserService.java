@@ -14,7 +14,9 @@ public interface UserService {
      * @param user
      * @return
      */
-    public int addUser(User user);
+    public Map<String,Object> addUser(User user);
+
+    public int addUserAvator(long userId,String url);
 
     /**
      * 更新用户

@@ -26,7 +26,7 @@ public class User {
      */
     private String username;
     /**
-     * 性别
+     * 性别 1 男 2 女
      */
     private int sex;
     /**
@@ -48,11 +48,22 @@ public class User {
     /**用户头像*/
     private String avatorUrl;
 
+    /**个人简介**/
+    private String summary;
 
-    @Generated(hash = 346311499)
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+
+    @Generated(hash = 1363757029)
     public User(Long userId, String stuNo, String passwd, String username, int sex,
             String college, int bindPhone, String phoneNum, String email,
-            boolean isLogin, String avatorUrl) {
+            boolean isLogin, String avatorUrl, String summary) {
         this.userId = userId;
         this.stuNo = stuNo;
         this.passwd = passwd;
@@ -64,6 +75,7 @@ public class User {
         this.email = email;
         this.isLogin = isLogin;
         this.avatorUrl = avatorUrl;
+        this.summary = summary;
     }
 
     @Generated(hash = 586692638)

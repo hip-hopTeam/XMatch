@@ -35,7 +35,6 @@
         android:layout_height="wrap_content"
         android:textSize="13sp"
         android:gravity="center_horizontal"
-        android:text="部长:xxx"
         android:textColor="@color/colorBlackLight_2"/>
 
 </LinearLayout>

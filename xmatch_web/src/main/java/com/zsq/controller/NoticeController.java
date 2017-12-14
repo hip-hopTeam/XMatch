@@ -56,6 +56,18 @@ public class NoticeController {
         }
     }
 
+    @RequestMapping("/user/get_department")
+    public ObjectMessage getUserDepNotice(
+            @RequestParam(value = "userId") long userId,
+            @RequestParam(value = "page",required = false,defaultValue = "0") int page,
+            @RequestParam(value = "rows",required = false,defaultValue = "100") int rows) {
+        ObjectMessage message = new ObjectMessage();
+        message.object = appNoticeService.getUserAllNotices(userId,page,rows);
+        message.code = ThoResultCode.Companion.getSUCCESS();
+        message.result = ThoResultCode.Companion.getMap().get(message.code);
+        return message;
+    }
+
     @RequestMapping("/manager/get_all")
     public ObjectMessage getAllNotice() {
         ObjectMessage message = new ObjectMessage();

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item1"
+            android:checked="true"
+            android:title="部门主页"></item>
+       <item
+            android:id="@+id/item2"
+            android:title="朋友圈"></item>
+        <item
+            android:id="@+id/item3"
+            android:title="所有部门/社团"></item>
+
+        <item
+            android:id="@+id/item4"
+            android:title="活动中心"></item>
+
+        <item
+            android:id="@+id/item5"
+
+            android:title="通知中心"></item>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item8"
+            android:title="设置"></item>
+        <item
+            android:id="@+id/item9"
+            android:title="注销"></item>
+    </group>
+</menu>

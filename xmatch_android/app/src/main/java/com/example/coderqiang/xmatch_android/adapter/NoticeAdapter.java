@@ -49,7 +49,9 @@ public class NoticeAdapter extends RecyclerView.Adapter {
         noticeHolder.itemNoticeContent.setText(appNotice.getContent());
         noticeHolder.itemNoticeDate.setText(new SimpleDateFormat("MM:dd").format(appNotice.getCreateTime()));
         noticeHolder.itemNoticeDep.setText(appNotice.getDeparmentName());
-        noticeHolder.itemNoticeAvator.setText(appNotice.getDeparmentName().substring(0,1));
+        if (appNotice.getDeparmentName() != null && appNotice.getDeparmentName().length() >= 1) {
+            noticeHolder.itemNoticeAvator.setText(appNotice.getDeparmentName().substring(0,1));
+        }
         noticeHolder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -24,6 +24,12 @@ public interface AppNoticeService {
      */
     public List<AppNotice> getOneDepAllNotices(long departmentId);
     /**
+     * 查找用户所在部门所有通知
+     * @param userId 用户ID
+     * @return
+     */
+    public List<AppNotice> getUserAllNotices(long userId,int page,int rows);
+    /**
      * 查找部门类型通知
      * @param departmentId,type 部门ID,类型
      * @return

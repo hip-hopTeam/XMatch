@@ -17,6 +17,7 @@ import com.example.coderqiang.xmatch_android.model.ChildDepartment;
 import com.example.coderqiang.xmatch_android.model.DepManager;
 import com.example.coderqiang.xmatch_android.model.DepMember;
 import com.example.coderqiang.xmatch_android.model.Department;
+import com.example.coderqiang.xmatch_android.model.DepartmentAlbum;
 import com.example.coderqiang.xmatch_android.model.User;
 import com.example.coderqiang.xmatch_android.util.DefaultConfig;
 import com.example.coderqiang.xmatch_android.util.DepManagerLab;
@@ -279,6 +280,34 @@ public class DepManagerApi {
         return ResultCode.Companion.getERROR();
     }
 
+    public static int depImageUpLoad(File file,long departmentAlbumId) {
+        MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+        OkHttpClient client = new OkHttpClient();
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        builder.addFormDataPart("file",departmentAlbumId+".png", RequestBody.create(MEDIA_TYPE_PNG, file));
+        builder.addFormDataPart("departmentAlbumId", departmentAlbumId+"");
+        final MultipartBody requestBody = builder.build();
+        //构建请求
+        final Request request = new Request.Builder()
+                .url(DefaultConfig.BASE_URL+"/api/album/image/upload")//地址
+                .post(requestBody)//添加请求体
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            System.out.println(response.code());
+            if (response.isSuccessful()) {
+                String result=response.body().string();
+                BaseMessage message = new Gson().fromJson(result, BaseMessage.class);
+                System.out.println(result);
+                return message.code;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResultCode.Companion.getERROR();
+    }
+
+
     public static int deleteChildDepartment(Context context,long childDepId) {
         OkHttpClient client = new OkHttpClient();
         Retrofit retrofit = new Retrofit.Builder()
@@ -295,5 +324,43 @@ public class DepManagerApi {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static List<DepartmentAlbum> getDeprtmentAlbumByDepId(Context context,long depId) {
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DefaultConfig.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        DepManagerService service = retrofit.create(DepManagerService.class);
+        System.out.println("depId:"+depId);
+        Call<ObjectMessage<List<DepartmentAlbum>>> call= service.getDepAlbumByDepId(depId);
+        try {
+            ObjectMessage<List<DepartmentAlbum>> message = call.execute().body();
+            return message.getObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<DepartmentAlbum> getDeprtmentAlbumByActivity(Context context,long activityId) {
+        OkHttpClient client = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DefaultConfig.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        DepManagerService service = retrofit.create(DepManagerService.class);
+        System.out.println("activityId:"+activityId);
+        Call<ObjectMessage<List<DepartmentAlbum>>> call= service.getDepAlbumByActivityId(activityId);
+        try {
+            ObjectMessage<List<DepartmentAlbum>> message = call.execute().body();
+            return message.getObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

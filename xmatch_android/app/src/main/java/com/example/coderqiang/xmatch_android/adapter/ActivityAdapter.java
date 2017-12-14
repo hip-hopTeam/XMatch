@@ -83,7 +83,7 @@ public class ActivityAdapter extends RecyclerView.Adapter {
                 activityFragment.getActivity().startActivity(intent);
         });
 
-        if (activity.getDepId() != DepManagerLab.get(activityFragment.getActivity()).getDepManagerDto().getDepartmentId()) {
+        if (DepManagerLab.get(activityFragment.getActivity()).getDepManagerDto()==null||activity.getDepId() != DepManagerLab.get(activityFragment.getActivity()).getDepManagerDto().getDepartmentId()) {
             activityHolder.itemManagerActivityDelete.setVisibility(View.GONE);
         }else {
             activityHolder.itemManagerActivityDelete.setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,7 @@ package com.zsq.service;
 
 import com.zsq.dto.MemberDto;
 import com.zsq.model.DepMember;
+import com.zsq.model.Department;
 
 import java.util.List;
 
@@ -31,4 +32,9 @@ public interface DepMemberManagerService {
      */
     public int handleMemberResult(long depMemberId,int state);
 
+    /**
+     * 根据部员id查找所有部门id
+     */
+
+    public List<Long> getDepartments(long userId);
 }

@@ -117,7 +117,7 @@ public class AddNoticeActivity extends Activity {
         appNotice.setDeparmentName(DepManagerLab.get(getApplicationContext()).getDepManagerDto().getDepName());
         appNotice.setTitle(noticeAddTitle.getText().toString());
         appNotice.setDepartmentId(DepManagerLab.get(getApplicationContext()).getDepManagerDto().getDepartmentId());
-        appNotice.setType(1);
+        appNotice.setType(type);
         Observable.create(new Observable.OnSubscribe<Object>() {
             @Override
             public void call(Subscriber<? super Object> subscriber) {

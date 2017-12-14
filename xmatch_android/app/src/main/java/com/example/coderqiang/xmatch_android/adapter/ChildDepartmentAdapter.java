@@ -68,7 +68,7 @@ public class ChildDepartmentAdapter extends RecyclerView.Adapter {
                 PhoneUtil.sendEmail(context,childDepartment.getPhone()," ");
             }
         });
-        if (childDepartment.getDepartmentId() == DepManagerLab.get(context).getDepManagerDto().getDepartmentId()) {
+        if (DepManagerLab.get(context).getDepManagerDto()!=null&&childDepartment.getDepartmentId() == DepManagerLab.get(context).getDepManagerDto().getDepartmentId()) {
             childDepartmentHolder.itemChildDepartmentLayout.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {

@@ -25,7 +25,10 @@ public interface DepMemberRepository extends PagingAndSortingRepository<DepMembe
     public Page<DepMember> findDepMembersByDepIdAndState(long depId, int state,Pageable pageable);
 
     //@Query("select d")
-    public DepMember findDepMemberByUserId(long userId);
+    public List<DepMember> findDepMemberByUserId(long userId);
+
+    @Query("select d from DepMember d where d.userId=?1 and d.state in (2,3)")
+    public List<DepMember> findOfficeDepMemberByUserId(long userId);
 
     public DepMember findDepMemberByUserIdAndDepId(long userId, long depId);
 }
