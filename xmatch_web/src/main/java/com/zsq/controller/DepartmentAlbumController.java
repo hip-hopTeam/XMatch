@@ -1,11 +1,9 @@
 package com.zsq.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.zsq.model.DepartmentAlbum;
 import com.zsq.service.DepartmentAlbumService;
-import com.zsq.util.BaseMessage;
-import com.zsq.util.LsyResultCode;
-import com.zsq.util.ObjectMessage;
-import com.zsq.util.ResultCode;
+import com.zsq.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
@@ -111,6 +109,14 @@ public class DepartmentAlbumController {
             message.code = ResultCode.Companion.getERROR();
             message.result = ResultCode.Companion.getMap().get(message.code);
         }
+        return message;
+    }
+
+    @RequestMapping("/delete")
+    public BaseMessage deleteAlbumByAlbumId(@RequestParam long albumId) {
+        BaseMessage message = new BaseMessage();
+        message.code = departmentAlbumService.deleteAlbum(albumId);
+        message.result = WyyResultCode.Companion.getMap().get(message.code);
         return message;
     }
 
