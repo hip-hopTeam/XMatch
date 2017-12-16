@@ -5,12 +5,12 @@ import urllib
 
 class TestURLHTTPCode(unittest.TestCase):
 	def setUp(self):
-		self.urlSuccessList = ["http://120.25.241.49:8080/xmatch-0.0.1/api/activity/getAll",
-							   "http://120.25.241.49:8080/xmatch-0.0.1/api/department/findAll",
-							   "http://120.25.241.49:8080/xmatch-0.0.1/api/depManager/get?depManagerId=1"]
-		self.urlNotFoundList = ["http://120.25.241.49:8080/xmatch-0.0.1/api/activity",
-								"http://120.25.241.49:8080/xmatch-0.0.1/api/department",
-								"http://120.25.241.49:8080/xmatch-0.0.1/api/depManager"]
+		self.urlSuccessList = ["http://120.25.241.49:8080/xmatch-1/api/activity/getAll",
+					"http://120.25.241.49:8080/xmatch-1/api/department/findAll",
+					"http://120.25.241.49:8080/xmatch-1/api/depManager/get?depManagerId=1"]
+		self.urlNotFoundList = ["http://120.25.241.49:8080/xmatch-1/api/activity",
+								"http://120.25.241.49:8080/xmatch-1/api/department",
+								"http://120.25.241.49:8080/xmatch-1/api/depManager"]
 
 	def test_sucess(self):
 		for url in self.urlSuccessList:
