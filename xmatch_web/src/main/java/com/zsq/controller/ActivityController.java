@@ -1,6 +1,8 @@
 package com.zsq.controller;
 
+import com.zsq.dto.MemberDto;
 import com.zsq.model.Activity;
+import com.zsq.model.Course;
 import com.zsq.service.ActivityService;
 import com.zsq.util.BaseMessage;
 import com.zsq.util.LsyResultCode;
@@ -19,7 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.BackingStoreException;
-
 /**
  * Created by hp on 2017/11/13.
  */
@@ -27,6 +28,7 @@ import java.util.prefs.BackingStoreException;
 @RestController
 @RequestMapping("/api/activity")
 public class ActivityController {
+
 
     @Autowired
     ActivityService activityservice;
